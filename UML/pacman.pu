@@ -5,26 +5,38 @@ Character <|-- Pacman
 Character <|-- Monster
 
 abstract class Character {
-    - mapPos: PVector
-    - screenPos: PVector
+    - Position: PVector
     - direction: int
-    - spped: int
-    - moving: boolean
-    - invincible: boolean
+    - NextDirection: int
+    - spped: float
+
     - images: PImage[]
-    - image_name: string
+    - cur_animation: int
+    - SIZE: PVector
     - ANIMETION_NUM: int
+    - IMAGE_NAME: string
 
     + Character()
-    + {abstract} move(direction: int)
+    + getPosition(): PVector
+    + getDirection(): int
+    + setNextDirection(nextDirection: int)
+    + getSpeed(): float
+    + setSpeed(speed: float)
+    + move()
 }
 
 class Pacman {
+    - invincible: boolean
 
+    + Panman()
+    + becomeInvincible()
 }
 
 class Monster {
+    - ijike: boolean
 
+    + Monster()
+    + becomeIjike()
 }
 
 class Stage {
