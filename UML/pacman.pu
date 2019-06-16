@@ -1,0 +1,33 @@
+@startuml pacman
+skinparam classAttributeIconSize 0
+
+Character <|-- Pacman
+Character <|-- Monster
+
+abstract class Character {
+    - mapPos: PVector
+    - screenPos: PVector
+    - direction: int
+    - spped: int
+    - moving: boolean
+    - invincible: boolean
+    - images: PImage[]
+    - image_name: string
+    - ANIMETION_NUM: int
+
+    + Character()
+    + {abstract} move(direction: int)
+}
+
+class Pacman {
+
+}
+
+class Monster {
+
+}
+
+class Stage {
+    - map: int[][]
+}
+@enduml
