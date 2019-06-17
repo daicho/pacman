@@ -18,21 +18,21 @@ Stage o-- InputInterface
 Map o-- Item
 
 abstract class Character {
-    - Position: PVector
+    - position: PVector
     - direction: int
-    - spped: float
+    - spped: int
 
     - images: PImage[]
     - cur_animation: int
     - size: PVector
     - animetion_num: int
-    - character_name: string
+    - character_name: String
 
     + Character(position: PVector)
     + getPosition(): PVector
     + getDirection(): int
-    + getSpeed(): float
-    + setSpeed(speed: float)
+    + getSpeed(): int
+    + setSpeed(speed: int)
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     + draw()
@@ -42,6 +42,7 @@ class Pacman {
     - invincible: boolean
     - nextDirection: int
 
+    + Pacman(position: PVector)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + getInvincible(): boolen
@@ -52,25 +53,30 @@ class Pacman {
 abstract class Monster {
     - ijike: boolean
 
+    + Monster(position: PVector)
     + getIjike(): boolen
     + setIjike(ijike: boolean)
     + {abstract} decideDirection(map: Map, pacman: Pacman)
 }
 
 class Akabei {
-    + decideDirection(pacman: Pacman)
+    + Akabei(position: PVector)
+    + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Pinky {
-    + decideDirection(pacman: Pacman)
+    + Pinky(position: PVector)
+    + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Aosuke {
-    + decideDirection(pacman: Pacman)
+    + Aosuke(position: PVector)
+    + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Guzuta {
-    + decideDirection(pacman: Pacman)
+    + Guzuta(position: PVector)
+    + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Stage {
@@ -78,10 +84,10 @@ class Stage {
     - monsters: Monster[]
     - map: Map
     - input: InputInterface
-    - stage_name: string
+    - stage_name: String
 
-    + Stage(stage_name: string)
-    + nextFrame()
+    + Stage(stage_name: String, input: InputInterface)
+    + update()
     + draw()
 }
 
@@ -91,9 +97,9 @@ class Map {
     - powerFoods: Item[]
     - startPosition: PVector
     - image: PImage
-    - stage_name: string
+    - stage_name: String
 
-    + Map(stage_name: string)
+    + Map(stage_name: String)
     + getObject(x: int, y: int): int
     + draw()
 }
@@ -104,36 +110,36 @@ class Item {
     - image: PImage
     - image_name: String
 
-    + Food(position: PVector, image_name: string)
+    + Item(position: PVector, image_name: String)
     + getPosition(): PVector
-    + isExist(): boolean
+    + getExist(): boolean
     + disappear()
     + draw()
 }
 
 interface InputInterface {
-    + {abstract} up(): boolean
-    + {abstract} down(): boolean
-    + {abstract} left(): boolean
     + {abstract} right(): boolean
+    + {abstract} up(): boolean
+    + {abstract} left(): boolean
+    + {abstract} down(): boolean
     + {abstract} buttonA(): boolean
     + {abstract} buttonB(): boolean
 }
 
 class KeyboardInput {
-    + up(): boolean
-    + down(): boolean
-    + left(): boolean
     + right(): boolean
+    + up(): boolean
+    + left(): boolean
+    + down(): boolean
     + buttonA(): boolean
     + buttonB(): boolean
 }
 
 class ArcadeInput {
-    + up(): boolean
-    + down(): boolean
-    + left(): boolean
     + right(): boolean
+    + up(): boolean
+    + left(): boolean
+    + down(): boolean
     + buttonA(): boolean
     + buttonB(): boolean
 }
