@@ -1,13 +1,19 @@
 @startuml pacman
+skinparam Shadowing false
 skinparam classAttributeIconSize 0
 
 Character <|-- Pacman
+Pacman o-- InputInterface
 Character <|-- Monster
+Monster <|-- Akabei
+Monster <|-- Pinky
+Monster <|-- Aosuke
+Monster <|-- Guzuta
 
 abstract class Character {
     - Position: PVector
     - direction: int
-    - NextDirection: int
+    - nextDirection: int
     - spped: float
 
     - images: PImage[]
@@ -19,27 +25,60 @@ abstract class Character {
     + Character()
     + getPosition(): PVector
     + getDirection(): int
+    + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + getSpeed(): float
     + setSpeed(speed: float)
     + move()
+    + draw()
 }
 
 class Pacman {
     - invincible: boolean
+    - inputInterface: InputInterface
 
     + Panman()
-    + becomeInvincible()
+    + getInvincible(): boolen
+    + setInvincible(invincible: boolean)
+    + decideNextDirection()
+}
+
+class InputInterface {
+
 }
 
 class Monster {
     - ijike: boolean
 
     + Monster()
-    + becomeIjike()
+    + getIjike(): boolen
+    + setIjike(ijike: boolean)
+}
+
+class Akabei {
+
+}
+
+class Pinky {
+
+}
+
+class Aosuke {
+
+}
+
+class Guzuta {
+
 }
 
 class Stage {
     - map: int[][]
+    - foods: PVector[]
+    - powerFoods: PVector[]
+    - startPosition: PVector
+
+    + Stage()
+    + getMap(x: int, y: int): int
+    + draw()
 }
 @enduml
