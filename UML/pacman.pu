@@ -23,10 +23,10 @@ abstract class Character {
     - spped: int
 
     - images: PImage[]
-    - cur_animation: int
+    - curAnimation: int
     - size: PVector
-    - animetion_num: int
-    - character_name: String
+    - animetionNum: int
+    - characterName: String
 
     + Character(position: PVector)
     + getPosition(): PVector
@@ -84,9 +84,9 @@ class Stage {
     - monsters: Monster[]
     - map: Map
     - input: InputInterface
-    - stage_name: String
+    - stageName: String
 
-    + Stage(stage_name: String, input: InputInterface)
+    + Stage(stageName: String, input: InputInterface)
     + update()
     + draw()
 }
@@ -97,9 +97,9 @@ class Map {
     - powerFoods: Item[]
     - startPosition: PVector
     - image: PImage
-    - stage_name: String
+    - stageName: String
 
-    + Map(stage_name: String)
+    + Map(stageName: String)
     + getObject(x: int, y: int): int
     + draw()
 }
@@ -108,9 +108,9 @@ class Item {
     - position: PVector
     - exist: boolean
     - image: PImage
-    - image_name: String
+    - imageName: String
 
-    + Item(position: PVector, image_name: String)
+    + Item(position: PVector, imageName: String)
     + getPosition(): PVector
     + getExist(): boolean
     + disappear()

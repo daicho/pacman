@@ -5,10 +5,10 @@ public class Map {
     private Item[] powerFoods;     // パワーエサ
     private PVector startPosition; // パックマンの初期位置
     private PImage image;          // 画像ファイル
-    private String stage_name;     // ファイル読み込みに用いるステージ名
+    private String stageName;     // ファイル読み込みに用いるステージ名
 
-    public Map(String stage_name) {
-        this.stage_name = stage_name;
+    public Map(String stageName) {
+        this.stageName = stageName;
 
         // 画像ファイル読み込み
 
@@ -16,7 +16,7 @@ public class Map {
     }
 
     public int getObject(int x, int y) {
-
+      return objects[x][y];
     }
 
     // 画面描画
