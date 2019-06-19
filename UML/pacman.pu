@@ -18,31 +18,34 @@ Stage o-- InputInterface
 Map o-- Item
 
 abstract class Character {
-    - position: PVector
-    - direction: int
-    - spped: int
+    # position: PVector, direction: int, speed: float, characterName: String
+    # direction: int
+    # speed: float
 
-    - images: PImage[]
-    - curAnimation: int
-    - size: PVector
-    - animetionNum: int
-    - characterName: String
+    # images: PImage[][]
+    # curAnimation: int
+    # size: PVector
+    # animetionNum: int
+    # characterName: String
 
-    + Character(position: PVector)
+    + Character(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    # getDirectionVector(int direction)
     + getPosition(): PVector
+    + getMinPosition(): PVector
+    + getMaxPosition(): PVector
     + getDirection(): int
     + getSpeed(): int
-    + setSpeed(speed: int)
+    + setSpeed(speed: float)
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     + draw()
 }
 
 class Pacman {
-    - invincible: boolean
-    - nextDirection: int
+    # invincible: boolean
+    # nextDirection: int
 
-    + Pacman(position: PVector)
+    + Pacman(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + getInvincible(): boolen
@@ -51,40 +54,40 @@ class Pacman {
 }
 
 abstract class Monster {
-    - ijike: boolean
+    # ijike: boolean
 
-    + Monster(position: PVector)
+    + Monster(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + getIjike(): boolen
     + setIjike(ijike: boolean)
     + {abstract} decideDirection(map: Map, pacman: Pacman)
 }
 
 class Akabei {
-    + Akabei(position: PVector)
+    + Akabei(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Pinky {
-    + Pinky(position: PVector)
+    + Pinky(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Aosuke {
-    + Aosuke(position: PVector)
+    + Aosuke(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Guzuta {
-    + Guzuta(position: PVector)
+    + Guzuta(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Stage {
-    - pacman: Pacman
-    - monsters: Monster[]
-    - map: Map
-    - input: InputInterface
-    - stageName: String
+    # pacman: Pacman
+    # monsters: Monster[]
+    # map: Map
+    # input: InputInterface
+    # stageName: String
 
     + Stage(stageName: String, input: InputInterface)
     + update()
@@ -92,12 +95,12 @@ class Stage {
 }
 
 class Map {
-    - objects: int[][]
-    - foods: Item[]
-    - powerFoods: Item[]
-    - startPosition: PVector
-    - image: PImage
-    - stageName: String
+    # objects: int[][]
+    # foods: Item[]
+    # powerFoods: Item[]
+    # startposition: PVector, direction: int, speed: float, characterName: String
+    # image: PImage
+    # stageName: String
 
     + Map(stageName: String)
     + getObject(x: int, y: int): int
@@ -105,10 +108,10 @@ class Map {
 }
 
 class Item {
-    - position: PVector
-    - exist: boolean
-    - image: PImage
-    - imageName: String
+    # position: PVector, direction: int, speed: float, characterName: String
+    # exist: boolean
+    # image: PImage
+    # imageName: String
 
     + Item(position: PVector, imageName: String)
     + getPosition(): PVector

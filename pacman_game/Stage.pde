@@ -1,22 +1,22 @@
 // ステージ
 public class Stage {
-  private Pacman pacman;        // パックマン
-  private Monster[] monsters;   // 敵
-  private Map map;              // マップ
-  private InputInterface input; // 入力インターフェース
-  private String stageName;     // ファイル読み込みに用いるステージ名
+  protected Pacman pacman;        // パックマン
+  protected Monster[] monsters;   // 敵
+  protected Map map;              // マップ
+  protected InputInterface input; // 入力インターフェース
+  protected String stageName;     // ファイル読み込みに用いるステージ名
 
   Stage(String stageName, InputInterface input) {
     this.stageName = stageName;
     this.map = new Map(stageName);
     this.input = input;
     
-    this.pacman = new Pacman(map.startPosition);
+    this.pacman = new Pacman(map.startPosition, 0, 0.5, "pacman", 10);
     this.monsters = new Monster[4];
-    this.monsters[0] = new Akabei(new PVector(0, 0));
-    this.monsters[1] = new Aosuke(new PVector(30, 30));
-    this.monsters[2] = new Pinky(new PVector(60, 60));
-    this.monsters[3] = new Guzuta(new PVector(90, 90));
+    this.monsters[0] = new Akabei(new PVector(0 , 0 ), 0, 0.5, "akabei", 10);
+    this.monsters[1] = new Aosuke(new PVector(30, 30), 0, 0.5, "aosuke", 10);
+    this.monsters[2] = new Pinky (new PVector(60, 60), 0, 0.5, "pinky" , 10);
+    this.monsters[3] = new Guzuta(new PVector(90, 90), 0, 0.5, "guzuta", 10);
   }
 
   // ステージ内の状態を更新

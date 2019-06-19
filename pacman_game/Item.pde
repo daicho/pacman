@@ -1,9 +1,9 @@
 // パックマンが食べられるアイテム
 public class Item {
-  private PVector position;  // 位置
-  private boolean exist;     // 存在するか
-  private PImage image;      // 画像
-  private String imageName; // 画像ファイル名
+  protected PVector position;  // 位置
+  protected boolean exist;     // 存在するか
+  protected PImage image;      // 画像
+  protected String imageName; // 画像ファイル名
 
   public Item(PVector position, String imageName) {
     this.position = position;

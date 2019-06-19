@@ -1,8 +1,8 @@
 public abstract class Monster extends Character {
-  private boolean ijike;
+  protected boolean ijike;
 
-  public Monster(PVector position) {
-    super(position);
+  public Monster(PVector position, int direction, float speed, String characterName, int interval) {
+    super(position, direction, speed, characterName, interval);
   }
 
   public boolean getIjike() {
