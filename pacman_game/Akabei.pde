@@ -6,6 +6,5 @@ public class Akabei extends Monster {
 
   // 進む方向を決定する
   public void decideDirection(Map map, Pacman pacman) {
-
   }
 }

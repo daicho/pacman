@@ -16,9 +16,10 @@ Stage o-- Monster
 Stage o-- Map
 Stage o-- InputInterface
 Map o-- Item
+Map o-- Object
 
 abstract class Character {
-    # position: PVector, direction: int, speed: float, characterName: String
+    # position: PVector
     # direction: int
     # speed: float
 
@@ -84,7 +85,7 @@ class Guzuta {
 
 class Stage {
     # pacman: Pacman
-    # monsters: Monster[]
+    # monsters: ArrayList<Monster>
     # map: Map
     # input: InputInterface
     # stageName: String
@@ -95,20 +96,21 @@ class Stage {
 }
 
 class Map {
-    # objects: int[][]
-    # foods: Item[]
-    # powerFoods: Item[]
-    # startposition: PVector, direction: int, speed: float, characterName: String
+    # objects: Object[][]
+    # foods: ArrayList<Item>
+    # powerFoods: ArrayList<Item>
+    # pacmanPosition: PVector
+    # enemyPositions: ArrayList<PVector>
     # image: PImage
     # stageName: String
 
     + Map(stageName: String)
-    + getObject(x: int, y: int): int
+    + getObject(x: int, y: int): Object
     + draw()
 }
 
 class Item {
-    # position: PVector, direction: int, speed: float, characterName: String
+    # position: PVector
     # exist: boolean
     # image: PImage
     # imageName: String
@@ -118,6 +120,13 @@ class Item {
     + getExist(): boolean
     + disappear()
     + draw()
+}
+
+enum Object {
+    Wall
+    Route
+    EnemyBase
+    EnemyDoor
 }
 
 interface InputInterface {

@@ -1,4 +1,4 @@
-// キャラクターの基底クラス
+// キャラクターの基底クラス //<>// //<>// //<>//
 public abstract class Character {
   protected PVector position;     // 現在位置
   protected int direction;        // 向き (0:右 1:上 2:左 3:下)
@@ -33,10 +33,9 @@ public abstract class Character {
     // 配列確保
     this.images = new PImage[4][this.animetionNum];
 
-    // 画像ファイル読み込み //<>// //<>//
+    // 画像ファイル読み込み
     for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < this.animetionNum; j++) { //<>//
-        println("i=" + i + " j=" + j);
+      for (int j = 0; j < this.animetionNum; j++) {
         this.images[i][j] = loadImage(dataPath("characters/" + this.characterName + "-" + i + "-" + j+ ".png"));
       }
     }
@@ -47,31 +46,31 @@ public abstract class Character {
   // 特定の方向の単位ベクトル
   protected PVector getDirectionVector(int direction) {
     switch (direction) {
-      case 0: // 右
-        return new PVector(1, 0);
+    case 0: // 右
+      return new PVector(1, 0);
 
-      case 1: // 上
-        return new PVector(0, -1);
+    case 1: // 上
+      return new PVector(0, -1);
 
-      case 2: // 左
-        return new PVector(-1, 0);
+    case 2: // 左
+      return new PVector(-1, 0);
 
-      case 3: // 下
-        return new PVector(0, 1);
-      
-      default:
-        return new PVector(0, 0);
+    case 3: // 下
+      return new PVector(0, 1);
+
+    default:
+      return new PVector(0, 0);
     }
   }
 
   // 左上の座標を取得
   public PVector getMinPosition() {
-    return new PVector(this.position.x - this.size.x, this.position.y - this.size.y);
+    return new PVector(this.position.x - this.size.x / 2, this.position.y - this.size.y / 2);
   }
 
   // 右下の座標を取得
   public PVector getManPosition() {
-    return new PVector(this.position.x + this.size.x, this.position.y + this.size.y);
+    return new PVector(this.position.x + this.size.x / 2, this.position.y + this.size.y / 2);
   }
 
   public PVector getPosition() {
@@ -104,7 +103,8 @@ public abstract class Character {
 
   // 画面描画
   public void draw() {
-    image(images[this.direction][this.curAnimetion], this.getMinPosition().x, this.getMinPosition().y);
+    PVector minPostision = this.getMinPosition();
+    image(images[this.direction][this.curAnimetion], minPostision.x, minPostision.y);
 
     this.curInterval--;
     if (this.curInterval < 0) {
