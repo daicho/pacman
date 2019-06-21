@@ -2,7 +2,7 @@ InputInterface input;
 Stage stage;
 
 void setup() {
-  size(224, 248);
+  size(448, 496);
   input = new KeyboardInput();
   stage = new Stage("original", input);
 }

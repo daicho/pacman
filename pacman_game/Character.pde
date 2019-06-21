@@ -1,4 +1,4 @@
-// キャラクターの基底クラス //<>// //<>// //<>//
+// キャラクターの基底クラス //<>//
 public abstract class Character {
   protected PVector position;     // 現在位置
   protected int direction;        // 向き (0:右 1:上 2:左 3:下)
