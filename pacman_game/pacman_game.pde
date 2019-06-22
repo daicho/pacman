@@ -1,10 +1,8 @@
-InputInterface input;
 Stage stage;
 
 void setup() {
   size(448, 496);
-  input = new KeyboardInput();
-  stage = new Stage("original", input);
+  stage = new Stage("original", new KeyboardInput());
 }
 
 void draw() {

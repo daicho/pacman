@@ -5,42 +5,42 @@ public abstract class Character {
   protected float speed;          // 速さ [px/f]
 
   protected PImage[][] images;    // アニメーション画像
-  protected int curAnimetion;     // 現在のアニメーション番号
   protected PVector size;         // 画像サイズ
+  protected String characterName; // 画像ファイルの読み込みに用いるキャラクター名
+  protected int curAnimetion;     // 現在のアニメーション番号
   protected int animetionNum;     // アニメーションの数
   protected int interval;         // アニメーションの間隔 [f]
-  protected int curInterval;      // あと何fで次のアニメーションにいくか
-  protected String characterName; // 画像ファイルの読み込みに用いるキャラクター名
+  protected int intervalLeft;     // あと何fで次のアニメーションにいくか
 
   public Character(PVector position, int direction, float speed, String characterName, int interval) {
     this.position = position;
     this.direction = direction;
     this.speed = speed;
     this.characterName = characterName;
-    this.interval = interval;
     this.curAnimetion = 0;
+    this.interval = interval;
+    this.intervalLeft = interval;
 
     // 画像ファイルの存在確認
     this.animetionNum = 0;
     while (true) {
-      File imageFile = new File(dataPath("characters/" + this.characterName + "-0-" + this.animetionNum + ".png"));
+      File imageFile = new File(dataPath("characters/" + characterName + "-0-" + animetionNum + ".png"));
       if (!imageFile.exists())
         break;
 
       this.animetionNum++;
     }
 
-    // 配列確保
-    this.images = new PImage[4][this.animetionNum];
-
     // 画像ファイル読み込み
+    this.images = new PImage[4][animetionNum];
+
     for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < this.animetionNum; j++) {
-        this.images[i][j] = loadImage(dataPath("characters/" + this.characterName + "-" + i + "-" + j+ ".png"));
+      for (int j = 0; j < animetionNum; j++) {
+        this.images[i][j] = loadImage(dataPath("characters/" + characterName + "-" + i + "-" + j + ".png"));
       }
     }
 
-    this.size = new PVector(this.images[0][0].width, this.images[0][0].height);
+    this.size = new PVector(images[0][0].width, images[0][0].height);
   }
 
   // 特定の方向の単位ベクトル
@@ -65,12 +65,12 @@ public abstract class Character {
 
   // 左上の座標を取得
   public PVector getMinPosition() {
-    return new PVector(this.position.x - this.size.x / 2, this.position.y - this.size.y / 2);
+    return new PVector(position.x - size.x / 2, position.y - size.y / 2);
   }
 
   // 右下の座標を取得
   public PVector getManPosition() {
-    return new PVector(this.position.x + this.size.x / 2, this.position.y + this.size.y / 2);
+    return new PVector(position.x + size.x / 2, position.y + size.y / 2);
   }
 
   public PVector getPosition() {
@@ -91,9 +91,9 @@ public abstract class Character {
 
   // 移動
   public void move(Map map) {
-    PVector moveVector = this.getDirectionVector(this.direction);
-    moveVector.mult(this.speed);
-    this.position.add(moveVector);
+    PVector moveVector = getDirectionVector(direction);
+    moveVector.mult(speed);
+    position.add(moveVector);
   }
 
   // 特定の方向へ移動できるか
@@ -103,13 +103,13 @@ public abstract class Character {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = this.getMinPosition();
-    image(images[this.direction][this.curAnimetion], minPostision.x, minPostision.y);
+    PVector minPostision = getMinPosition();
+    image(images[direction][curAnimetion], minPostision.x, minPostision.y);
 
-    this.curInterval--;
-    if (this.curInterval < 0) {
-      this.curInterval = this.interval;
-      this.curAnimetion = (this.curAnimetion + 1) % this.animetionNum;
+    this.intervalLeft--;
+    if (intervalLeft < 0) {
+      intervalLeft = interval;
+      curAnimetion = (curAnimetion + 1) % animetionNum;
     }
   }
 }

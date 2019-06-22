@@ -13,20 +13,24 @@ public class Map {
   protected ArrayList<Item> powerFoods;        // パワーエサ
   protected PVector pacmanPosition;            // パックマンの初期位置
   protected ArrayList<PVector> enemyPositions; // 敵の初期位置
-  protected PImage image;                      // 画像ファイル
   protected String stageName;                  // ファイル読み込みに用いるステージ名
+  protected PImage image;                      // 画像ファイル
+  protected PVector size;                      // 画像サイズ
   
   public Map(String stageName) {
     this.stageName = stageName;
     this.foods = new ArrayList<Item>();
     this.powerFoods = new ArrayList<Item>();
     this.enemyPositions = new ArrayList<PVector>();
-    this.image = loadImage("maps/" + this.stageName + "-image.png");
+    
+    // 画像ファイル読み込み
+    this.image = loadImage("maps/" + stageName + "-image.png");
+    this.size = new PVector(image.width, image.height);
+    this.objects = new Object[image.width][image.height];
 
     // マップファイル読み込み
     PImage mapImage = loadImage("maps/" + stageName + "-map.png");
     mapImage.loadPixels();
-    this.objects = new Object[mapImage.width][mapImage.height];
 
     for (int y = 0; y < mapImage.height; y++) {
       for (int x = 0; x < mapImage.width; x++) {
@@ -34,39 +38,39 @@ public class Map {
 
         // パックマンの初期位置
         if (pixel == color(255, 0, 0)) {
-          this.objects[x][y] = Object.Route;
-          this.pacmanPosition = new PVector(x, y);
+          objects[x][y] = Object.Route;
+          pacmanPosition = new PVector(x, y);
 
         // 敵の初期位置
         } else if (pixel == color(255, 0, 255)) {
-          this.objects[x][y] = Object.Route;
-          this.enemyPositions.add(new PVector(x, y));
+          objects[x][y] = Object.Route;
+          enemyPositions.add(new PVector(x, y));
 
         // エサ
         } else if (pixel == color(255, 255, 0)) {
-          this.objects[x][y] = Object.Route;
-          this.foods.add(new Item(new PVector(x, y), "food"));
+          objects[x][y] = Object.Route;
+          foods.add(new Item(new PVector(x, y), "food"));
 
         // パワーエサ
         } else if (pixel == color(0, 255, 255)) {
-          this.objects[x][y] = Object.Route;
-          this.powerFoods.add(new Item(new PVector(x, y), "power_food"));
+          objects[x][y] = Object.Route;
+          powerFoods.add(new Item(new PVector(x, y), "power_food"));
 
         // 敵待機場所
         } else if (pixel == color(0, 0, 255)) {
-          this.objects[x][y] = Object.EnemyBase;
+          objects[x][y] = Object.EnemyBase;
 
         // 敵出入口
         } else if (pixel == color(0, 255, 0)) {
-          this.objects[x][y] = Object.EnemyDoor;
+          objects[x][y] = Object.EnemyDoor;
 
         // 通路
         } else if (pixel == color(0, 0, 0)) {
-          this.objects[x][y] = Object.Route;
+          objects[x][y] = Object.Route;
 
         // 壁
         } else {
-          this.objects[x][y] = Object.Wall;
+          objects[x][y] = Object.Wall;
         }
       }
     }
@@ -79,5 +83,9 @@ public class Map {
   // 画面描画
   public void draw() {
     image(image, 0, 0);
+    for (Item food : foods)
+      food.draw();
+    for (Item powerFood : powerFoods)
+      powerFood.draw();
   }
 }

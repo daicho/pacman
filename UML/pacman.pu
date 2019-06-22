@@ -24,10 +24,12 @@ abstract class Character {
     # speed: float
 
     # images: PImage[][]
-    # curAnimation: int
     # size: PVector
-    # animetionNum: int
     # characterName: String
+    # curAnimation: int
+    # animetionNum: int
+    # interval: int
+    # intervalLeft: int
 
     + Character(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     # getDirectionVector(int direction)
@@ -101,8 +103,9 @@ class Map {
     # powerFoods: ArrayList<Item>
     # pacmanPosition: PVector
     # enemyPositions: ArrayList<PVector>
-    # image: PImage
     # stageName: String
+    # image: PImage
+    # size: PVector
 
     + Map(stageName: String)
     + getObject(x: int, y: int): Object
@@ -112,10 +115,13 @@ class Map {
 class Item {
     # position: PVector
     # exist: boolean
-    # image: PImage
     # imageName: String
+    # image: PImage
+    # size: PVector
 
     + Item(position: PVector, imageName: String)
+    + getMinPosition(): PVector
+    + getMaxPosition(): PVector
     + getPosition(): PVector
     + getExist(): boolean
     + disappear()
