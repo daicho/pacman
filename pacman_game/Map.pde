@@ -1,5 +1,5 @@
 // マップ内のオブジェクトの種類
-public enum Object {
+public enum MapObject {
   Wall,      // 壁
   Route,     // 通路
   EnemyBase, // 敵待機場所
@@ -8,7 +8,7 @@ public enum Object {
 
 // マップ
 public class Map {
-  protected Object[][] objects;
+  protected MapObject[][] objects;
   protected ArrayList<Item> foods;             // エサ
   protected ArrayList<Item> powerFoods;        // パワーエサ
   protected PVector pacmanPosition;            // パックマンの初期位置
@@ -26,7 +26,7 @@ public class Map {
     // 画像ファイル読み込み
     this.image = loadImage("maps/" + stageName + "-image.png");
     this.size = new PVector(image.width, image.height);
-    this.objects = new Object[image.width][image.height];
+    this.objects = new MapObject[image.width][image.height];
 
     // マップファイル読み込み
     PImage mapImage = loadImage("maps/" + stageName + "-map.png");
@@ -38,53 +38,55 @@ public class Map {
 
         // パックマンの初期位置
         if (pixel == color(255, 0, 0)) {
-          objects[x][y] = Object.Route;
+          objects[x][y] = MapObject.Route;
           pacmanPosition = new PVector(x, y);
 
         // 敵の初期位置
         } else if (pixel == color(255, 0, 255)) {
-          objects[x][y] = Object.Route;
+          objects[x][y] = MapObject.Route;
           enemyPositions.add(new PVector(x, y));
 
         // エサ
         } else if (pixel == color(255, 255, 0)) {
-          objects[x][y] = Object.Route;
+          objects[x][y] = MapObject.Route;
           foods.add(new Item(new PVector(x, y), "food"));
 
         // パワーエサ
         } else if (pixel == color(0, 255, 255)) {
-          objects[x][y] = Object.Route;
+          objects[x][y] = MapObject.Route;
           powerFoods.add(new Item(new PVector(x, y), "power_food"));
 
         // 敵待機場所
         } else if (pixel == color(0, 0, 255)) {
-          objects[x][y] = Object.EnemyBase;
+          objects[x][y] = MapObject.EnemyBase;
 
         // 敵出入口
         } else if (pixel == color(0, 255, 0)) {
-          objects[x][y] = Object.EnemyDoor;
+          objects[x][y] = MapObject.EnemyDoor;
 
         // 通路
         } else if (pixel == color(0, 0, 0)) {
-          objects[x][y] = Object.Route;
+          objects[x][y] = MapObject.Route;
 
         // 壁
         } else {
-          objects[x][y] = Object.Wall;
+          objects[x][y] = MapObject.Wall;
         }
       }
     }
   }
 
-  public Object getObject(int x, int y) {
+  public MapObject getObject(int x, int y) {
     return this.objects[x][y];
   }
 
   // 画面描画
   public void draw() {
     image(image, 0, 0);
+
     for (Item food : foods)
       food.draw();
+
     for (Item powerFood : powerFoods)
       powerFood.draw();
   }

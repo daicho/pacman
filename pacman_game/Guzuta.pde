@@ -6,5 +6,8 @@ public class Guzuta extends Monster {
 
   // 進む方向を決定する
   public void decideDirection(Map map, Pacman pacman) {
+    /* ――――――――――――――――――――
+       好き勝手タイプ、何も考えず自由に行動する
+       ―――――――――――――――――――― */
   }
 }

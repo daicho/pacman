@@ -1,7 +1,7 @@
 public abstract class Monster extends Character {
   protected boolean ijike;
 
-  public Monster(PVector position, int direction, float speed, String characterName, int interval) {
+  protected Monster(PVector position, int direction, float speed, String characterName, int interval) {
     super(position, direction, speed, characterName, interval);
   }
 

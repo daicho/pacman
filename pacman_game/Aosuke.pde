@@ -6,5 +6,9 @@ public class Aosuke extends Monster {
 
   // 進む方向を決定する
   public void decideDirection(Map map, Pacman pacman) {
+    /* ――――――――――――――――――――
+       気まぐれタイプ、パックマンを中心にして、
+       オイカケの点対称の位置を目指して行動する
+       ―――――――――――――――――――― */
   }
 }

@@ -3,6 +3,8 @@
 skinparam Shadowing false
 skinparam classAttributeIconSize 0
 
+GameObject <|-- Character
+GameObject <|-- Item
 Character <|-- Pacman
 InputInterface <|.. KeyboardInput
 InputInterface <|.. ArcadeInput
@@ -16,29 +18,35 @@ Stage o-- Monster
 Stage o-- Map
 Stage o-- InputInterface
 Map o-- Item
-Map o-- Object
+Map o-- MapObject
+
+abstract class GameObject {
+    # position: PVector
+    # size: PVector
+
+    # GameObject(position: PVector, size: PVector): 
+    + getPosition(): PVector
+    + getMinPosition(): PVector
+    + getMaxPosition(): PVector
+    + {abstract} draw
+}
 
 abstract class Character {
-    # position: PVector
     # direction: int
     # speed: float
 
     # images: PImage[][]
-    # size: PVector
     # characterName: String
     # curAnimation: int
     # animetionNum: int
     # interval: int
     # intervalLeft: int
 
-    + Character(position: PVector, direction: int, speed: float, characterName: String, interval: int)
-    # getDirectionVector(int direction)
-    + getPosition(): PVector
-    + getMinPosition(): PVector
-    + getMaxPosition(): PVector
+    # Character(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + getDirection(): int
     + getSpeed(): int
     + setSpeed(speed: float)
+    # getDirectionVector(int direction)
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     + draw()
@@ -59,7 +67,7 @@ class Pacman {
 abstract class Monster {
     # ijike: boolean
 
-    + Monster(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    # Monster(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + getIjike(): boolen
     + setIjike(ijike: boolean)
     + {abstract} decideDirection(map: Map, pacman: Pacman)
@@ -93,12 +101,13 @@ class Stage {
     # stageName: String
 
     + Stage(stageName: String, input: InputInterface)
+    + isColliding(object1: GameObject, object2: GameObject): boolean
     + update()
     + draw()
 }
 
 class Map {
-    # objects: Object[][]
+    # objects: MapObject[][]
     # foods: ArrayList<Item>
     # powerFoods: ArrayList<Item>
     # pacmanPosition: PVector
@@ -108,27 +117,22 @@ class Map {
     # size: PVector
 
     + Map(stageName: String)
-    + getObject(x: int, y: int): Object
+    + getObject(x: int, y: int): MapObject
     + draw()
 }
 
 class Item {
-    # position: PVector
     # exist: boolean
     # imageName: String
     # image: PImage
-    # size: PVector
 
     + Item(position: PVector, imageName: String)
-    + getMinPosition(): PVector
-    + getMaxPosition(): PVector
-    + getPosition(): PVector
     + getExist(): boolean
     + disappear()
     + draw()
 }
 
-enum Object {
+enum MapObject {
     Wall
     Route
     EnemyBase
