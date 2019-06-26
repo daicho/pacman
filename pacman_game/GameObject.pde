@@ -38,7 +38,7 @@ public abstract class GameObject {
 
   // 右下の座標を取得
   public PVector getMaxPosition() {
-    return new PVector(position.x + size.x / 2, position.y + size.y / 2);
+    return new PVector(position.x + size.x / 2 - 1, position.y + size.y / 2 - 1);
   }
 
   // 当たり判定

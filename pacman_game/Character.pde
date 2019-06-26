@@ -80,42 +80,43 @@ public abstract class Character extends GameObject {
       moveVector.mult(speed);
       position.add(moveVector);
     }
+    println("(" + position.x + ", " + position.y + ")");
   }
 
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
-    /* ―――――――――――――――
-     directionの方向へ移動した時に
-     壁と接触していたらfalse,
-     していなかったらtrueを返す
-     ――――――――――――――― */
-    PVector check;  // 壁かどうかを判定する座標
+    PVector check; // 壁かどうかを判定する座標
+
     switch(direction) {
-      case 0:  // 右
-        check = new PVector(getMaxPosition().x, getMinPosition().y);
-        for (; check.y < getMaxPosition().y; check.y++)
+      case 0: // 右
+        check = new PVector(getMaxPosition().x + speed, getMinPosition().y);
+        for (; check.y <= getMaxPosition().y; check.y++)
           if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
             return false;
         break;
-      case 1:  // 上
-        check = new PVector(getMinPosition().x, getMinPosition().y - 1);
-        for (; check.x < getMaxPosition().x; check.x++)
+
+      case 1: // 上
+        check = new PVector(getMinPosition().x, getMinPosition().y - speed);
+        for (; check.x <= getMaxPosition().x; check.x++)
           if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
             return false;
         break;
-      case 2:  // 左
-        check = new PVector(getMinPosition().x - 1, getMinPosition().y);
-        for (; check.y < getMaxPosition().y; check.y++)
+
+      case 2: // 左
+        check = new PVector(getMinPosition().x - speed, getMinPosition().y);
+        for (; check.y <= getMaxPosition().y; check.y++)
           if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
             return false;
         break;
-      case 3:  // 下
-        check = new PVector(getMinPosition().x, getMaxPosition().y);
-        for (; check.x < getMaxPosition().x; check.x++)
+
+      case 3: // 下
+        check = new PVector(getMinPosition().x, getMaxPosition().y + speed);
+        for (; check.x <= getMaxPosition().x; check.x++)
           if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
             return false;
         break;
     }
+
     return true;
   }
 
