@@ -80,7 +80,6 @@ public abstract class Character extends GameObject {
       moveVector.mult(speed);
       position.add(moveVector);
     }
-    println("(" + position.x + ", " + position.y + ")");
   }
 
   // 特定の方向へ移動できるか

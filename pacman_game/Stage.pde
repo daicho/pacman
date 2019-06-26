@@ -13,10 +13,11 @@ public class Stage {
 
     this.pacman = new Pacman(map.pacmanPosition, 0, 1, "pacman", 5);
     this.monsters = new ArrayList<Monster>();
-    /*this.monsters.add(new Akabei(map.enemyPositions.get(0), 0, 1, "akabei", 5));
+    this.monsters.add(new Akabei(map.enemyPositions.get(0), 0, 1, "akabei", 5));
     this.monsters.add(new Aosuke(map.enemyPositions.get(1), 0, 1, "aosuke", 5));
     this.monsters.add(new Pinky (map.enemyPositions.get(2), 0, 1, "pinky" , 5));
-    this.monsters.add(new Guzuta(map.enemyPositions.get(3), 0, 1, "guzuta", 5))*/; }
+    this.monsters.add(new Guzuta(map.enemyPositions.get(3), 0, 1, "guzuta", 5));
+  }
 
   // ステージ内の状態を更新
   public void update() {
