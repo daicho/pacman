@@ -79,6 +79,13 @@ public abstract class Character extends GameObject {
       PVector moveVector = getDirectionVector(direction);
       moveVector.mult(speed);
       position.add(moveVector);
+
+      // アニメーションを更新
+      this.intervalLeft--;
+      if (intervalLeft < 0) {
+        intervalLeft = interval;
+        curAnimetion = (curAnimetion + 1) % animetionNum;
+      }
     }
   }
 
@@ -123,11 +130,5 @@ public abstract class Character extends GameObject {
   public void draw() {
     PVector minPostision = getMinPosition();
     image(images[direction][curAnimetion], minPostision.x, minPostision.y);
-
-    this.intervalLeft--;
-    if (intervalLeft < 0) {
-      intervalLeft = interval;
-      curAnimetion = (curAnimetion + 1) % animetionNum;
-    }
   }
 }
