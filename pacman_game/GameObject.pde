@@ -43,11 +43,14 @@ public abstract class GameObject {
 
   // 当たり判定
   public boolean isColliding(GameObject object) {
-    /* ―――――――――――――――――――――
-       当たり判定は、中心付近にのみ発生する
-       (PVector型の要素はfloat型なので扱いに注意)
-       ――――――――――――――――――――― */
-    return false;
+    PVector minPosition = object.getMinPosition();
+    PVector maxPosition = object.getMaxPosition();
+
+    // 自分の中心が相手に触れていたら当たり
+    return position.x >= minPosition.x &&
+           position.x <= maxPosition.x &&
+           position.y >= minPosition.y &&
+           position.y <= maxPosition.y;
   }
 
   // 画面描画
