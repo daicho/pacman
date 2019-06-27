@@ -128,7 +128,9 @@ public abstract class Character extends GameObject {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
-    image(images[direction][curAnimetion], minPostision.x, minPostision.y);
+    if (exist) {
+      PVector minPostision = getMinPosition();
+      image(images[direction][curAnimetion], minPostision.x, minPostision.y);
+    }
   }
 }

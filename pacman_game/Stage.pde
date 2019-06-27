@@ -5,11 +5,13 @@ public class Stage {
   protected Map map;                     // マップ
   protected InputInterface input;        // 入力インターフェース
   protected String stageName;            // ファイル読み込みに用いるステージ名
+  protected boolean invincible;          // パックマンが無敵状態か
 
   public Stage(String stageName, InputInterface input) {
     this.stageName = stageName;
     this.map = new Map(stageName);
     this.input = input;
+    this.invincible = false;
 
     this.pacman = new Pacman(map.pacmanPosition, 0, 1, "pacman", 5);
     this.monsters = new ArrayList<Monster>();
@@ -57,12 +59,24 @@ public class Stage {
            音を鳴らす
            ――――― */
 
+        /* ―――――――――――――――
+           パックマンを無敵モードにし、
+           モンスターをイジケモードにする
+           何秒か経ったら通常モードに戻す
+           (本家は8秒)
+           ――――――――――――――― */
+
         powerFood.disappear();
       }
 
     for (Monster monster : monsters)
-      if (pacman.isColliding(monster))
-        ; // ゲームオーバー
+      if (pacman.isColliding(monster)) {
+        if (invincible) {
+          monster.disappear(); // とりあえずモンスター消しとく
+        } else {
+          ; /* ゲームオーバー */
+        }
+      }
   }
 
   // 画面描画

@@ -23,12 +23,15 @@ Map o-- MapObject
 abstract class GameObject {
     # position: PVector
     # size: PVector
+    # exist: boolean
 
     # GameObject(position: PVector, size: PVector): 
     + getPosition(): PVector
+    + getExist(): boolean
     + getMinPosition(): PVector
     + getMaxPosition(): PVector
-    + {abstract} draw
+    + disappear()
+    + {abstract} draw()
 }
 
 abstract class Character {
@@ -99,6 +102,7 @@ class Stage {
     # map: Map
     # input: InputInterface
     # stageName: String
+    # invincible: boolean
 
     + Stage(stageName: String, input: InputInterface)
     + isColliding(object1: GameObject, object2: GameObject): boolean
@@ -122,13 +126,10 @@ class Map {
 }
 
 class Item {
-    # exist: boolean
     # imageName: String
     # image: PImage
 
     + Item(position: PVector, imageName: String)
-    + getExist(): boolean
-    + disappear()
     + draw()
 }
 

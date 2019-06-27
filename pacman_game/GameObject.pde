@@ -2,9 +2,11 @@
 public abstract class GameObject {
   protected PVector position; // 現在位置
   protected PVector size;     // 画像サイズ
+  protected boolean exist;    // 存在するか
 
   protected GameObject(PVector position) {
     this.position = position;
+    this.exist = true;
   }
 
   // 特定の方向の単位ベクトル
@@ -31,6 +33,10 @@ public abstract class GameObject {
     return this.position;
   }
 
+  public boolean getExist() {
+    return this.exist;
+  }
+
   // 左上の座標を取得
   public PVector getMinPosition() {
     return new PVector(position.x - size.x / 2, position.y - size.y / 2);
@@ -51,6 +57,11 @@ public abstract class GameObject {
            position.x <= maxPosition.x &&
            position.y >= minPosition.y &&
            position.y <= maxPosition.y;
+  }
+
+  // 消失させる
+  public void disappear() {
+    exist = false;
   }
 
   // 画面描画
