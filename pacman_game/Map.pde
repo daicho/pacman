@@ -76,8 +76,8 @@ public class Map {
     }
   }
 
-  public MapObject getObject(int x, int y) {
-    return this.objects[x][y];
+  public MapObject getObject(float x, float y) {
+    return this.objects[round(x)][round(y)];
   }
 
   // 画面描画

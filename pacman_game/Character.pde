@@ -56,20 +56,20 @@ public abstract class Character extends GameObject {
   // 特定の方向の単位ベクトル
   protected PVector getDirectionVector(int direction) {
     switch (direction) {
-    case 0: // 右
-      return new PVector(1, 0);
-
-    case 1: // 上
-      return new PVector(0, -1);
-
-    case 2: // 左
-      return new PVector(-1, 0);
-
-    case 3: // 下
-      return new PVector(0, 1);
-
-    default:
-      return new PVector(0, 0);
+      case 0: // 右
+        return new PVector(1, 0);
+  
+      case 1: // 上
+        return new PVector(0, -1);
+  
+      case 2: // 左
+        return new PVector(-1, 0);
+  
+      case 3: // 下
+        return new PVector(0, 1);
+  
+      default:
+        return new PVector(0, 0);
     }
   }
 
@@ -97,28 +97,28 @@ public abstract class Character extends GameObject {
       case 0: // 右
         check = new PVector(getMaxPosition().x + speed, getMinPosition().y);
         for (; check.y <= getMaxPosition().y; check.y++)
-          if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
+          if (map.getObject(check.x, check.y) == MapObject.Wall)
             return false;
         break;
 
       case 1: // 上
         check = new PVector(getMinPosition().x, getMinPosition().y - speed);
         for (; check.x <= getMaxPosition().x; check.x++)
-          if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
+          if (map.getObject(check.x, check.y) == MapObject.Wall)
             return false;
         break;
 
       case 2: // 左
         check = new PVector(getMinPosition().x - speed, getMinPosition().y);
         for (; check.y <= getMaxPosition().y; check.y++)
-          if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
+          if (map.getObject(check.x, check.y) == MapObject.Wall)
             return false;
         break;
 
       case 3: // 下
         check = new PVector(getMinPosition().x, getMaxPosition().y + speed);
         for (; check.x <= getMaxPosition().x; check.x++)
-          if (map.getObject(round(check.x), round(check.y)) == MapObject.Wall)
+          if (map.getObject(check.x, check.y) == MapObject.Wall)
             return false;
         break;
     }
