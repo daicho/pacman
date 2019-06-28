@@ -80,6 +80,29 @@ public abstract class Character extends GameObject {
       moveVector.mult(speed);
       position.add(moveVector);
 
+      //ワープに入った時
+      switch(direction) {
+        case 0: // 右
+          if (position.x >= map.size.x)
+            position.x -= map.size.x;
+          break;
+
+        case 1: // 上
+          if (position.y < 0)
+            position.y += map.size.y;
+          break;
+
+        case 2: // 左
+          if (position.x < 0)
+            position.x += map.size.x;
+          break;
+
+        case 3: // 下
+          if (position.y >= map.size.y)
+            position.y -= map.size.y;
+          break;
+      }
+
       // アニメーションを更新
       this.intervalLeft--;
       if (intervalLeft < 0) {

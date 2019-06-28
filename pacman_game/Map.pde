@@ -77,7 +77,11 @@ public class Map {
   }
 
   public MapObject getObject(float x, float y) {
-    return this.objects[round(x)][round(y)];
+    // 画面外は通路判定
+    if (x < 0 || x >= size.x || y < 0 || y >= size.y)
+      return MapObject.Route;
+    else
+      return this.objects[round(x)][round(y)];
   }
 
   // 画面描画
