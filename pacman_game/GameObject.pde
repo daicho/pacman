@@ -33,6 +33,10 @@ public abstract class GameObject {
     return this.position;
   }
 
+  public PVector getSize() {
+    return this.size;
+  }
+
   public boolean getExist() {
     return this.exist;
   }

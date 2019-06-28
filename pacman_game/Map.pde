@@ -74,6 +74,18 @@ public class Map {
     }
   }
 
+  public PVector getPacmanPosition() {
+    return this.pacmanPosition;
+  }
+
+  public PVector getEnemyPosition(int index) {
+    return this.enemyPositions.get(index);
+  }
+
+  public PVector getSize() {
+    return this.size;
+  }
+
   public MapObject getObject(float x, float y) {
     // 画面外は通路判定
     if (x < 0 || x >= size.x || y < 0 || y >= size.y)

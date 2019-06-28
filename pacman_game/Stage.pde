@@ -9,21 +9,18 @@ public class Stage {
   public Stage(String mapName, InputInterface input) {
     this.map = new Map(mapName);
     this.input = input;
+    this.score = 0;
 
-    this.pacman = new Pacman(map.pacmanPosition, 0, 1.6, "pacman", 5);
+    this.pacman = new Pacman(map.getPacmanPosition(), 0, 1.6, "pacman", 3);
     this.monsters = new ArrayList<Monster>();
-    this.monsters.add(new Akabei(map.enemyPositions.get(0), 0, 1.6, "akabei", 5));
-    this.monsters.add(new Aosuke(map.enemyPositions.get(1), 0, 1.6, "aosuke", 5));
-    this.monsters.add(new Pinky (map.enemyPositions.get(2), 0, 1.6, "pinky" , 5));
-    this.monsters.add(new Guzuta(map.enemyPositions.get(3), 0, 1.6, "guzuta", 5));
+    this.monsters.add(new Akabei(map.getEnemyPosition(0), 0, 1.6, "akabei", 5));
+    this.monsters.add(new Aosuke(map.getEnemyPosition(1), 0, 1.6, "aosuke", 5));
+    this.monsters.add(new Pinky (map.getEnemyPosition(2), 0, 1.6, "pinky" , 5));
+    this.monsters.add(new Guzuta(map.getEnemyPosition(3), 0, 1.6, "guzuta", 5));
   }
 
   public int getScore() {
     return this.score;
-  }
-
-  public void setScore(int score) {
-    this.score = score;
   }
 
   // ステージ内の状態を更新
@@ -76,7 +73,7 @@ public class Stage {
 
     for (Monster monster : monsters)
       if (pacman.isColliding(monster)) {
-        if (monster.ijike) {
+        if (monster.getIjike()) {
           monster.disappear(); // とりあえずモンスター消しとく
         } else {
           ; /* ゲームオーバー */

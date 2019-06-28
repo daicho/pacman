@@ -27,6 +27,7 @@ abstract class GameObject {
 
     # GameObject(position: PVector, size: PVector): 
     + getPosition(): PVector
+    + getSize(): PVector
     + getExist(): boolean
     + getMinPosition(): PVector
     + getMaxPosition(): PVector
@@ -102,7 +103,6 @@ class Stage {
 
     + Stage(mapName: String, input: InputInterface)
     + getScore(): int
-    + setScore(score: int)
     + update()
     + draw()
 }
@@ -117,7 +117,10 @@ class Map {
     # size: PVector
 
     + Map(mapName: String)
-    + getObject(x: int, y: int): MapObject
+    + getPacmanPosition(): PVector
+    + getEnemyPosition(index: int): PVector
+    + getSize(): PVector
+    + getObject(x: float, y: float): MapObject
     + draw()
 }
 

@@ -1,12 +1,12 @@
 // キャラクターの基底クラス //<>//
 public abstract class Character extends GameObject {
-  protected int direction;        // 向き (0:右 1:上 2:左 3:下)
-  protected float speed;          // 速さ [px/f]
-  protected PImage[][] images;    // アニメーション画像
-  protected int curAnimetion;     // 現在のアニメーション番号
-  protected int animetionNum;     // アニメーションの数
-  protected int interval;         // アニメーションの間隔 [f]
-  protected int intervalLeft;     // あと何fで次のアニメーションにいくか
+  protected int direction;     // 向き (0:右 1:上 2:左 3:下)
+  protected float speed;       // 速さ [px/f]
+  protected PImage[][] images; // アニメーション画像
+  protected int curAnimetion;  // 現在のアニメーション番号
+  protected int animetionNum;  // アニメーションの数
+  protected int interval;      // アニメーションの間隔 [f]
+  protected int intervalLeft;  // あと何fで次のアニメーションにいくか
 
   protected Character(PVector position, int direction, float speed, String characterName, int interval) {
     super(position);
@@ -78,26 +78,28 @@ public abstract class Character extends GameObject {
       moveVector.mult(speed);
       position.add(moveVector);
 
-      //ワープに入った時
+      // ワープトンネル
+      PVector mapSize = map.getSize();
+
       switch(direction) {
         case 0: // 右
-          if (position.x >= map.size.x)
-            position.x -= map.size.x;
+          if (position.x >= mapSize.x)
+            position.x -= mapSize.x;
           break;
 
         case 1: // 上
           if (position.y < 0)
-            position.y += map.size.y;
+            position.y += mapSize.y;
           break;
 
         case 2: // 左
           if (position.x < 0)
-            position.x += map.size.x;
+            position.x += mapSize.x;
           break;
 
         case 3: // 下
-          if (position.y >= map.size.y)
-            position.y -= map.size.y;
+          if (position.y >= mapSize.y)
+            position.y -= mapSize.y;
           break;
       }
 
