@@ -8,7 +8,6 @@ public abstract class Character extends GameObject {
   protected int animetionNum;     // アニメーションの数
   protected int interval;         // アニメーションの間隔 [f]
   protected int intervalLeft;     // あと何fで次のアニメーションにいくか
-  protected int mapsizewidth = 448;     // マップの横幅
 
   protected Character(PVector position, int direction, float speed, String characterName, int interval) {
     super(position);
@@ -78,25 +77,31 @@ public abstract class Character extends GameObject {
   public void move(Map map) {
     if (canMove(map, direction)) {
       PVector moveVector = getDirectionVector(direction);
-      //PVector checkworp; // ワープするかどうかを判定する座標
-      
+      moveVector.mult(speed);
+      position.add(moveVector);
+
       //ワープに入った時
       switch(direction) {
         case 0: // 右
-          //checkworp = new PVector(getMaxPosition().x + speed, getMinPosition().y);
-          if (position.x > mapsizewidth)
-            position.x = 1;
+          if (position.x >= map.size.x)
+            position.x -= map.size.x;
+          break;
+
+        case 1: // 上
+          if (position.y < 0)
+            position.y += map.size.y;
           break;
 
         case 2: // 左
-          //checkworp = new PVector(getMinPosition().x - speed, getMinPosition().y);
           if (position.x < 0)
-            position.x = mapsizewidth - 1;
+            position.x += map.size.x;
+          break;
+
+        case 3: // 下
+          if (position.y >= map.size.y)
+            position.y -= map.size.y;
           break;
       }
-      
-      moveVector.mult(speed);
-      position.add(moveVector);
 
       // アニメーションを更新
       this.intervalLeft--;
