@@ -3,7 +3,6 @@ public abstract class Character extends GameObject {
   protected int direction;        // 向き (0:右 1:上 2:左 3:下)
   protected float speed;          // 速さ [px/f]
   protected PImage[][] images;    // アニメーション画像
-  protected String characterName; // 画像ファイルの読み込みに用いるキャラクター名
   protected int curAnimetion;     // 現在のアニメーション番号
   protected int animetionNum;     // アニメーションの数
   protected int interval;         // アニメーションの間隔 [f]
@@ -14,7 +13,6 @@ public abstract class Character extends GameObject {
 
     this.direction = direction;
     this.speed = speed;
-    this.characterName = characterName;
     this.curAnimetion = 0;
     this.interval = interval;
     this.intervalLeft = interval;

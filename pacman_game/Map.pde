@@ -13,23 +13,21 @@ public class Map {
   protected ArrayList<Item> powerFoods;        // パワーエサ
   protected PVector pacmanPosition;            // パックマンの初期位置
   protected ArrayList<PVector> enemyPositions; // 敵の初期位置
-  protected String stageName;                  // ファイル読み込みに用いるステージ名
   protected PImage image;                      // 画像ファイル
   protected PVector size;                      // 画像サイズ
   
-  public Map(String stageName) {
-    this.stageName = stageName;
+  public Map(String mapName) {
     this.foods = new ArrayList<Item>();
     this.powerFoods = new ArrayList<Item>();
     this.enemyPositions = new ArrayList<PVector>();
     
     // 画像ファイル読み込み
-    this.image = loadImage("maps/" + stageName + "-image.png");
+    this.image = loadImage("maps/" + mapName + "-image.png");
     this.size = new PVector(image.width, image.height);
     this.objects = new MapObject[image.width][image.height];
 
     // マップファイル読み込み
-    PImage mapImage = loadImage("maps/" + stageName + "-map.png");
+    PImage mapImage = loadImage("maps/" + mapName + "-map.png");
     mapImage.loadPixels();
 
     for (int y = 0; y < mapImage.height; y++) {
@@ -49,12 +47,12 @@ public class Map {
         // エサ
         } else if (pixel == color(255, 255, 0)) {
           objects[x][y] = MapObject.Route;
-          foods.add(new Item(new PVector(x, y), "food"));
+          foods.add(new Item(new PVector(x, y), "food", 0));
 
         // パワーエサ
         } else if (pixel == color(0, 255, 255)) {
           objects[x][y] = MapObject.Route;
-          powerFoods.add(new Item(new PVector(x, y), "power_food"));
+          powerFoods.add(new Item(new PVector(x, y), "power_food", 10));
 
         // 敵待機場所
         } else if (pixel == color(0, 0, 255)) {

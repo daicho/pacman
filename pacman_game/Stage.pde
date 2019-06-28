@@ -4,21 +4,26 @@ public class Stage {
   protected ArrayList<Monster> monsters; // 敵
   protected Map map;                     // マップ
   protected InputInterface input;        // 入力インターフェース
-  protected String stageName;            // ファイル読み込みに用いるステージ名
-  protected boolean invincible;          // パックマンが無敵状態か
+  protected int score;                   // スコア
 
-  public Stage(String stageName, InputInterface input) {
-    this.stageName = stageName;
-    this.map = new Map(stageName);
+  public Stage(String mapName, InputInterface input) {
+    this.map = new Map(mapName);
     this.input = input;
-    this.invincible = false;
 
-    this.pacman = new Pacman(map.pacmanPosition, 0, 1, "pacman", 5);
+    this.pacman = new Pacman(map.pacmanPosition, 0, 1.6, "pacman", 5);
     this.monsters = new ArrayList<Monster>();
-    this.monsters.add(new Akabei(map.enemyPositions.get(0), 0, 1, "akabei", 5));
-    this.monsters.add(new Aosuke(map.enemyPositions.get(1), 0, 1, "aosuke", 5));
-    this.monsters.add(new Pinky (map.enemyPositions.get(2), 0, 1, "pinky" , 5));
-    this.monsters.add(new Guzuta(map.enemyPositions.get(3), 0, 1, "guzuta", 5));
+    this.monsters.add(new Akabei(map.enemyPositions.get(0), 0, 1.6, "akabei", 5));
+    this.monsters.add(new Aosuke(map.enemyPositions.get(1), 0, 1.6, "aosuke", 5));
+    this.monsters.add(new Pinky (map.enemyPositions.get(2), 0, 1.6, "pinky" , 5));
+    this.monsters.add(new Guzuta(map.enemyPositions.get(3), 0, 1.6, "guzuta", 5));
+  }
+
+  public int getScore() {
+    return this.score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   // ステージ内の状態を更新
@@ -71,7 +76,7 @@ public class Stage {
 
     for (Monster monster : monsters)
       if (pacman.isColliding(monster)) {
-        if (invincible) {
+        if (monster.ijike) {
           monster.disappear(); // とりあえずモンスター消しとく
         } else {
           ; /* ゲームオーバー */

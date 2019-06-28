@@ -30,6 +30,7 @@ abstract class GameObject {
     + getExist(): boolean
     + getMinPosition(): PVector
     + getMaxPosition(): PVector
+    + isColliding(object: GameObject): boolean
     + disappear()
     + {abstract} draw()
 }
@@ -39,7 +40,6 @@ abstract class Character {
     # speed: float
 
     # images: PImage[][]
-    # characterName: String
     # curAnimation: int
     # animetionNum: int
     # interval: int
@@ -56,14 +56,11 @@ abstract class Character {
 }
 
 class Pacman {
-    # invincible: boolean
     # nextDirection: int
 
     + Pacman(position: PVector, direction: int, speed: float, characterName: String, interval: int)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
-    + getInvincible(): boolen
-    + setInvincible(invincible: boolean)
     + decideDirection(map: Map)
 }
 
@@ -101,11 +98,11 @@ class Stage {
     # monsters: ArrayList<Monster>
     # map: Map
     # input: InputInterface
-    # stageName: String
-    # invincible: boolean
+    # score: int
 
-    + Stage(stageName: String, input: InputInterface)
-    + isColliding(object1: GameObject, object2: GameObject): boolean
+    + Stage(mapName: String, input: InputInterface)
+    + getScore(): int
+    + setScore(score: int)
     + update()
     + draw()
 }
@@ -116,20 +113,22 @@ class Map {
     # powerFoods: ArrayList<Item>
     # pacmanPosition: PVector
     # enemyPositions: ArrayList<PVector>
-    # stageName: String
     # image: PImage
     # size: PVector
 
-    + Map(stageName: String)
+    + Map(mapName: String)
     + getObject(x: int, y: int): MapObject
     + draw()
 }
 
 class Item {
-    # imageName: String
-    # image: PImage
+    # images: PImage[]
+    # curAnimation: int
+    # animetionNum: int
+    # interval: int
+    # intervalLeft: int
 
-    + Item(position: PVector, imageName: String)
+    + Item(position: PVector, imageName: String, interval: int)
     + draw()
 }
 
