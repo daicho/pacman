@@ -1,11 +1,11 @@
 // 入力のインターフェース
 public interface InputInterface {
-  public abstract boolean right();   // →
-  public abstract boolean up();      // ↑
-  public abstract boolean left();    // ←
-  public abstract boolean down();    // ↓
-  public abstract boolean buttonA(); // A
-  public abstract boolean buttonB(); // B
+  public boolean right();   // →
+  public boolean up();      // ↑
+  public boolean left();    // ←
+  public boolean down();    // ↓
+  public boolean buttonA(); // A
+  public boolean buttonB(); // B
 }
 
 // キーボードからの入力

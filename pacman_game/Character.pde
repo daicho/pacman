@@ -1,42 +1,20 @@
 // キャラクターの基底クラス //<>//
 public abstract class Character extends GameObject {
-  protected int direction;     // 向き (0:右 1:上 2:左 3:下)
-  protected float speed;       // 速さ [px/f]
-  protected PImage[][] images; // アニメーション画像
-  protected int curAnimetion;  // 現在のアニメーション番号
-  protected int animetionNum;  // アニメーションの数
-  protected int interval;      // アニメーションの間隔 [f]
-  protected int intervalLeft;  // あと何fで次のアニメーションにいくか
+  protected int direction;         // 向き (0:右 1:上 2:左 3:下)
+  protected float speed;           // 速さ [px/f]
+  protected Animation[] animations; // アニメーション
 
-  protected Character(PVector position, int direction, float speed, String characterName, int interval) {
+  protected Character(PVector position, int direction, float speed, int interval, String characterName) {
     super(position);
 
     this.direction = direction;
     this.speed = speed;
-    this.curAnimetion = 0;
-    this.interval = interval;
-    this.intervalLeft = interval;
+    this.animations = new Animation[4];
 
-    // 画像ファイルの存在確認
-    this.animetionNum = 0;
-    while (true) {
-      File imageFile = new File(dataPath("characters/" + characterName + "-0-" + animetionNum + ".png"));
-      if (!imageFile.exists())
-        break;
-
-      this.animetionNum++;
-    }
-
-    // 画像ファイル読み込み
-    this.images = new PImage[4][animetionNum];
-
-    for (int i = 0; i < 4; i++) {
-      for (int j = 0; j < animetionNum; j++) {
-        this.images[i][j] = loadImage(dataPath("characters/" + characterName + "-" + i + "-" + j + ".png"));
-      }
-    }
-
-    this.size = new PVector(images[0][0].width, images[0][0].height);
+    // アニメーション
+    for (int i = 0; i < 4 ;i++)
+      animations[i] = new Animation(interval, dataPath("characters/" + characterName + "-" + i));
+    this.size = animations[0].getSize();
   }
 
   public int getDirection() {
@@ -103,12 +81,7 @@ public abstract class Character extends GameObject {
         break;
       }
 
-      // アニメーションを更新
-      this.intervalLeft--;
-      if (intervalLeft < 0) {
-        intervalLeft = interval;
-        curAnimetion = (curAnimetion + 1) % animetionNum;
-      }
+      animations[direction].update();
     }
   }
 
@@ -157,7 +130,7 @@ public abstract class Character extends GameObject {
   public void draw() {
     if (exist) {
       PVector minPostision = getMinPosition();
-      image(images[direction][curAnimetion], minPostision.x, minPostision.y);
+      image(animations[direction].getImage(), minPostision.x, minPostision.y);
     }
   }
 }

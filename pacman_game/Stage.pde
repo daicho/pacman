@@ -11,12 +11,12 @@ public class Stage {
     this.input = input;
     this.score = 0;
 
-    this.pacman = new Pacman(map.getPacmanPosition(), 0, 1.6, "pacman", 3);
+    this.pacman = new Pacman(map.getPacmanPosition(), 0, 1.6, 3, "pacman");
     this.monsters = new ArrayList<Monster>();
-    this.monsters.add(new Akabei(map.getEnemyPosition(0), 0, 1.6, "akabei", 5));
-    this.monsters.add(new Aosuke(map.getEnemyPosition(1), 0, 1.6, "aosuke", 5));
-    this.monsters.add(new Pinky (map.getEnemyPosition(2), 0, 1.6, "pinky" , 5));
-    this.monsters.add(new Guzuta(map.getEnemyPosition(3), 0, 1.6, "guzuta", 5));
+    this.monsters.add(new Akabei(map.getEnemyPosition(0), 0, 1.6, 5, "akabei"));
+    this.monsters.add(new Aosuke(map.getEnemyPosition(1), 0, 1.6, 5, "aosuke"));
+    this.monsters.add(new Pinky (map.getEnemyPosition(2), 0, 1.6, 5, "pinky" ));
+    this.monsters.add(new Guzuta(map.getEnemyPosition(3), 0, 1.6, 5, "guzuta"));
   }
 
   public int getScore() {

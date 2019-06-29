@@ -5,20 +5,28 @@ skinparam classAttributeIconSize 0
 
 GameObject <|-- Character
 GameObject <|-- Item
+
 Character <|-- Pacman
-InputInterface <|.. KeyboardInput
-InputInterface <|.. ArcadeInput
 Character <|-- Monster
+Character o-- Animation
+
 Monster <|-- Akabei
 Monster <|-- Pinky
 Monster <|-- Aosuke
 Monster <|-- Guzuta
+
 Stage o-- Pacman
 Stage o-- Monster
 Stage o-- Map
 Stage o-- InputInterface
+
+InputInterface <|.. KeyboardInput
+InputInterface <|.. ArcadeInput
+
 Map o-- Item
 Map o-- MapObject
+
+Item o-- Animation
 
 abstract class GameObject {
     # position: PVector
@@ -39,14 +47,9 @@ abstract class GameObject {
 abstract class Character {
     # direction: int
     # speed: float
+    # animetions: Animation[]
 
-    # images: PImage[][]
-    # curAnimation: int
-    # animetionNum: int
-    # interval: int
-    # intervalLeft: int
-
-    # Character(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    # Character(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getDirection(): int
     + getSpeed(): int
     + setSpeed(speed: float)
@@ -59,7 +62,7 @@ abstract class Character {
 class Pacman {
     # nextDirection: int
 
-    + Pacman(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    + Pacman(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + decideDirection(map: Map)
@@ -68,29 +71,29 @@ class Pacman {
 abstract class Monster {
     # ijike: boolean
 
-    # Monster(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getIjike(): boolen
     + setIjike(ijike: boolean)
     + {abstract} decideDirection(map: Map, pacman: Pacman)
 }
 
 class Akabei {
-    + Akabei(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    + Akabei(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Pinky {
-    + Pinky(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    + Pinky(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Aosuke {
-    + Aosuke(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    + Aosuke(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
 class Guzuta {
-    + Guzuta(position: PVector, direction: int, speed: float, characterName: String, interval: int)
+    + Guzuta(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + decideDirection(map: Map, pacman: Pacman)
 }
 
@@ -125,14 +128,23 @@ class Map {
 }
 
 class Item {
+    # animation: Animation
+
+    + Item(position: PVector, interval: int, imageName: String)
+    + draw()
+}
+
+class Animation {
     # images: PImage[]
-    # curAnimation: int
-    # animetionNum: int
+    # cur: int
+    # number: int
     # interval: int
     # intervalLeft: int
 
-    + Item(position: PVector, imageName: String, interval: int)
-    + draw()
+    + Animation(interval: int, filePath:: String)
+    + update()
+    + getImage(): PImage
+    + getSize(): PVector
 }
 
 enum MapObject {

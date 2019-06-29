@@ -47,12 +47,12 @@ public class Map {
         // エサ
         } else if (pixel == color(255, 255, 0)) {
           objects[x][y] = MapObject.Route;
-          foods.add(new Item(new PVector(x, y), "food", 0));
+          foods.add(new Item(new PVector(x, y), 0, "food"));
 
         // パワーエサ
         } else if (pixel == color(0, 255, 255)) {
           objects[x][y] = MapObject.Route;
-          powerFoods.add(new Item(new PVector(x, y), "power_food", 10));
+          powerFoods.add(new Item(new PVector(x, y), 10, "power_food"));
 
         // 敵待機場所
         } else if (pixel == color(0, 0, 255)) {
@@ -88,7 +88,7 @@ public class Map {
 
   public MapObject getObject(float x, float y) {
     // 画面外は通路判定
-    if (x < 0 || x >= size.x || y < 0 || y >= size.y)
+    if (round(x) < 0 || round(x) >= size.x || round(y) < 0 || round(y) >= size.y)
       return MapObject.Route;
     else
       return this.objects[round(x)][round(y)];
