@@ -11,11 +11,8 @@ public class Item extends GameObject {
 
   // 画面描画
   public void draw() {
-    if (exist) {
-      animation.update();
-
-      PVector minPostision = getMinPosition();
-      image(animation.getImage(), minPostision.x, minPostision.y);
-    }
+    animation.update();
+    PVector minPostision = getMinPosition();
+    image(animation.getImage(), minPostision.x, minPostision.y);
   }
 }

@@ -4,12 +4,12 @@ public class Animation {
   protected int number;       // アニメーションの数
   protected int interval;     // アニメーションの間隔 [f]
   protected int intervalLeft; // あと何fで次のアニメーションにいくか
-  
+
   public Animation(int interval, String filePath) {
     this.cur = 0;
     this.interval = interval;
     this.intervalLeft = interval;
-    
+
     // 画像ファイルの存在確認
     this.number = 0;
     while (true) {
@@ -23,20 +23,27 @@ public class Animation {
     // 画像ファイル読み込み
     this.images = new PImage[number];
     for (int i = 0; i < number; i++)
-        this.images[i] = loadImage(filePath + "-" + i +  ".png");
+      this.images[i] = loadImage(filePath + "-" + i +  ".png");
   }
-  
-  // アニメーションを更新
-  public void update() {
+
+  // アニメーションを更新しアニメーションの終端ならばtrueを返す
+  public boolean update() {
     if (interval > 0) {
       intervalLeft--;
       if (intervalLeft < 0) {
         intervalLeft = interval;
-        cur = (cur + 1) % number;
+
+        cur++;
+        if (cur >= number) {
+          cur = 0;
+          return true;
+        }
       }
     }
+
+    return false;
   }
-  
+
   // 画像を取得
   public PImage getImage() {
     return images[cur];

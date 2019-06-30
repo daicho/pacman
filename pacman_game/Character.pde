@@ -1,4 +1,4 @@
-// キャラクターの基底クラス //<>//
+// キャラクターの基底クラス //<>// //<>//
 public abstract class Character extends GameObject {
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
   protected float speed;           // 速さ [px/f]
@@ -12,7 +12,7 @@ public abstract class Character extends GameObject {
     this.animations = new Animation[4];
 
     // アニメーション
-    for (int i = 0; i < 4 ;i++)
+    for (int i = 0; i < 4; i++)
       animations[i] = new Animation(interval, dataPath("characters/" + characterName + "-" + i));
     this.size = animations[0].getSize();
   }
@@ -128,9 +128,7 @@ public abstract class Character extends GameObject {
 
   // 画面描画
   public void draw() {
-    if (exist) {
-      PVector minPostision = getMinPosition();
-      image(animations[direction].getImage(), minPostision.x, minPostision.y);
-    }
+    PVector minPostision = getMinPosition();
+    image(animations[direction].getImage(), minPostision.x, minPostision.y);
   }
 }

@@ -31,12 +31,10 @@ Item o-- Animation
 abstract class GameObject {
     # position: PVector
     # size: PVector
-    # exist: boolean
 
-    # GameObject(position: PVector, size: PVector): 
+    # GameObject(position: PVector, size: PVector):
     + getPosition(): PVector
     + getSize(): PVector
-    + getExist(): boolean
     + getMinPosition(): PVector
     + getMaxPosition(): PVector
     + isColliding(object: GameObject): boolean
@@ -100,6 +98,8 @@ class Guzuta {
 class Stage {
     # pacman: Pacman
     # monsters: ArrayList<Monster>
+    # foods: ArrayList<Item>
+    # powerFoods: ArrayList<Item>
     # map: Map
     # input: InputInterface
     # score: int
@@ -112,16 +112,10 @@ class Stage {
 
 class Map {
     # objects: MapObject[][]
-    # foods: ArrayList<Item>
-    # powerFoods: ArrayList<Item>
-    # pacmanPosition: PVector
-    # enemyPositions: ArrayList<PVector>
     # image: PImage
     # size: PVector
 
     + Map(mapName: String)
-    + getPacmanPosition(): PVector
-    + getEnemyPosition(index: int): PVector
     + getSize(): PVector
     + getObject(x: float, y: float): MapObject
     + draw()
@@ -142,7 +136,7 @@ class Animation {
     # intervalLeft: int
 
     + Animation(interval: int, filePath:: String)
-    + update()
+    + update(): boolean
     + getImage(): PImage
     + getSize(): PVector
 }
