@@ -72,6 +72,7 @@ abstract class Monster {
     # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getIjike(): boolen
     + setIjike(ijike: boolean)
+    # getAimDirection(map: map, point: PVector): int
     + {abstract} decideDirection(map: Map, pacman: Pacman)
 }
 
