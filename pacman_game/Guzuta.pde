@@ -5,9 +5,10 @@ public class Guzuta extends Monster {
   }
 
   // 進む方向を決定する
-  public void decideDirection(Map map, Pacman pacman) {
-    /* ――――――――――――――――――――
-       好き勝手タイプ、何も考えず自由に行動する
-       ―――――――――――――――――――― */
+  public void decideDirection(Stage stage) {
+    /* ――――――――――――――――――――――――――
+       パックマンから半径260px外ではアカベイと同じ追跡方法、
+       半径260px内ではランダムに動く
+       ―――――――――――――――――――――――――― */
   }
 }

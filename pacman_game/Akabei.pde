@@ -5,9 +5,9 @@ public class Akabei extends Monster {
   }
 
   // 進む方向を決定する
-  public void decideDirection(Map map, Pacman pacman) {
-    /* ―――――――――――――――――――
-       粘着タイプ、パックマンの後を追いかける
-       ――――――――――――――――――― */
+  public void decideDirection(Stage stage) {
+    /* ――――――――――――――
+       パックマンのいる地点を目指す
+       ―――――――――――――― */
   }
 }

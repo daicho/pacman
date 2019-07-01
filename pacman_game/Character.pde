@@ -1,4 +1,4 @@
-// キャラクターの基底クラス //<>// //<>//
+// キャラクターの基底クラス //<>// //<>// //<>//
 public abstract class Character extends GameObject {
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
   protected float speed;           // 速さ [px/f]
@@ -125,6 +125,9 @@ public abstract class Character extends GameObject {
 
     return true;
   }
+
+  // 進む方向を決定する
+  public abstract void decideDirection(Stage stage);
 
   // 画面描画
   public void draw() {

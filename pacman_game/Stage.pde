@@ -46,10 +46,10 @@ public class Stage {
       }
     }
 
-    this.monsters.add(new Akabei(enemyPositions.get(0), 0, 1.6, 5, "akabei"));
-    this.monsters.add(new Aosuke(enemyPositions.get(1), 0, 1.6, 5, "aosuke"));
     this.monsters.add(new Pinky (enemyPositions.get(2), 0, 1.6, 5, "pinky" ));
+    this.monsters.add(new Akabei(enemyPositions.get(0), 0, 1.6, 5, "akabei"));
     this.monsters.add(new Guzuta(enemyPositions.get(3), 0, 1.6, 5, "guzuta"));
+    this.monsters.add(new Aosuke(enemyPositions.get(1), 0, 1.6, 5, "aosuke"));
   }
 
   public int getScore() {
@@ -70,8 +70,8 @@ public class Stage {
 
     // パックマンと敵の向きを決定
     for (Monster monster : monsters)
-      monster.decideDirection(map, pacman);
-    pacman.decideDirection(map);
+      monster.decideDirection(this);
+    pacman.decideDirection(this);
 
     // 移動
     for (Monster monster : monsters)

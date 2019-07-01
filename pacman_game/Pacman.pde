@@ -15,8 +15,8 @@ public class Pacman extends Character {
   }
 
   // 進む方向を決定する
-  public void decideDirection(Map map) {
-    if (canMove(map, nextDirection))
+  public void decideDirection(Stage stage) {
+    if (canMove(stage.map, nextDirection))
       direction = nextDirection;
   }
 }

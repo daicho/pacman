@@ -5,10 +5,9 @@ public class Pinky extends Monster {
   }
 
   // 進む方向を決定する
-  public void decideDirection(Map map, Pacman pacman) {
-    /* ――――――――――――――――――
-       頭脳タイプ、パックマンのいる地点の
-       少し前を目指し、先回りするように動く
-       ―――――――――――――――――― */
+  public void decideDirection(Stage stage) {
+    /* ―――――――――――――――――――
+       パックマンのいる地点の3マス先を目指す
+       ――――――――――――――――――― */
   }
 }
