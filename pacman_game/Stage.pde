@@ -105,6 +105,8 @@ public class Stage {
            何秒か経ったら通常モードに戻す
            (本家は8秒)
            ――――――――――――――― */
+    for (Monster monster : monsters)
+      monster.setStatus(MonsterStatus.Ijike);
 
         i.remove();
       }
@@ -114,7 +116,7 @@ public class Stage {
       Monster monster = i.next();
       
       if (pacman.isColliding(monster)) {
-        if (monster.getIjike()) {
+        if (monster.getStatus() == MonsterStatus.Ijike) {
           i.remove();
         } else {
           ; /* ゲームオーバー */

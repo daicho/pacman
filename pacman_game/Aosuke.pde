@@ -6,10 +6,32 @@ public class Aosuke extends Monster {
 
   // 進む方向を決定する
   public void decideDirection(Stage stage) {
-    // パックマンを中心にしてアカベイの点対象の地点を目指す
-    PVector aimPoint = stage.pacman.position.copy();
-    aimPoint.mult(2);
-    aimPoint.sub(stage.monsters.get(1).position);
+    PVector aimPoint = new PVector();
+
+    switch (status) {
+    case Wait:
+      break;
+
+    case Rest:
+      // 休息中は右下を徘徊
+      aimPoint = new PVector(random(stage.map.size.x / 2, stage.map.size.x), random(stage.map.size.y / 2, stage.map.size.y));
+      break;
+
+    case Chase:
+      // パックマンを中心にしてアカベイの点対象の地点を目指す
+      aimPoint = stage.pacman.position.copy();
+      aimPoint.mult(2);
+      aimPoint.sub(stage.monsters.get(1).position);
+      break;
+
+    case Ijike:
+      // イジケ中はランダムに動く
+      aimPoint = new PVector(random(stage.map.size.x), random(stage.map.size.y));
+      break;
+
+    case Return:
+      break;
+    }
 
     direction = getAimDirection(stage.map, aimPoint);
   }

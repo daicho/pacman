@@ -1,16 +1,33 @@
+// 敵の状態
+public enum MonsterStatus {
+  Wait,  // 待機
+  Rest,  // 休息モード
+  Chase, // 追いかけモード
+  Ijike, // イジケモード
+  Return // 帰還
+}
+
 public abstract class Monster extends Character {
-  protected boolean ijike;
+  protected MonsterStatus status;        // 状態
+  protected Animation[] ijikeAnimations; // イジケモード時のアニメーション
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
+
+    this.status = MonsterStatus.Rest;
+    this.ijikeAnimations = new Animation[2];
+
+    // イジケモード時のアニメーション
+    this.ijikeAnimations[0] = new Animation(0,  dataPath("characters/" + characterName + "-ijike-0"));
+    this.ijikeAnimations[1] = new Animation(10, dataPath("characters/" + characterName + "-ijike-1"));
   }
 
-  public boolean getIjike() {
-    return this.ijike;
+  public MonsterStatus getStatus() {
+    return this.status;
   }
 
-  public void setIjike(boolean ijike) {
-    this.ijike = ijike;
+  public void setStatus(MonsterStatus status) {
+    this.status = status;
   }
 
   // 目標地点に進むための方向を返す
@@ -39,5 +56,24 @@ public abstract class Monster extends Character {
     }
 
     return aimDirection;
+  }
+
+  // 画面描画
+  public void draw() {
+    switch (status) {
+    case Wait:
+    case Rest:
+    case Chase:
+      super.draw();
+      break;
+
+    case Ijike:
+      PVector minPostision = getMinPosition();
+      image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
+      break;
+
+    case Return:
+      break;
+    }
   }
 }

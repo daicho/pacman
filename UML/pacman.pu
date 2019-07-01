@@ -14,6 +14,7 @@ Monster <|-- Akabei
 Monster <|-- Pinky
 Monster <|-- Aosuke
 Monster <|-- Guzuta
+Monster o-- MonsterStatus
 
 Stage o-- Pacman
 Stage o-- Monster
@@ -68,12 +69,21 @@ class Pacman {
 }
 
 abstract class Monster {
-    # ijike: boolean
+    # status: boolean
+    # ijikeAnimetions: Animation[]
 
     # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
-    + getIjike(): boolen
-    + setIjike(ijike: boolean)
+    + getStatus(): MonsterStatus
+    + setStatus(status: MonsterStatus)
     # getAimDirection(map: map, point: PVector): int
+}
+
+enum MonsterStatus {
+    Wait
+    Rest
+    Chase
+    Ijike
+    Return
 }
 
 class Akabei {
