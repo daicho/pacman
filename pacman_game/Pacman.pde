@@ -4,6 +4,7 @@ public class Pacman extends Character {
 
   public Pacman(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
+    this.nextDirection = direction;
   }
 
   public int getNextDirection() {

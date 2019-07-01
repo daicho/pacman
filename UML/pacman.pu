@@ -33,13 +33,12 @@ abstract class GameObject {
     # position: PVector
     # size: PVector
 
-    # GameObject(position: PVector, size: PVector):
+    # GameObject(position: PVector):
     + getPosition(): PVector
     + getSize(): PVector
     + getMinPosition(): PVector
     + getMaxPosition(): PVector
     + isColliding(object: GameObject): boolean
-    + disappear()
     + {abstract} draw()
 }
 
@@ -71,15 +70,20 @@ class Pacman {
 abstract class Monster {
     # status: boolean
     # ijikeAnimetions: Animation[]
+    # returnAnimetions: Animation[]
 
     # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getStatus(): MonsterStatus
     + setStatus(status: MonsterStatus)
+    + move(map: Map)
+    + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
+    + draw()
 }
 
 enum MonsterStatus {
     Wait
+    Release
     Rest
     Chase
     Ijike
@@ -118,16 +122,19 @@ class Stage {
     + Stage(mapName: String, input: InputInterface)
     + getScore(): int
     + update()
-    # dispScore()
     + draw()
 }
 
 class Map {
     # objects: MapObject[][]
+    # releasePoint: PVector
+    # returnPoint: PVector
     # image: PImage
     # size: PVector
 
     + Map(mapName: String)
+    + getReleasePoint(): PVector
+    + getReturnPoint(): PVector
     + getSize(): PVector
     + getObject(x: float, y: float): MapObject
     + draw()

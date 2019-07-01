@@ -9,6 +9,8 @@ public enum MapObject {
 // マップ
 public class Map {
   protected MapObject[][] objects; // マップ内のオブジェクト
+  protected PVector releasePoint;  // 出撃地点
+  protected PVector returnPoint;   // 帰還地点
   protected PImage image;          // 画像ファイル
   protected PVector size;          // 画像サイズ
 
@@ -42,12 +44,29 @@ public class Map {
         } else {
           objects[x][y] = MapObject.Route;
         }
+
+        // 出撃地点
+        if (pixel == color(127, 0, 255)) {
+          releasePoint = new PVector(x, y);
+
+        // 帰還地点
+        } else if (pixel == color(255, 127, 0)) {
+          returnPoint = new PVector(x, y);
+        }
       }
     }
   }
 
+  public PVector getReleasePoint() {
+    return this.releasePoint.copy();
+  }
+
+  public PVector getReturnPoint() {
+    return this.returnPoint.copy();
+  }
+
   public PVector getSize() {
-    return this.size;
+    return this.size.copy();
   }
 
   public MapObject getObject(float x, float y) {

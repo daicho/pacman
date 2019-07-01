@@ -46,7 +46,7 @@ public class Animation {
 
   // 画像を取得
   public PImage getImage() {
-    return images[cur];
+    return images[cur].copy();
   }
 
   // 画像サイズを取得

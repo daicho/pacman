@@ -29,7 +29,7 @@ public class Stage {
 
         // パックマン
         if (pixel == color(255, 0, 0)) {
-          pacman = new Pacman(new PVector(x, y), 0, 1.6, 3, "pacman");
+          pacman = new Pacman(new PVector(x, y), 2, 1.6, 3, "pacman");
 
         // 敵
         } else if (pixel == color(255, 0, 255)) {
@@ -46,10 +46,10 @@ public class Stage {
       }
     }
 
-    this.monsters.add(new Pinky (enemyPositions.get(2), 0, 1.6, 5, "pinky" ));
-    this.monsters.add(new Akabei(enemyPositions.get(0), 0, 1.6, 5, "akabei"));
-    this.monsters.add(new Guzuta(enemyPositions.get(3), 0, 1.6, 5, "guzuta"));
-    this.monsters.add(new Aosuke(enemyPositions.get(1), 0, 1.6, 5, "aosuke"));
+    this.monsters.add(new Akabei(enemyPositions.get(0), 1, 1.6, 5, "akabei"));
+    this.monsters.add(new Pinky (enemyPositions.get(2), 1, 1.6, 5, "pinky" ));
+    this.monsters.add(new Aosuke(enemyPositions.get(1), 1, 1.6, 5, "aosuke"));
+    this.monsters.add(new Guzuta(enemyPositions.get(3), 1, 1.6, 5, "guzuta"));
   }
 
   public int getScore() {
@@ -79,19 +79,19 @@ public class Stage {
     pacman.move(map);
 
     // 当たり判定
-    for (Iterator<Item> i = foods.iterator(); i.hasNext();) {
+    for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
       Item food = i.next();
 
       if (pacman.isColliding(food)) {
         /* ―――――
-           音を鳴らす
-           ――――― */
+         音を鳴らす
+         ――――― */
         this.score += 10;
         i.remove();
       }
     }
 
-    for (Iterator<Item> i = powerFoods.iterator(); i.hasNext();) {
+    for (Iterator<Item> i = powerFoods.iterator(); i.hasNext(); ) {
       Item powerFood = i.next();
 
       if (pacman.isColliding(powerFood)) {
@@ -105,22 +105,30 @@ public class Stage {
            何秒か経ったら通常モードに戻す
            (本家は8秒)
            ――――――――――――――― */
-        for (Monster monster : monsters)
-          monster.setStatus(MonsterStatus.Ijike);
+        for (Monster monster : monsters) {
+          if (monster.status != MonsterStatus.Return)
+            monster.setStatus(MonsterStatus.Ijike);
+        }
 
         this.score += 50;
         i.remove();
       }
     }
 
-    for (Iterator<Monster> i = monsters.iterator(); i.hasNext();) {
+    for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
       Monster monster = i.next();
-      
+
       if (pacman.isColliding(monster)) {
-        if (monster.getStatus() == MonsterStatus.Ijike) {
-          ; /* 待機場所に戻る */
-        } else {
-          ; /* ゲームオーバー */
+        switch (monster.getStatus()) {
+        case Ijike:
+          monster.setStatus(MonsterStatus.Return);
+          break;
+
+        case Return:
+          break;
+
+        default:
+          break; /* ゲームオーバー */
         }
       }
     }
@@ -128,15 +136,6 @@ public class Stage {
     if (foods.isEmpty() && powerFoods.isEmpty()) {
       ; /* ゲームクリア */
     }
-  }
-  
-  // スコア表示
-  protected void dispScore() {
-    textFont(loadFont("NuAnkoMochi-Reg-20.vlw"), 20);
-    fill(255);
-    textAlign(RIGHT, BASELINE);
-    text("SCORE", 75, 180);
-    text(score, 75, 200);
   }
 
   // 画面描画
@@ -155,6 +154,11 @@ public class Stage {
     for (Monster monster : monsters)
       monster.draw();
 
-    dispScore(); //スコア表示
+    // スコア表示
+    textFont(loadFont("fonts/NuAnkoMochi-Reg-20.vlw"), 20);
+    fill(255);
+    textAlign(RIGHT, BASELINE);
+    text("SCORE", 75, 180);
+    text(score, 75, 200);
   }
 }

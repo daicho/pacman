@@ -8,11 +8,11 @@ public abstract class GameObject {
   }
 
   public PVector getPosition() {
-    return this.position;
+    return this.position.copy();
   }
 
   public PVector getSize() {
-    return this.size;
+    return this.size.copy();
   }
 
   // 左上の座標を取得
@@ -32,9 +32,9 @@ public abstract class GameObject {
 
     // 自分の中心が相手に触れていたら当たり
     return position.x >= minPosition.x &&
-           position.x <= maxPosition.x &&
-           position.y >= minPosition.y &&
-           position.y <= maxPosition.y;
+      position.x <= maxPosition.x &&
+      position.y >= minPosition.y &&
+      position.y <= maxPosition.y;
   }
 
   // 画面描画
