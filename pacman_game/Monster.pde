@@ -14,7 +14,7 @@ public abstract class Monster extends Character {
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
 
-    this.status = MonsterStatus.Rest;
+    this.status = MonsterStatus.Chase;
     this.ijikeAnimations = new Animation[2];
 
     // イジケモード時のアニメーション

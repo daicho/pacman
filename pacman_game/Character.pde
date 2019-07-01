@@ -92,34 +92,54 @@ public abstract class Character extends GameObject {
     switch(direction) {
     case 0: // 右
       check.add(getMaxPosition().x, getMinPosition().y);
-      for (; check.x <= getMaxPosition().x + speed; check.x++)
-        for (; check.y <= getMaxPosition().y; check.y++)
-          if (map.getObject(check.x, check.y) == MapObject.Wall)
+
+      for (; check.x <= getMaxPosition().x + speed; check.x++) {
+        for (; check.y <= getMaxPosition().y; check.y++) {
+          MapObject mapObject = map.getObject(check.x, check.y);
+          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
             return false;
+        }
+      }
+
       break;
 
     case 1: // 上
       check.add(getMinPosition().x, getMinPosition().y);
-      for (; check.y >= getMinPosition().y - speed; check.y--)
-        for (; check.x <= getMaxPosition().x; check.x++)
-          if (map.getObject(check.x, check.y) == MapObject.Wall)
+
+      for (; check.y >= getMinPosition().y - speed; check.y--) {
+        for (; check.x <= getMaxPosition().x; check.x++) {
+          MapObject mapObject = map.getObject(check.x, check.y);
+          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
             return false;
+        }
+      }
+
       break;
 
     case 2: // 左
       check.add(getMinPosition().x, getMinPosition().y);
-      for (; check.x >= getMinPosition().x - speed; check.x--)
-        for (; check.y <= getMaxPosition().y; check.y++)
-          if (map.getObject(check.x, check.y) == MapObject.Wall)
+
+      for (; check.x >= getMinPosition().x - speed; check.x--) {
+        for (; check.y <= getMaxPosition().y; check.y++) {
+          MapObject mapObject = map.getObject(check.x, check.y);
+          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
             return false;
+        }
+      }
+
       break;
 
     case 3: // 下
       check.add(getMinPosition().x, getMaxPosition().y);
-      for (; check.y <= getMaxPosition().y + speed; check.y++)
-        for (; check.x <= getMaxPosition().x; check.x++)
-          if (map.getObject(check.x, check.y) == MapObject.Wall)
+
+      for (; check.y <= getMaxPosition().y + speed; check.y++) {
+        for (; check.x <= getMaxPosition().x; check.x++) {
+          MapObject mapObject = map.getObject(check.x, check.y);
+          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
             return false;
+        }
+      }
+
       break;
     }
 

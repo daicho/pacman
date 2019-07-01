@@ -135,8 +135,8 @@ public class Stage {
     textFont(loadFont("NuAnkoMochi-Reg-20.vlw"), 20);
     fill(255);
     textAlign(RIGHT, BASELINE);
-    text("score", 75, 180);
-    text(this.score, 75, 200);
+    text("SCORE", 75, 180);
+    text(score, 75, 200);
   }
 
   // 画面描画

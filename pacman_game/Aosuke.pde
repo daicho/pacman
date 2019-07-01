@@ -26,7 +26,7 @@ public class Aosuke extends Monster {
 
     case Ijike:
       // イジケ中はランダムに動く
-      aimPoint = new PVector(random(stage.map.size.x), random(stage.map.size.y));
+      aimPoint = new PVector(position.x + random(-1, 1), position.y + random(-1, 1));
       break;
 
     case Return:
