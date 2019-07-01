@@ -128,12 +128,12 @@ public class Stage {
   }
   
   // スコア表示
-  public void scoreDisp() {
-    textSize(20);
+  protected void dispScore() {
+    textFont(loadFont("NuAnkoMochi-Reg-20.vlw"), 20);
     fill(255);
-    textAlign(RIGHT,BASELINE);
-    text("score",75,180);
-    text(this.score, 75,200);
+    textAlign(RIGHT, BASELINE);
+    text("score", 75, 180);
+    text(this.score, 75, 200);
   }
 
   // 画面描画
@@ -151,7 +151,7 @@ public class Stage {
 
     for (Monster monster : monsters)
       monster.draw();
-      
-    scoreDisp(); //スコア表示
+
+    dispScore(); //スコア表示
   }
 }

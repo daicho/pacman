@@ -108,6 +108,7 @@ class Stage {
     + Stage(mapName: String, input: InputInterface)
     + getScore(): int
     + update()
+    # dispScore()
     + draw()
 }
 
