@@ -12,6 +12,8 @@ public abstract class Monster extends Character {
   protected MonsterStatus status;         // 状態
   protected Animation[] ijikeAnimations;  // イジケ時のアニメーション
   protected Animation[] returnAnimations; // 帰還時のアニメーション
+  protected int changeMode;           // モードが切り替わる間隔 [f]
+  protected int changeModeLeft;           // あと何fでモードが切り替わるか
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
@@ -19,6 +21,8 @@ public abstract class Monster extends Character {
     this.status = MonsterStatus.Release;
     this.ijikeAnimations = new Animation[2];
     this.returnAnimations = new Animation[4];
+    this.changeMode = 600;
+    this.changeModeLeft = changeMode;
 
     // イジケ時のアニメーション
     this.ijikeAnimations[0] = new Animation(0,  dataPath("characters/ijike-0"));
@@ -44,16 +48,36 @@ public abstract class Monster extends Character {
     switch (status) {
     case Release:
       if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y))
-        status = MonsterStatus.Chase;
+        status = MonsterStatus.Rest;
       break;
 
     case Return:
-      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y))
+      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
+        changeModeLeft = changeMode;
         status = MonsterStatus.Release;
+      }
       break;
 
     default:
       break;
+    }
+
+    changeModeLeft--;
+    if (changeModeLeft < 0) {
+      changeModeLeft = changeMode;
+
+      switch (status) {
+      case Rest:
+        status = MonsterStatus.Chase;
+        break;
+  
+      case Chase:
+        status = MonsterStatus.Rest;
+        break;
+  
+      default:
+        break;
+      }
     }
   }
 
