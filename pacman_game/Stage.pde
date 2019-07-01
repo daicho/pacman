@@ -86,7 +86,7 @@ public class Stage {
         /* ―――――
            音を鳴らす
            ――――― */
-
+        this.score += 10;
         i.remove();
       }
     }
@@ -105,7 +105,7 @@ public class Stage {
            何秒か経ったら通常モードに戻す
            (本家は8秒)
            ――――――――――――――― */
-
+        this.score += 50;
         i.remove();
       }
     }
@@ -126,6 +126,15 @@ public class Stage {
       ; /* ゲームクリア */
     }
   }
+  
+  // スコア表示
+  public void scoreDisp() {
+    textSize(20);
+    fill(255);
+    textAlign(RIGHT,BASELINE);
+    text("score",75,180);
+    text(this.score, 75,200);
+  }
 
   // 画面描画
   public void draw() {
@@ -142,5 +151,7 @@ public class Stage {
 
     for (Monster monster : monsters)
       monster.draw();
+      
+    scoreDisp(); //スコア表示
   }
 }
