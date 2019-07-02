@@ -1,11 +1,11 @@
 // 敵の状態
 public enum MonsterStatus {
-  Wait,    // 待機
-  Release, // 出撃
-  Rest,    // 休息モード
-  Chase,   // 追いかけモード
-  Ijike,   // イジケモード
-  Return   // 帰還
+  Wait, // 待機
+    Release, // 出撃
+    Rest, // 休息モード
+    Chase, // 追いかけモード
+    Ijike, // イジケモード
+    Return   // 帰還
 }
 
 public abstract class Monster extends Character {
@@ -14,6 +14,7 @@ public abstract class Monster extends Character {
   protected Animation[] returnAnimations; // 帰還時のアニメーション
   protected int changeMode;           // モードが切り替わる間隔 [f]
   protected int changeModeLeft;           // あと何fでモードが切り替わるか
+  protected int ijikeTime;
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
@@ -25,7 +26,7 @@ public abstract class Monster extends Character {
     this.changeModeLeft = changeMode;
 
     // イジケ時のアニメーション
-    this.ijikeAnimations[0] = new Animation(0,  dataPath("characters/ijike-0"));
+    this.ijikeAnimations[0] = new Animation(0, dataPath("characters/ijike-0"));
     this.ijikeAnimations[1] = new Animation(10, dataPath("characters/ijike-1"));
 
     // 帰還時のアニメーション
@@ -70,11 +71,11 @@ public abstract class Monster extends Character {
       case Rest:
         status = MonsterStatus.Chase;
         break;
-  
+
       case Chase:
         status = MonsterStatus.Rest;
         break;
-  
+
       default:
         break;
       }
@@ -171,6 +172,14 @@ public abstract class Monster extends Character {
     return aimDirection;
   }
 
+  public int getIjikeTime() {
+    return this.ijikeTime;
+  }
+
+  public void setIjikeTime(int ijikeTime) {
+    this.ijikeTime = ijikeTime;
+  }
+
   // 画面描画
   public void draw() {
     PVector minPostision = getMinPosition();
@@ -184,7 +193,16 @@ public abstract class Monster extends Character {
       break;
 
     case Ijike:
-      image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
+      if (millis() < getIjikeTime()) {
+        if ((millis()+2000) < getIjikeTime())
+          image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
+        else {
+          image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
+        }
+      } 
+      else
+        setStatus(MonsterStatus.Chase);
+      ijikeAnimations[1].update();
       break;
 
     case Return:

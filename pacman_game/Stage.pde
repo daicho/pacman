@@ -108,6 +108,7 @@ public class Stage {
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return)
             monster.setStatus(MonsterStatus.Ijike);
+          monster.setIjikeTime(millis()+8000);
         }
 
         this.score += 50;
