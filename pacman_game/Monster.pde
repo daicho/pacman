@@ -14,7 +14,7 @@ public abstract class Monster extends Character {
   protected Animation[] returnAnimations; // 帰還時のアニメーション
   protected int changeMode;           // モードが切り替わる間隔 [f]
   protected int changeModeLeft;           // あと何fでモードが切り替わるか
-  protected int ijikeTime;
+  protected float ijikeTime;
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
@@ -172,11 +172,11 @@ public abstract class Monster extends Character {
     return aimDirection;
   }
 
-  public int getIjikeTime() {
+  public float getIjikeTime() {
     return this.ijikeTime;
   }
 
-  public void setIjikeTime(int ijikeTime) {
+  public void setIjikeTime(float ijikeTime) {
     this.ijikeTime = ijikeTime;
   }
 
@@ -193,12 +193,13 @@ public abstract class Monster extends Character {
       break;
 
     case Ijike:
-      if (millis() < getIjikeTime()) {
-        if ((millis()+2000) < getIjikeTime())
+      if (getIjikeTime() >= 0) {
+        if (getIjikeTime() > (2 * frameRate))
           image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
         else {
           image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
         }
+        setIjikeTime(getIjikeTime() - 1);
       } 
       else
         setStatus(MonsterStatus.Chase);
