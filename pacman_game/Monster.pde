@@ -9,7 +9,7 @@ public enum MonsterStatus {
 }
 
 public abstract class Monster extends Character {
-  protected MonsterStatus status = MonsterStatus.Release;    // 状態
+  protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected Animation[] ijikeAnimations  = new Animation[2]; // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected int changeMode = 600; // モードが切り替わる間隔 [f]
@@ -185,9 +185,6 @@ public abstract class Monster extends Character {
       }
       break;
 
-    case Ijike:
-      break;
-
     default:
       break;
     }
@@ -213,8 +210,10 @@ public abstract class Monster extends Character {
 
     // 一定時間経ったらイジケモードを解除する
     ijikeTime--;
-    if (status == MonsterStatus.Ijike && ijikeTime < 0)
+    if (status == MonsterStatus.Ijike && ijikeTime < 0) {
       setStatus(MonsterStatus.Rest);
+      ijikeAnimations[1].reset();
+    }
 
     // アニメーションを更新
     if (canMove(map, direction)) {

@@ -44,6 +44,12 @@ public class Animation {
     return false;
   }
 
+  // 初期状態にリセット
+  public void reset() {
+    cur = 0;
+    intervalLeft = interval;
+  }
+
   // 画像を取得
   public PImage getImage() {
     return images[cur].copy();

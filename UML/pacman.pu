@@ -118,12 +118,15 @@ class Guzuta {
 }
 
 class Stage {
+    # {static} font: PFont
     # pacman: Pacman
     # monsters: ArrayList<Monster>
     # foods: ArrayList<Item>
     # powerFoods: ArrayList<Item>
     # map: Map
+    # frame: int
     # score: int
+    # monsterEatCount: int
     # input: InputInterface
 
     + Stage(mapName: String, input: InputInterface)

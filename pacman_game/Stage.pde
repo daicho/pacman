@@ -8,10 +8,11 @@ public class Stage {
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
-  protected Map map;       // マップ
-  protected int score = 0; // スコア
-  protected int monsEatFlag = 4; // イジケモード時のスコアフラグ
-  protected InputInterface input; // 入力インターフェース
+  protected Map map;        // マップ
+  protected int frame = 0; // 経過フレーム
+  protected int score = 0;  // スコア
+  protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
+  protected InputInterface input;    // 入力インターフェース
 
   public Stage(String mapName, InputInterface input) {
     this.map = new Map(mapName);
@@ -67,6 +68,25 @@ public class Stage {
     else if (input.down())
       pacman.setNextDirection(3); // ↓
 
+    // モンスター放出
+    switch (frame) {
+    case 0:
+      this.monsters.get(0).setStatus(MonsterStatus.Release);
+      break;
+
+    case 300:
+      this.monsters.get(1).setStatus(MonsterStatus.Release);
+      break;
+
+    case 600:
+      this.monsters.get(2).setStatus(MonsterStatus.Release);
+      break;
+
+    case 900:
+      this.monsters.get(3).setStatus(MonsterStatus.Release);
+      break;
+    }
+
     // パックマンと敵の向きを決定
     for (Monster monster : monsters)
       monster.decideDirection(this);
@@ -95,8 +115,8 @@ public class Stage {
 
       if (pacman.isColliding(food)) {
         /* ―――――
-         音を鳴らす
-         ――――― */
+           音を鳴らす
+           ――――― */
         this.score += 10;
         i.remove();
       }
@@ -110,22 +130,14 @@ public class Stage {
            音を鳴らす
            ――――― */
 
-        /* ―――――――――――――――
-           パックマンを無敵モードにし、
-           モンスターをイジケモードにする
-           何秒か経ったら通常モードに戻す
-           (本家は8秒)
-           ――――――――――――――― */
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setStatus(MonsterStatus.Ijike);
             monster.setIjikeTime(480);
           }
         }
-        
-        // イートフラグリセット
-        this.monsEatFlag = 0;
 
+        this.monsterEatCount = 0;
         this.score += 50;
         i.remove();
       }
@@ -137,24 +149,28 @@ public class Stage {
       if (pacman.isColliding(monster)) {
         switch (monster.getStatus()) {
         case Ijike:
-          monster.setStatus(MonsterStatus.Return);
-          
           // モンスターを食べた時のスコア
-          this.monsEatFlag++;
-          switch(this.monsEatFlag){
-            case 1:
-              this.score += 200;
-              break;
-            case 2:
-              this.score += 400;
-              break;
-            case 3:
-              this.score += 800;
-              break;
-            case 4:
-              this.score += 1600;
-              break;
+          this.monsterEatCount++;
+
+          switch (this.monsterEatCount) {
+          case 1:
+            this.score += 200;
+            break;
+
+          case 2:
+            this.score += 400;
+            break;
+
+          case 3:
+            this.score += 800;
+            break;
+
+          case 4:
+            this.score += 1600;
+            break;
           }
+
+          monster.setStatus(MonsterStatus.Return);
           break;
 
         case Return:
@@ -169,6 +185,8 @@ public class Stage {
     if (foods.isEmpty() && powerFoods.isEmpty()) {
       ; /* ゲームクリア */
     }
+
+    frame++;
   }
 
   // 画面描画
