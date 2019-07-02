@@ -32,7 +32,7 @@ public class Stage {
           pacman = new Pacman(new PVector(x, y), 2, 1.6, 3, "pacman");
 
         // 敵
-        } else if (pixel == color(255, 0, 255)) {
+        } else if (pixel == color(0, 0, 255)) {
           enemyPositions.add(new PVector(x, y));
 
         // エサ

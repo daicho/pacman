@@ -2,7 +2,6 @@
 public enum MapObject {
   Wall,      // 壁
   Route,     // 通路
-  EnemyBase, // 敵待機場所
   EnemyDoor  // 敵出入口
 }
 
@@ -32,10 +31,6 @@ public class Map {
         if (pixel == color(255, 255, 255)) {
           objects[x][y] = MapObject.Wall;
 
-        // 敵待機場所
-        } else if (pixel == color(0, 0, 255)) {
-          objects[x][y] = MapObject.EnemyBase;
-
         // 敵出入口
         } else if (pixel == color(0, 255, 0)) {
           objects[x][y] = MapObject.EnemyDoor;
@@ -46,7 +41,7 @@ public class Map {
         }
 
         // 出撃地点
-        if (pixel == color(127, 0, 255)) {
+        if (pixel == color(255, 0, 255)) {
           releasePoint = new PVector(x, y);
 
         // 帰還地点

@@ -12,7 +12,7 @@ public abstract class Monster extends Character {
   protected MonsterStatus status;         // 状態
   protected Animation[] ijikeAnimations;  // イジケ時のアニメーション
   protected Animation[] returnAnimations; // 帰還時のアニメーション
-  protected int changeMode;           // モードが切り替わる間隔 [f]
+  protected int changeMode;               // モードが切り替わる間隔 [f]
   protected int changeModeLeft;           // あと何fでモードが切り替わるか
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
@@ -169,6 +169,40 @@ public abstract class Monster extends Character {
     }
 
     return aimDirection;
+  }
+
+  // 進む方向を決定する
+  public void decideDirection(Stage stage) {
+    PVector aimPoint;
+
+    switch (status) {
+    case Wait:
+      // 待機中は前後に動く
+      if (!canMove(stage.map, direction))
+        direction = (direction + 2) % 4;
+      break;
+
+    case Release:
+      // 出撃中は出撃地点を目指す
+      aimPoint = stage.map.getReleasePoint();
+      direction = getAimDirection(stage.map, aimPoint);
+      break;
+
+    case Ijike:
+      // イジケ中はランダムに動く
+      aimPoint = new PVector(position.x + random(-1, 1), position.y + random(-1, 1));
+      direction = getAimDirection(stage.map, aimPoint);
+      break;
+
+    case Return:
+      // 帰還中は帰還地点を目指す
+      aimPoint = stage.map.getReturnPoint();
+      direction = getAimDirection(stage.map, aimPoint);
+      break;
+
+    default:
+      break;
+    }
   }
 
   // 画面描画

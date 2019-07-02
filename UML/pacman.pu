@@ -78,6 +78,7 @@ abstract class Monster {
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
+    + decideDirection(stage: Stage)
     + draw()
 }
 
@@ -163,7 +164,6 @@ class Animation {
 enum MapObject {
     Wall
     Route
-    EnemyBase
     EnemyDoor
 }
 

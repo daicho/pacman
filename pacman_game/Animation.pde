@@ -1,3 +1,4 @@
+// アニメーション
 public class Animation {
   protected PImage[] images;  // アニメーション画像
   protected int cur;          // 現在のアニメーション番号
