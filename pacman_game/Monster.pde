@@ -171,8 +171,6 @@ public abstract class Monster extends Character {
 
   // 更新
   public void update(Map map) {
-    super.update(map);
-
     // 目標地点に到達したら状態遷移
     switch (status) {
     case Release:
@@ -185,6 +183,9 @@ public abstract class Monster extends Character {
         changeModeLeft = changeMode;
         status = MonsterStatus.Release;
       }
+      break;
+
+    case Ijike:
       break;
 
     default:
@@ -209,6 +210,35 @@ public abstract class Monster extends Character {
         break;
       }
     }
+
+    // 一定時間経ったらイジケモードを解除する
+    ijikeTime--;
+    if (status == MonsterStatus.Ijike && ijikeTime < 0)
+      setStatus(MonsterStatus.Rest);
+
+    // アニメーションを更新
+    if (canMove(map, direction)) {
+      switch (status) {
+      case Wait:
+      case Release:
+      case Rest:
+      case Chase:
+        animations[direction].update();
+        break;
+  
+      case Ijike:
+        if (ijikeTime > 120)
+          ijikeAnimations[0].update();
+        else
+          ijikeAnimations[1].update();
+
+        break;
+  
+      case Return:
+        returnAnimations[direction].update();
+        break;
+      }
+    }
   }
 
   // 画面描画
@@ -224,16 +254,11 @@ public abstract class Monster extends Character {
       break;
 
     case Ijike:
-      if (millis() < getIjikeTime()) {
-        if ((millis()+2000) < getIjikeTime())
-          image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
-        else {
-          image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
-        }
-      } 
+      if (ijikeTime > 120)
+        image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
       else
-        setStatus(MonsterStatus.Chase);
-      ijikeAnimations[1].update();
+        image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
+
       break;
 
     case Return:

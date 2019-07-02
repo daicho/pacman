@@ -116,9 +116,10 @@ public class Stage {
            (本家は8秒)
            ――――――――――――――― */
         for (Monster monster : monsters) {
-          if (monster.status != MonsterStatus.Return)
+          if (monster.status != MonsterStatus.Return) {
             monster.setStatus(MonsterStatus.Ijike);
-          monster.setIjikeTime(millis() + 8000);
+            monster.setIjikeTime(480);
+          }
         }
 
         this.score += 50;

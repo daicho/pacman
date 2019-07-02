@@ -55,6 +55,7 @@ abstract class Character {
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     + {abstract} decideDirection(stage: Stage)
+    + update(map: Map)
     + draw()
 }
 
@@ -71,14 +72,19 @@ abstract class Monster {
     # status: boolean
     # ijikeAnimetions: Animation[]
     # returnAnimetions: Animation[]
+    # changeMode: int
+    # changeModeLeft: int
+    # ijikeTime: int
 
     # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getStatus(): MonsterStatus
     + setStatus(status: MonsterStatus)
-    + move(map: Map)
+    + getIjikeTime(): int
+    + setIjikeTime(ijikeTime: int)
     + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
     + decideDirection(stage: Stage)
+    + update(map: Map)
     + draw()
 }
 
@@ -117,8 +123,8 @@ class Stage {
     # foods: ArrayList<Item>
     # powerFoods: ArrayList<Item>
     # map: Map
-    # input: InputInterface
     # score: int
+    # input: InputInterface
 
     + Stage(mapName: String, input: InputInterface)
     + getScore(): int
@@ -145,6 +151,7 @@ class Item {
     # animation: Animation
 
     + Item(position: PVector, interval: int, imageName: String)
+    + update()
     + draw()
 }
 
