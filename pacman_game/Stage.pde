@@ -10,6 +10,7 @@ public class Stage {
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
   protected Map map;       // マップ
   protected int score = 0; // スコア
+  protected int monsEatFlag = 4; // イジケモード時のスコアフラグ
   protected InputInterface input; // 入力インターフェース
 
   public Stage(String mapName, InputInterface input) {
@@ -121,6 +122,9 @@ public class Stage {
             monster.setIjikeTime(480);
           }
         }
+        
+        // イートフラグリセット
+        this.monsEatFlag = 0;
 
         this.score += 50;
         i.remove();
@@ -134,6 +138,23 @@ public class Stage {
         switch (monster.getStatus()) {
         case Ijike:
           monster.setStatus(MonsterStatus.Return);
+          
+          // モンスターを食べた時のスコア
+          this.monsEatFlag++;
+          switch(this.monsEatFlag){
+            case 1:
+              this.score += 200;
+              break;
+            case 2:
+              this.score += 400;
+              break;
+            case 3:
+              this.score += 800;
+              break;
+            case 4:
+              this.score += 1600;
+              break;
+          }
           break;
 
         case Return:
