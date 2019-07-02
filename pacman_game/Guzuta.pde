@@ -7,7 +7,6 @@ public class Guzuta extends Monster {
   // 進む方向を決定する
   public void decideDirection(Stage stage) {
     super.decideDirection(stage);
-
     PVector aimPoint;
 
     switch (status) {

@@ -2,21 +2,19 @@ import java.util.Iterator;
 
 // ステージ
 public class Stage {
-  protected Pacman pacman;               // パックマン
-  protected ArrayList<Monster> monsters; // 敵
-  protected ArrayList<Item> foods;       // エサ
-  protected ArrayList<Item> powerFoods;  // パワーエサ
-  protected Map map;                     // マップ
-  protected InputInterface input;        // 入力インターフェース
-  protected int score;                   // スコア
+  protected final PFont font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
+
+  protected Pacman pacman; // パックマン
+  protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
+  protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
+  protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
+  protected Map map;       // マップ
+  protected int score = 0; // スコア
+  protected InputInterface input; // 入力インターフェース
 
   public Stage(String mapName, InputInterface input) {
-    this.monsters = new ArrayList<Monster>();
-    this.foods = new ArrayList<Item>();
-    this.powerFoods = new ArrayList<Item>();
     this.map = new Map(mapName);
     this.input = input;
-    this.score = 0;
 
     // マップファイル読み込み
     ArrayList<PVector> enemyPositions = new ArrayList<PVector>();
@@ -78,6 +76,18 @@ public class Stage {
       monster.move(map);
     pacman.move(map);
 
+    // 更新
+    pacman.update(map);
+
+    for (Monster monster : monsters)
+      monster.update(map);
+
+    for (Item food : foods)
+      food.update();
+
+    for (Item powerFood : powerFoods)
+      powerFood.update();
+
     // 当たり判定
     for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
       Item food = i.next();
@@ -108,6 +118,7 @@ public class Stage {
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return)
             monster.setStatus(MonsterStatus.Ijike);
+          monster.setIjikeTime(millis() + 8000);
         }
 
         this.score += 50;
@@ -155,7 +166,7 @@ public class Stage {
       monster.draw();
 
     // スコア表示
-    textFont(loadFont("fonts/NuAnkoMochi-Reg-20.vlw"), 20);
+    textFont(font, 20);
     fill(255);
     textAlign(RIGHT, BASELINE);
     text("SCORE", 75, 180);

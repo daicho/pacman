@@ -1,7 +1,7 @@
 // アニメーション
 public class Animation {
   protected PImage[] images;  // アニメーション画像
-  protected int cur;          // 現在のアニメーション番号
+  protected int cur = 0;      // 現在のアニメーション番号
   protected int number;       // アニメーションの数
   protected int interval;     // アニメーションの間隔 [f]
   protected int intervalLeft; // あと何fで次のアニメーションにいくか
@@ -9,7 +9,6 @@ public class Animation {
   public Animation(int interval, String filePath) {
     this.cur = 0;
     this.interval = interval;
-    this.intervalLeft = interval;
 
     // 画像ファイルの存在確認
     this.number = 0;

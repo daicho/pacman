@@ -9,9 +9,13 @@ public class Item extends GameObject {
     this.size = animation.getSize();
   }
 
+  // 更新
+  public void update() {
+    animation.update();
+  }
+
   // 画面描画
   public void draw() {
-    animation.update();
     PVector minPostision = getMinPosition();
     image(animation.getImage(), minPostision.x, minPostision.y);
   }

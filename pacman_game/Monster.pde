@@ -9,23 +9,19 @@ public enum MonsterStatus {
 }
 
 public abstract class Monster extends Character {
-  protected MonsterStatus status;         // 状態
-  protected Animation[] ijikeAnimations;  // イジケ時のアニメーション
-  protected Animation[] returnAnimations; // 帰還時のアニメーション
-  protected int changeMode;               // モードが切り替わる間隔 [f]
-  protected int changeModeLeft;           // あと何fでモードが切り替わるか
+  protected MonsterStatus status = MonsterStatus.Release;    // 状態
+  protected Animation[] ijikeAnimations  = new Animation[2]; // イジケ時のアニメーション
+  protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
+  protected int changeMode = 600; // モードが切り替わる間隔 [f]
+  protected int changeModeLeft;   // あと何fでモードが切り替わるか
+  protected int ijikeTime;        // あと何fでイジケモードが終わるか
 
   protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
     super(position, direction, speed, interval, characterName);
-
-    this.status = MonsterStatus.Release;
-    this.ijikeAnimations = new Animation[2];
-    this.returnAnimations = new Animation[4];
-    this.changeMode = 600;
     this.changeModeLeft = changeMode;
 
     // イジケ時のアニメーション
-    this.ijikeAnimations[0] = new Animation(0,  dataPath("characters/ijike-0"));
+    this.ijikeAnimations[0] = new Animation(0, dataPath("characters/ijike-0"));
     this.ijikeAnimations[1] = new Animation(10, dataPath("characters/ijike-1"));
 
     // 帰還時のアニメーション
@@ -41,44 +37,12 @@ public abstract class Monster extends Character {
     this.status = status;
   }
 
-  // 移動
-  public void move(Map map) {
-    super.move(map);
+  public int getIjikeTime() {
+    return this.ijikeTime;
+  }
 
-    switch (status) {
-    case Release:
-      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y))
-        status = MonsterStatus.Rest;
-      break;
-
-    case Return:
-      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
-        changeModeLeft = changeMode;
-        status = MonsterStatus.Release;
-      }
-      break;
-
-    default:
-      break;
-    }
-
-    changeModeLeft--;
-    if (changeModeLeft < 0) {
-      changeModeLeft = changeMode;
-
-      switch (status) {
-      case Rest:
-        status = MonsterStatus.Chase;
-        break;
-  
-      case Chase:
-        status = MonsterStatus.Rest;
-        break;
-  
-      default:
-        break;
-      }
-    }
+  public void setIjikeTime(int ijikeTime) {
+    this.ijikeTime = ijikeTime;
   }
 
   // 特定の方向へ移動できるか
@@ -205,6 +169,48 @@ public abstract class Monster extends Character {
     }
   }
 
+  // 更新
+  public void update(Map map) {
+    super.update(map);
+
+    // 目標地点に到達したら状態遷移
+    switch (status) {
+    case Release:
+      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y))
+        status = MonsterStatus.Rest;
+      break;
+
+    case Return:
+      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
+        changeModeLeft = changeMode;
+        status = MonsterStatus.Release;
+      }
+      break;
+
+    default:
+      break;
+    }
+
+    // 一定時間経ったらモードを切り替える
+    changeModeLeft--;
+    if (changeModeLeft < 0) {
+      changeModeLeft = changeMode;
+
+      switch (status) {
+      case Rest:
+        status = MonsterStatus.Chase;
+        break;
+
+      case Chase:
+        status = MonsterStatus.Rest;
+        break;
+
+      default:
+        break;
+      }
+    }
+  }
+
   // 画面描画
   public void draw() {
     PVector minPostision = getMinPosition();
@@ -218,7 +224,16 @@ public abstract class Monster extends Character {
       break;
 
     case Ijike:
-      image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
+      if (millis() < getIjikeTime()) {
+        if ((millis()+2000) < getIjikeTime())
+          image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
+        else {
+          image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
+        }
+      } 
+      else
+        setStatus(MonsterStatus.Chase);
+      ijikeAnimations[1].update();
       break;
 
     case Return:

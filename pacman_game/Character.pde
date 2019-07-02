@@ -1,15 +1,14 @@
-// キャラクターの基底クラス //<>// //<>//
+// キャラクターの基底クラス //<>//
 public abstract class Character extends GameObject {
-  protected int direction;          // 向き (0:右 1:上 2:左 3:下)
-  protected float speed;            // 速さ [px/f]
-  protected Animation[] animations; // アニメーション
+  protected int direction; // 向き (0:右 1:上 2:左 3:下)
+  protected float speed;   // 速さ [px/f]
+  protected Animation[] animations = new Animation[4]; // アニメーション
 
   protected Character(PVector position, int direction, float speed, int interval, String characterName) {
     super(position);
 
     this.direction = direction;
     this.speed = speed;
-    this.animations = new Animation[4];
 
     // アニメーション
     for (int i = 0; i < 4; i++)
@@ -80,8 +79,6 @@ public abstract class Character extends GameObject {
           position.y -= mapSize.y;
         break;
       }
-
-      animations[direction].update();
     }
   }
 
@@ -148,6 +145,12 @@ public abstract class Character extends GameObject {
 
   // 進む方向を決定する
   public abstract void decideDirection(Stage stage);
+
+  // 更新
+  public void update(Map map) {
+    if (canMove(map, direction))
+      animations[direction].update();
+  }
 
   // 画面描画
   public void draw() {
