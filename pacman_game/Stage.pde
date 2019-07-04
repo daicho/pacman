@@ -1,22 +1,20 @@
 import java.util.Iterator;
 
 // ステージ
-public class Stage {
+public class Stage implements Scene {
   protected final PFont font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
 
   protected Pacman pacman; // パックマン
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
-  protected Map map;        // マップ
+  protected Map map;       // マップ
   protected int frame = 0; // 経過フレーム
-  protected int score = 0;  // スコア
+  protected int score = 0; // スコア
   protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
-  protected InputInterface input;    // 入力インターフェース
 
-  public Stage(String mapName, InputInterface input) {
+  public Stage(String mapName) {
     this.map = new Map(mapName);
-    this.input = input;
 
     // マップファイル読み込み
     ArrayList<PVector> enemyPositions = new ArrayList<PVector>();
@@ -50,6 +48,8 @@ public class Stage {
     this.monsters.add(new Pinky (enemyPositions.get(2), 1, 1.6, 5, "pinky" ));
     this.monsters.add(new Aosuke(enemyPositions.get(1), 1, 1.6, 5, "aosuke"));
     this.monsters.add(new Guzuta(enemyPositions.get(3), 1, 1.6, 5, "guzuta"));
+
+    this.draw();
   }
 
   public int getScore() {
@@ -59,13 +59,13 @@ public class Stage {
   // ステージ内の状態を更新
   public void update() {
     // ボタン入力
-    if (input.right())
+    if (Input.right())
       pacman.setNextDirection(0); // →
-    else if (input.up())
+    else if (Input.up())
       pacman.setNextDirection(1); // ↑
-    else if (input.left())
+    else if (Input.left())
       pacman.setNextDirection(2); // ←
-    else if (input.down())
+    else if (Input.down())
       pacman.setNextDirection(3); // ↓
 
     // モンスター放出

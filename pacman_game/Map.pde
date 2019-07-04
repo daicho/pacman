@@ -1,8 +1,8 @@
 // マップ内のオブジェクトの種類
 public enum MapObject {
-  Wall,      // 壁
-  Route,     // 通路
-  EnemyDoor  // 敵出入口
+  Wall,     // 壁
+  Route,    // 通路
+  EnemyDoor // 敵出入口
 }
 
 // マップ

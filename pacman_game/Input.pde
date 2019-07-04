@@ -27,37 +27,70 @@ public class KeyboardInput implements InputInterface {
   }
 
   public boolean buttonA() {
-    return keyPressed && keyCode == 'Z';
+    return keyPressed && key == 'z';
   }
 
   public boolean buttonB() {
-    return keyPressed && keyCode == 'X';
+    return keyPressed && key == 'x';
   }
 }
 
 // アーケードからの入力
 public class ArcadeInput implements InputInterface {
   public boolean right() {
-    return keyPressed && keyCode == 'A';
+    return keyPressed && key == 'a';
   }
 
   public boolean up() {
-    return keyPressed && keyCode == 'B';
+    return keyPressed && key == 'b';
   }
 
   public boolean left() {
-    return keyPressed && keyCode == 'C';
+    return keyPressed && key == 'c';
   }
 
   public boolean down() {
-    return keyPressed && keyCode == 'D';
+    return keyPressed && key == 'd';
   }
 
   public boolean buttonA() {
-    return keyPressed && keyCode == 'E';
+    return keyPressed && key == 'e';
   }
 
   public boolean buttonB() {
-    return keyPressed && keyCode == 'F';
+    return keyPressed && key == 'f';
+  }
+}
+
+// 入力
+public static class Input {
+  protected static InputInterface inputInterface;
+
+  public static void setInputInterface(InputInterface inputInterface) {
+    Input.inputInterface = inputInterface;
+  }
+
+  public static boolean right() {
+    return inputInterface.right();
+  }
+
+  public static boolean up() {
+    return inputInterface.up();
+  }
+
+  public static boolean left() {
+    return inputInterface.left();
+  }
+
+  public static boolean down() {
+    return inputInterface.down();
+  }
+
+  public static boolean buttonA() {
+    return inputInterface.buttonA();
+  }
+
+  public static boolean buttonB() {
+    return inputInterface.buttonB();
   }
 }

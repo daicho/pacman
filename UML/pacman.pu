@@ -16,18 +16,23 @@ Monster <|-- Aosuke
 Monster <|-- Guzuta
 Monster o-- MonsterStatus
 
-Stage o-- Pacman
-Stage o-- Monster
-Stage o-- Map
-Stage o-- InputInterface
-
-InputInterface <|.. KeyboardInput
-InputInterface <|.. ArcadeInput
-
 Map o-- Item
 Map o-- MapObject
 
 Item o-- Animation
+
+SceneMaganer o-- Scene
+Scene <|.. Title
+Scene <|.. Stage
+Scene <|.. Result
+
+Stage o-- Pacman
+Stage o-- Monster
+Stage o-- Map
+
+Input o-- InputInterface
+InputInterface <|.. KeyboardInput
+InputInterface <|.. ArcadeInput
 
 abstract class GameObject {
     # position: PVector
@@ -117,24 +122,6 @@ class Guzuta {
     + decideDirection(stage: Stage)
 }
 
-class Stage {
-    # {static} font: PFont
-    # pacman: Pacman
-    # monsters: ArrayList<Monster>
-    # foods: ArrayList<Item>
-    # powerFoods: ArrayList<Item>
-    # map: Map
-    # frame: int
-    # score: int
-    # monsterEatCount: int
-    # input: InputInterface
-
-    + Stage(mapName: String, input: InputInterface)
-    + getScore(): int
-    + update()
-    + draw()
-}
-
 class Map {
     # objects: MapObject[][]
     # releasePoint: PVector
@@ -148,6 +135,12 @@ class Map {
     + getSize(): PVector
     + getObject(x: float, y: float): MapObject
     + draw()
+}
+
+enum MapObject {
+    Wall
+    Route
+    EnemyDoor
 }
 
 class Item {
@@ -171,10 +164,34 @@ class Animation {
     + getSize(): PVector
 }
 
-enum MapObject {
-    Wall
-    Route
-    EnemyDoor
+interface Scene {
+    + {abstract} update(): void
+    + {abstract} draw(): void
+}
+
+class SceneMaganer {
+    # {static} scene: Scene
+
+    + {static} setScene(scene: Scene): void
+    + {static} update(): void
+    + {static} draw(): void
+}
+
+class Stage {
+    # {static} font: PFont
+    # pacman: Pacman
+    # monsters: ArrayList<Monster>
+    # foods: ArrayList<Item>
+    # powerFoods: ArrayList<Item>
+    # map: Map
+    # frame: int
+    # score: int
+    # monsterEatCount: int
+
+    + Stage(mapName: String)
+    + getScore(): int
+    + update()
+    + draw()
 }
 
 interface InputInterface {
@@ -202,6 +219,18 @@ class ArcadeInput {
     + down(): boolean
     + buttonA(): boolean
     + buttonB(): boolean
+}
+
+class Input {
+    # {static} inputInterface: InputInterface
+
+    + {static} setInputInterface(inputInterFace: InputInterFace): void
+    + {static} right(): boolean
+    + {static} up(): boolean
+    + {static} left(): boolean
+    + {static} down(): boolean
+    + {static} buttonA(): boolean
+    + {static} buttonB(): boolean
 }
 
 @enduml

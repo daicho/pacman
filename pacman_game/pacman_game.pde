@@ -1,12 +1,10 @@
-Stage stage;
-
 void setup() {
   size(448, 496);
-  stage = new Stage("original", new KeyboardInput());
-  stage.draw();
+  Input.setInputInterface(new KeyboardInput()); // 入力設定
+  SceneManager.setScene(new Title());
 }
 
 void draw() {
-  stage.update();
-  stage.draw();
+  SceneManager.update();
+  SceneManager.draw();
 }
