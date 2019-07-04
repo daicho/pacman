@@ -132,7 +132,7 @@ public class Stage implements Scene {
 
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
-            monster.setStatus(MonsterStatus.Ijike);
+            monster.setMode(MonsterMode.Ijike);
             monster.setIjikeTime(480);
           }
         }
@@ -148,33 +148,34 @@ public class Stage implements Scene {
 
       if (pacman.isColliding(monster)) {
         switch (monster.getStatus()) {
-        case Ijike:
-          // モンスターを食べた時のスコア
-          this.monsterEatCount++;
-
-          switch (this.monsterEatCount) {
-          case 1:
-            this.score += 200;
-            break;
-
-          case 2:
-            this.score += 400;
-            break;
-
-          case 3:
-            this.score += 800;
-            break;
-
-          case 4:
-            this.score += 1600;
-            break;
-          }
-
-          monster.setStatus(MonsterStatus.Return);
-          break;
-
         case Return:
           break;
+
+        case Active:
+          if (monster.getMode() == MonsterMode.Ijike) {
+            // モンスターを食べた時のスコア
+            this.monsterEatCount++;
+  
+            switch (this.monsterEatCount) {
+            case 1:
+              this.score += 200;
+              break;
+  
+            case 2:
+              this.score += 400;
+              break;
+  
+            case 3:
+              this.score += 800;
+              break;
+  
+            case 4:
+              this.score += 1600;
+              break;
+            }
+  
+            monster.setStatus(MonsterStatus.Return);
+          }
 
         default:
           break; /* ゲームオーバー */
