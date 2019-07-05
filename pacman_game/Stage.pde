@@ -204,9 +204,12 @@ public class Stage implements Scene {
                 }
               }
             }
-
+            
+            this.monsters.get(0).position = enemyPositions.get(0); // アカベエ
+            this.monsters.get(1).position = enemyPositions.get(2); // ピンキー
+            this.monsters.get(2).position = enemyPositions.get(1); // アオスケ
+            this.monsters.get(3).position = enemyPositions.get(3); // グズタ
             for (int m = 0; m < monsters.size(); m++) {
-              this.monsters.get(m).position = enemyPositions.get((3-m)*m/2+m%2*m);
               this.monsters.get(m).setStatus(MonsterStatus.Wait);
               this.monsters.get(m).setMode(MonsterMode.Rest);
               this.monsters.get(m).direction = 1;
