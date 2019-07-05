@@ -49,6 +49,7 @@ public abstract class Monster extends Character {
 
   public void setMode(MonsterMode mode) {
     this.mode = mode;
+    changeModeLeft = changeMode;
 
     if (mode == MonsterMode.Ijike) {
       ijikeAnimations[0].reset();
@@ -75,7 +76,7 @@ public abstract class Monster extends Character {
       for (; check.x <= getMaxPosition().x + speed; check.x++) {
         for (; check.y <= getMaxPosition().y; check.y++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -88,7 +89,7 @@ public abstract class Monster extends Character {
       for (; check.y >= getMinPosition().y - speed; check.y--) {
         for (; check.x <= getMaxPosition().x; check.x++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -101,7 +102,7 @@ public abstract class Monster extends Character {
       for (; check.x >= getMinPosition().x - speed; check.x--) {
         for (; check.y <= getMaxPosition().y; check.y++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -114,7 +115,7 @@ public abstract class Monster extends Character {
       for (; check.y <= getMaxPosition().y + speed; check.y++) {
         for (; check.x <= getMaxPosition().x; check.x++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -199,7 +200,6 @@ public abstract class Monster extends Character {
 
     case Return:
       if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
-        changeModeLeft = changeMode;
         setStatus(MonsterStatus.Release);
         setMode(MonsterMode.Rest);
       }
@@ -231,7 +231,6 @@ public abstract class Monster extends Character {
     // 一定時間経ったらイジケモードを解除する
     ijikeTime--;
     if (mode == MonsterMode.Ijike && ijikeTime < 0) {
-      changeModeLeft = changeMode;
       setMode(MonsterMode.Rest);
     }
 

@@ -93,7 +93,7 @@ public abstract class Character extends GameObject {
       for (; check.x <= getMaxPosition().x + speed; check.x++) {
         for (; check.y <= getMaxPosition().y; check.y++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -106,7 +106,7 @@ public abstract class Character extends GameObject {
       for (; check.y >= getMinPosition().y - speed; check.y--) {
         for (; check.x <= getMaxPosition().x; check.x++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -119,7 +119,7 @@ public abstract class Character extends GameObject {
       for (; check.x >= getMinPosition().x - speed; check.x--) {
         for (; check.y <= getMaxPosition().y; check.y++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
             return false;
         }
       }
@@ -132,7 +132,7 @@ public abstract class Character extends GameObject {
       for (; check.y <= getMaxPosition().y + speed; check.y++) {
         for (; check.x <= getMaxPosition().x; check.x++) {
           MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || mapObject == MapObject.EnemyDoor)
+          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
             return false;
         }
       }

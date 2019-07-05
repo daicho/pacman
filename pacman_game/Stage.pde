@@ -2,8 +2,6 @@ import java.util.Iterator;
 
 // ステージ
 public class Stage implements Scene {
-  protected final PFont font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
-
   protected Pacman pacman; // パックマン
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
@@ -16,9 +14,13 @@ public class Stage implements Scene {
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
-
+    this.pacman = new Pacman(map.getPacmanStartPosition(), 2, 1.6, 3, "pacman");
+    this.monsters.add(new Akabei(map.getMonsterStartPosition(0), 1, 1.6, 5, "akabei"));
+    this.monsters.add(new Pinky (map.getMonsterStartPosition(2), 1, 1.6, 5, "pinky" ));
+    this.monsters.add(new Aosuke(map.getMonsterStartPosition(1), 1, 1.6, 5, "aosuke"));
+    this.monsters.add(new Guzuta(map.getMonsterStartPosition(3), 1, 1.6, 5, "guzuta"));
+    
     // マップファイル読み込み
-    ArrayList<PVector> enemyPositions = new ArrayList<PVector>();
     PImage mapImage = loadImage("maps/" + mapName + "-map.png");
     mapImage.loadPixels();
 
@@ -26,29 +28,17 @@ public class Stage implements Scene {
       for (int x = 0; x < mapImage.width; x++) {
         color pixel = mapImage.pixels[y * mapImage.width + x];
 
-        // パックマン
-        if (pixel == color(255, 0, 0)) {
-          pacman = new Pacman(new PVector(x, y), 2, 1.6, 3, "pacman");
-        }
-        // 敵
-        else if (pixel == color(0, 0, 255)) {
-          enemyPositions.add(new PVector(x, y));
-        }
         // エサ
-        else if (pixel == color(255, 255, 0)) {
+        if (pixel == color(255, 255, 0)) {
           foods.add(new Item(new PVector(x, y), 0, "food"));
         }
+
         // パワーエサ
         else if (pixel == color(0, 255, 255)) {
           powerFoods.add(new Item(new PVector(x, y), 10, "power_food"));
         }
       }
     }
-
-    this.monsters.add(new Akabei(enemyPositions.get(0), 1, 1.6, 5, "akabei"));
-    this.monsters.add(new Pinky (enemyPositions.get(2), 1, 1.6, 5, "pinky" ));
-    this.monsters.add(new Aosuke(enemyPositions.get(1), 1, 1.6, 5, "aosuke"));
-    this.monsters.add(new Guzuta(enemyPositions.get(3), 1, 1.6, 5, "guzuta"));
 
     this.draw();
   }
@@ -180,8 +170,8 @@ public class Stage implements Scene {
 
         default:
           if (life <= 0) {
-            /* ゲームオーバー */
-            println("game over");
+            // ゲームオーバー
+            SceneManager.setScene(new Result(score));
           } else {
             // 残機を1つ減らしゲーム続行
             life--;
@@ -197,7 +187,9 @@ public class Stage implements Scene {
                 // パックマン
                 if (pixel == color(255, 0, 0)) {
                   pacman.position.set(x, y);
+                  pacman.direction = 2;
                 }
+
                 // 敵
                 else if (pixel == color(0, 0, 255)) {
                   enemyPositions.add(new PVector(x, y));
@@ -205,17 +197,20 @@ public class Stage implements Scene {
               }
             }
             
-            this.monsters.get(0).position = enemyPositions.get(0); // アカベエ
-            this.monsters.get(1).position = enemyPositions.get(2); // ピンキー
-            this.monsters.get(2).position = enemyPositions.get(1); // アオスケ
-            this.monsters.get(3).position = enemyPositions.get(3); // グズタ
+            monsters.get(0).position = enemyPositions.get(0); // アカベエ
+            monsters.get(1).position = enemyPositions.get(2); // ピンキー
+            monsters.get(2).position = enemyPositions.get(1); // アオスケ
+            monsters.get(3).position = enemyPositions.get(3); // グズタ
+
             for (int m = 0; m < monsters.size(); m++) {
-              this.monsters.get(m).setStatus(MonsterStatus.Wait);
-              this.monsters.get(m).setMode(MonsterMode.Rest);
-              this.monsters.get(m).direction = 1;
+              monsters.get(m).setMode(MonsterMode.Rest);
+              monsters.get(m).setStatus(MonsterStatus.Wait);
+              monsters.get(m).setMode(MonsterMode.Rest);
+              monsters.get(m).direction = 1;
             }
+
             frame = 0;
-            this.update();
+            update();
           }
           break;
         }
@@ -246,9 +241,9 @@ public class Stage implements Scene {
       monster.draw();
 
     // スコア表示
-    textFont(font, 20);
     fill(255);
     textAlign(RIGHT, BASELINE);
+    textFont(font, 20);
     text("SCORE", 75, 180);
     text(score, 75, 200);
   }

@@ -1,17 +1,19 @@
 // マップ内のオブジェクトの種類
 public enum MapObject {
-  Wall,     // 壁
-  Route,    // 通路
-  EnemyDoor // 敵出入口
+  Wall,       // 壁
+  Route,      // 通路
+  MonsterDoor // 敵出入口
 }
 
 // マップ
 public class Map {
-  protected MapObject[][] objects; // マップ内のオブジェクト
-  protected PVector releasePoint;  // 出撃地点
-  protected PVector returnPoint;   // 帰還地点
-  protected PImage image;          // 画像ファイル
-  protected PVector size;          // 画像サイズ
+  protected MapObject[][] objects;       // マップ内のオブジェクト
+  protected PVector pacmanStartPosition; // パックマン初期地点
+  protected ArrayList<PVector> monsterStartPositions = new ArrayList<PVector>(); // 敵初期地点
+  protected PVector releasePoint; // 出撃地点
+  protected PVector returnPoint;  // 帰還地点
+  protected PImage image;         // 画像ファイル
+  protected PVector size;         // 画像サイズ
 
   public Map(String mapName) {
     // 画像ファイル読み込み
@@ -33,15 +35,25 @@ public class Map {
 
         // 敵出入口
         } else if (pixel == color(0, 255, 0)) {
-          objects[x][y] = MapObject.EnemyDoor;
+          objects[x][y] = MapObject.MonsterDoor;
 
         // 通路
         } else {
           objects[x][y] = MapObject.Route;
         }
 
+        // パックマン
+        if (pixel == color(255, 0, 0)) {
+          pacmanStartPosition = new PVector(x, y);
+        }
+
+        // 敵
+        else if (pixel == color(0, 0, 255)) {
+          monsterStartPositions.add(new PVector(x, y));
+        }
+
         // 出撃地点
-        if (pixel == color(255, 0, 255)) {
+        else if (pixel == color(255, 0, 255)) {
           releasePoint = new PVector(x, y);
 
         // 帰還地点
@@ -50,6 +62,14 @@ public class Map {
         }
       }
     }
+  }
+
+  public PVector getPacmanStartPosition() {
+    return this.pacmanStartPosition;
+  }
+
+  public PVector getMonsterStartPosition(int index) {
+    return this.monsterStartPositions.get(index);
   }
 
   public PVector getReleasePoint() {

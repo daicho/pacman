@@ -132,12 +132,16 @@ class Guzuta {
 
 class Map {
     # objects: MapObject[][]
+    # pacmanStartPosition: PVector
+    # monsterStartPositions: ArrayList<PVector>
     # releasePoint: PVector
     # returnPoint: PVector
     # image: PImage
     # size: PVector
 
     + Map(mapName: String)
+    + getPacmanStartPosition(): PVector
+    + geMonsterStartPosition(index: int): PVector
     + getReleasePoint(): PVector
     + getReturnPoint(): PVector
     + getSize(): PVector
@@ -148,7 +152,7 @@ class Map {
 enum MapObject {
     Wall
     Route
-    EnemyDoor
+    MonsterDoor
 }
 
 class Item {
@@ -186,7 +190,6 @@ class SceneMaganer {
 }
 
 class Stage {
-    # {static} font: PFont
     # pacman: Pacman
     # monsters: ArrayList<Monster>
     # foods: ArrayList<Item>
@@ -195,9 +198,23 @@ class Stage {
     # frame: int
     # score: int
     # monsterEatCount: int
+    # life: int
 
     + Stage(mapName: String)
     + getScore(): int
+    + update()
+    + draw()
+}
+
+class Title {
+    + update()
+    + draw()
+}
+
+class Result {
+    # score: int
+
+    + Result(score: int)
     + update()
     + draw()
 }
