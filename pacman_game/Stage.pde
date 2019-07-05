@@ -12,6 +12,7 @@ public class Stage implements Scene {
   protected int frame = 0; // 経過フレーム
   protected int score = 0; // スコア
   protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
+  protected int life = 3;  // 残機の数
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -28,17 +29,17 @@ public class Stage implements Scene {
         // パックマン
         if (pixel == color(255, 0, 0)) {
           pacman = new Pacman(new PVector(x, y), 2, 1.6, 3, "pacman");
-
+        }
         // 敵
-        } else if (pixel == color(0, 0, 255)) {
+        else if (pixel == color(0, 0, 255)) {
           enemyPositions.add(new PVector(x, y));
-
+        }
         // エサ
-        } else if (pixel == color(255, 255, 0)) {
+        else if (pixel == color(255, 255, 0)) {
           foods.add(new Item(new PVector(x, y), 0, "food"));
-
+        }
         // パワーエサ
-        } else if (pixel == color(0, 255, 255)) {
+        else if (pixel == color(0, 255, 255)) {
           powerFoods.add(new Item(new PVector(x, y), 10, "power_food"));
         }
       }
@@ -115,8 +116,8 @@ public class Stage implements Scene {
 
       if (pacman.isColliding(food)) {
         /* ―――――
-           音を鳴らす
-           ――――― */
+         音を鳴らす
+         ――――― */
         this.score += 10;
         i.remove();
       }
@@ -127,8 +128,8 @@ public class Stage implements Scene {
 
       if (pacman.isColliding(powerFood)) {
         /* ―――――
-           音を鳴らす
-           ――――― */
+         音を鳴らす
+         ――――― */
 
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
@@ -155,30 +156,65 @@ public class Stage implements Scene {
           if (monster.getMode() == MonsterMode.Ijike) {
             // モンスターを食べた時のスコア
             this.monsterEatCount++;
-  
+
             switch (this.monsterEatCount) {
             case 1:
               this.score += 200;
               break;
-  
+
             case 2:
               this.score += 400;
               break;
-  
+
             case 3:
               this.score += 800;
               break;
-  
+
             case 4:
               this.score += 1600;
               break;
             }
-  
             monster.setStatus(MonsterStatus.Return);
+            break;
           }
 
         default:
-          break; /* ゲームオーバー */
+          if (life <= 0) {
+            /* ゲームオーバー */
+            println("game over");
+          } else {
+            // 残機を1つ減らしゲーム続行
+            life--;
+            println(life);
+
+            ArrayList<PVector> enemyPositions = new ArrayList<PVector>();
+            PImage mapImage = loadImage("maps/" + "original" + "-map.png");
+            mapImage.loadPixels();
+            for (int y = 0; y < mapImage.height; y++) {
+              for (int x = 0; x < mapImage.width; x++) {
+                color pixel = mapImage.pixels[y * mapImage.width + x];
+
+                // パックマン
+                if (pixel == color(255, 0, 0)) {
+                  pacman.position.set(x, y);
+                }
+                // 敵
+                else if (pixel == color(0, 0, 255)) {
+                  enemyPositions.add(new PVector(x, y));
+                }
+              }
+            }
+
+            for (int m = 0; m < monsters.size(); m++) {
+              this.monsters.get(m).position = enemyPositions.get((3-m)*m/2+m%2*m);
+              this.monsters.get(m).setStatus(MonsterStatus.Wait);
+              this.monsters.get(m).setMode(MonsterMode.Rest);
+              this.monsters.get(m).direction = 1;
+            }
+            frame = 0;
+            this.update();
+          }
+          break;
         }
       }
     }
