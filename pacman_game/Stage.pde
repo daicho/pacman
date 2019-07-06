@@ -177,33 +177,17 @@ public class Stage implements Scene {
             life--;
             println(life);
 
-            ArrayList<PVector> enemyPositions = new ArrayList<PVector>();
-            PImage mapImage = loadImage("maps/" + "original" + "-map.png");
-            mapImage.loadPixels();
-            for (int y = 0; y < mapImage.height; y++) {
-              for (int x = 0; x < mapImage.width; x++) {
-                color pixel = mapImage.pixels[y * mapImage.width + x];
+            // パックマン
+            pacman.position.set(map.getPacmanStartPosition());
+            pacman.direction = 2;
 
-                // パックマン
-                if (pixel == color(255, 0, 0)) {
-                  pacman.position.set(x, y);
-                  pacman.direction = 2;
-                }
-
-                // 敵
-                else if (pixel == color(0, 0, 255)) {
-                  enemyPositions.add(new PVector(x, y));
-                }
-              }
-            }
-            
-            monsters.get(0).position = enemyPositions.get(0); // アカベエ
-            monsters.get(1).position = enemyPositions.get(2); // ピンキー
-            monsters.get(2).position = enemyPositions.get(1); // アオスケ
-            monsters.get(3).position = enemyPositions.get(3); // グズタ
+            // 敵
+            monsters.get(0).position.set(map.getMonsterStartPosition(0)); // アカベエ
+            monsters.get(1).position.set(map.getMonsterStartPosition(2)); // ピンキー
+            monsters.get(2).position.set(map.getMonsterStartPosition(1)); // アオスケ
+            monsters.get(3).position.set(map.getMonsterStartPosition(3)); // グズタ
 
             for (int m = 0; m < monsters.size(); m++) {
-              monsters.get(m).setMode(MonsterMode.Rest);
               monsters.get(m).setStatus(MonsterStatus.Wait);
               monsters.get(m).setMode(MonsterMode.Rest);
               monsters.get(m).direction = 1;

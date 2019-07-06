@@ -65,11 +65,11 @@ public class Map {
   }
 
   public PVector getPacmanStartPosition() {
-    return this.pacmanStartPosition;
+    return this.pacmanStartPosition.copy();
   }
 
   public PVector getMonsterStartPosition(int index) {
-    return this.monsterStartPositions.get(index);
+    return this.monsterStartPositions.get(index).copy();
   }
 
   public PVector getReleasePoint() {
