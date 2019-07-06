@@ -135,7 +135,8 @@ public class Stage implements Scene {
     }
 
     if (foods.isEmpty() && powerFoods.isEmpty()) {
-      SceneManager.setScene(new Stage("original"));
+      // ゲームクリア
+      SceneManager.setScene(new Result(score));
     }
 
     for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
