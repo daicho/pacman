@@ -88,6 +88,7 @@ public abstract class Character extends GameObject {
 
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
+/*
     PVector check = getDirectionVector(direction); // 壁かどうかを判定する座標
 
     switch(direction) {
@@ -143,7 +144,7 @@ public abstract class Character extends GameObject {
 
       break;
     }
-
+*/
     return true;
   }
 
