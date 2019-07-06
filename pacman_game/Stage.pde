@@ -178,14 +178,14 @@ public class Stage implements Scene {
             println(life);
 
             // パックマン
-            pacman.position.set(map.getPacmanStartPosition());
+            pacman.setPosition(map.getPacmanStartPosition());
             pacman.direction = 2;
 
             // 敵
-            monsters.get(0).position.set(map.getMonsterStartPosition(0)); // アカベエ
-            monsters.get(1).position.set(map.getMonsterStartPosition(2)); // ピンキー
-            monsters.get(2).position.set(map.getMonsterStartPosition(1)); // アオスケ
-            monsters.get(3).position.set(map.getMonsterStartPosition(3)); // グズタ
+            monsters.get(0).setPosition(map.getMonsterStartPosition(0)); // アカベエ
+            monsters.get(1).setPosition(map.getMonsterStartPosition(2)); // ピンキー
+            monsters.get(2).setPosition(map.getMonsterStartPosition(1)); // アオスケ
+            monsters.get(3).setPosition(map.getMonsterStartPosition(3)); // グズタ
 
             for (int m = 0; m < monsters.size(); m++) {
               monsters.get(m).setStatus(MonsterStatus.Wait);

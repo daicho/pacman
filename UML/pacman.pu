@@ -41,6 +41,7 @@ abstract class GameObject {
 
     # GameObject(position: PVector):
     + getPosition(): PVector
+    + setPosition(position: PVector)
     + getSize(): PVector
     + getMinPosition(): PVector
     + getMaxPosition(): PVector

@@ -32,13 +32,15 @@ public class Map {
         // 壁
         if (pixel == color(255, 255, 255)) {
           objects[x][y] = MapObject.Wall;
+        }
 
         // 敵出入口
-        } else if (pixel == color(0, 255, 0)) {
+        else if (pixel == color(0, 255, 0)) {
           objects[x][y] = MapObject.MonsterDoor;
+        }
 
         // 通路
-        } else {
+        else {
           objects[x][y] = MapObject.Route;
         }
 
@@ -55,9 +57,10 @@ public class Map {
         // 出撃地点
         else if (pixel == color(255, 0, 255)) {
           releasePoint = new PVector(x, y);
+        }
 
         // 帰還地点
-        } else if (pixel == color(255, 127, 0)) {
+        else if (pixel == color(255, 127, 0)) {
           returnPoint = new PVector(x, y);
         }
       }

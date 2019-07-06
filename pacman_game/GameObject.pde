@@ -4,11 +4,15 @@ public abstract class GameObject {
   protected PVector size;     // 画像サイズ
 
   protected GameObject(PVector position) {
-    this.position = position;
+    this.position = position.copy();
   }
 
   public PVector getPosition() {
     return this.position.copy();
+  }
+
+  public void setPosition(PVector position) {
+    this.position = position.copy();
   }
 
   public PVector getSize() {
