@@ -134,6 +134,10 @@ public class Stage implements Scene {
       }
     }
 
+    if (foods.isEmpty() && powerFoods.isEmpty()) {
+      SceneManager.setScene(new Stage("original"));
+    }
+
     for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
       Monster monster = i.next();
 
@@ -179,7 +183,7 @@ public class Stage implements Scene {
 
             // パックマン
             pacman.setPosition(map.getPacmanStartPosition());
-            pacman.direction = 2;
+            pacman.setDirection(2);
 
             // 敵
             monsters.get(0).setPosition(map.getMonsterStartPosition(0)); // アカベエ
@@ -190,7 +194,7 @@ public class Stage implements Scene {
             for (int m = 0; m < monsters.size(); m++) {
               monsters.get(m).setStatus(MonsterStatus.Wait);
               monsters.get(m).setMode(MonsterMode.Rest);
-              monsters.get(m).direction = 1;
+              monsters.get(m).setDirection(1);
             }
 
             frame = 0;
@@ -199,10 +203,6 @@ public class Stage implements Scene {
           break;
         }
       }
-    }
-
-    if (foods.isEmpty() && powerFoods.isEmpty()) {
-      ; /* ゲームクリア */
     }
 
     frame++;

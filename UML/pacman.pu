@@ -56,6 +56,7 @@ abstract class Character {
 
     # Character(position: PVector, direction: int, speed: float, interval: int, characterName: String)
     + getDirection(): int
+    + setDirection(direction: int)
     + getSpeed(): int
     + setSpeed(speed: float)
     # getDirectionVector(int direction)

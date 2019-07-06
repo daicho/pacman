@@ -20,6 +20,10 @@ public abstract class Character extends GameObject {
     return this.direction;
   }
 
+  public void setDirection(int direction) {
+    this.direction = direction;
+  }
+
   public float getSpeed() {
     return this.speed;
   }
