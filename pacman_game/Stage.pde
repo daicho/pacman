@@ -231,5 +231,7 @@ public class Stage implements Scene {
     textFont(font, 20);
     text("SCORE", 75, 180);
     text(score, 75, 200);
+    text("HiSCORE", 465, 180);
+    text(Record.getHighScore(), 445, 200);
   }
 }

@@ -7,15 +7,11 @@ public static class Record {
 
   public static void setHighScore(int score) {
     // scoreがhighScoreより高かったら更新
+    Record.highScore = score;
   }
 
   // ハイスコアの読み込み
-  public static void loadHighScore() {
-    
-  }
-
-  // ハイスコアの保存
-  public static void saveHighScore() {
-    
+  public static void loadHighScore(int score) {
+    Record.highScore = score;
   }
 }
