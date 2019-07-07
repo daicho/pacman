@@ -14,7 +14,6 @@ public class Map {
   protected PVector returnPoint;  // 帰還地点
   protected PImage image;         // 画像ファイル
   protected PVector size;         // 画像サイズ
-  protected HashMap<String, String> setting = new HashMap<String, String>(); // 設定
 
   public Map(String mapName) {
     // 画像ファイル読み込み
@@ -68,11 +67,15 @@ public class Map {
     }
     
     // 設定ファイル読み込み
+    HashMap<String, String> setting = new HashMap<String, String>();
     String[] settingLines = loadStrings(dataPath("maps/" + mapName + "-setting.txt"));
+
     for (String settingLine : settingLines) {
       String[] curSetting = split(settingLine, ',');
       setting.put(curSetting[0], curSetting[1]);
     }
+
+    
   }
 
   public PVector getPacmanStartPosition() {
@@ -101,6 +104,14 @@ public class Map {
       return MapObject.Route;
     else
       return this.objects[round(x)][round(y)];
+  }
+
+  public MapObject getObject(PVector v) {
+    // 画面外は通路判定
+    if (round(v.x) < 0 || round(v.x) >= size.x || round(v.y) < 0 || round(v.y) >= size.y)
+      return MapObject.Route;
+    else
+      return this.objects[round(v.x)][round(v.y)];
   }
 
   // 画面描画

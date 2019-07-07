@@ -55,9 +55,7 @@ public abstract class Character extends GameObject {
   // 移動
   public void move(Map map) {
     if (canMove(map, direction)) {
-      PVector moveVector = getDirectionVector(direction);
-      moveVector.mult(speed);
-      position.add(moveVector);
+      position.add(getDirectionVector(direction).mult(speed));
 
       // ワープトンネル
       PVector mapSize = map.getSize();
@@ -88,13 +86,12 @@ public abstract class Character extends GameObject {
 
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
-
     PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
 
     for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
-      MapObject mapObject = map.getObject(check.x + getPosition().x, check.y + getPosition().y);
-       if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
-          return false;
+      MapObject mapObject = map.getObject(PVector.add(position, check));
+      if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
+        return false;
     }
 
     return true;

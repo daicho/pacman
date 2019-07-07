@@ -19,9 +19,8 @@ public class Aosuke extends Monster {
   
       case Chase:
         // パックマンを中心にしてアカベイの点対象の地点を目指す
-        aimPoint = stage.pacman.position.copy();
-        aimPoint.mult(2);
-        aimPoint.sub(stage.monsters.get(0).position);
+        aimPoint = stage.pacman.getPosition().mult(2);
+        aimPoint.sub(stage.monsters.get(0).getPosition());
         direction = getAimDirection(stage.map, aimPoint);
         break;
   

@@ -67,11 +67,10 @@ public abstract class Monster extends Character {
 
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
-
     PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
 
     for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
-      MapObject mapObject = map.getObject(check.x + getPosition().x, check.y + getPosition().y);
+      MapObject mapObject = map.getObject(PVector.add(check, position));
       if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
         return false;
     }
@@ -94,10 +93,7 @@ public abstract class Monster extends Character {
       int checkDirection = (direction + i) % 4;
 
       PVector checkPosition = position.copy();
-      PVector moveVector = getDirectionVector(checkDirection);
-      moveVector.mult(speed);
-      checkPosition.add(moveVector);
-      ;
+      checkPosition.add(getDirectionVector(checkDirection).mult(speed));
 
       if (canMove(map, checkDirection) && checkPosition.dist(point) < distanceMin) {
         aimDirection = checkDirection;
