@@ -67,63 +67,15 @@ public abstract class Monster extends Character {
 
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
-/*
-    PVector check = getDirectionVector(direction); // 壁かどうかを判定する座標
 
-    switch(direction) {
-    case 0: // 右
-      check.add(getMaxPosition().x, getMinPosition().y);
+    PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
 
-      for (; check.x <= getMaxPosition().x + speed; check.x++) {
-        for (; check.y <= getMaxPosition().y; check.y++) {
-          MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
-            return false;
-        }
-      }
-
-      break;
-
-    case 1: // 上
-      check.add(getMinPosition().x, getMinPosition().y);
-
-      for (; check.y >= getMinPosition().y - speed; check.y--) {
-        for (; check.x <= getMaxPosition().x; check.x++) {
-          MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
-            return false;
-        }
-      }
-
-      break;
-
-    case 2: // 左
-      check.add(getMinPosition().x, getMinPosition().y);
-
-      for (; check.x >= getMinPosition().x - speed; check.x--) {
-        for (; check.y <= getMaxPosition().y; check.y++) {
-          MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
-            return false;
-        }
-      }
-
-      break;
-
-    case 3: // 下
-      check.add(getMinPosition().x, getMaxPosition().y);
-
-      for (; check.y <= getMaxPosition().y + speed; check.y++) {
-        for (; check.x <= getMaxPosition().x; check.x++) {
-          MapObject mapObject = map.getObject(check.x, check.y);
-          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
-            return false;
-        }
-      }
-
-      break;
+    for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
+      MapObject mapObject = map.getObject(check.x + getPosition().x, check.y + getPosition().y);
+      if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
+        return false;
     }
-*/
+
     return true;
   }
 
