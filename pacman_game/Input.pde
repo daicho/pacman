@@ -1,64 +1,167 @@
 // 入力のインターフェース
-public interface InputInterface {
-  public boolean right();   // →
-  public boolean up();      // ↑
-  public boolean left();    // ←
-  public boolean down();    // ↓
-  public boolean buttonA(); // A
-  public boolean buttonB(); // B
+public abstract class InputInterface {
+  public boolean previewRight = false;
+  public boolean previewUp = false;
+  public boolean previewLeft = false;
+  public boolean previewDown = false;
+  public boolean previewButtonA = false;
+  public boolean previewButtonB = false;
+
+  public abstract boolean right();   // →
+  public abstract boolean up();      // ↑
+  public abstract boolean left();    // ←
+  public abstract boolean down();    // ↓
+  public abstract boolean buttonA(); // A
+  public abstract boolean buttonB(); // B
+
+  public boolean rightPress() {
+    return false;
+  }
+
+  public boolean upPress() {
+    return false;
+  }
+
+  public boolean leftPress() {
+    return false;
+  }
+
+  public boolean downPress() {
+    return false;
+  }
+
+  public boolean buttonAPress() {
+    return false;
+  }
+
+  public boolean buttonBPress() {
+    return false;
+  }
+
+  public boolean rightRelease() {
+    return false;
+  }
+
+  public boolean upRelease() {
+    return false;
+  }
+
+  public boolean leftRelease() {
+    return false;
+  }
+
+  public boolean downRelease() {
+    return false;
+  }
+
+  public boolean buttonARelease() {
+    return false;
+  }
+
+  public boolean buttonBRelease() {
+    return false;
+  }
 }
 
 // キーボードからの入力
-public class KeyboardInput implements InputInterface {
+public class KeyboardInput extends InputInterface {
   public boolean right() {
-    return keyPressed && keyCode == RIGHT;
+    if (keyPressed && keyCode == RIGHT) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean up() {
-    return keyPressed && keyCode == UP;
+    if (keyPressed && keyCode == UP) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean left() {
-    return keyPressed && keyCode == LEFT;
+    if (keyPressed && keyCode == LEFT) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean down() {
-    return keyPressed && keyCode == DOWN;
+    if (keyPressed && keyCode == DOWN) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean buttonA() {
-    return keyPressed && key == 'z';
+    if (keyPressed && key == 'z') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean buttonB() {
-    return keyPressed && key == 'x';
+    if (keyPressed && key == 'x') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
 // アーケードからの入力
-public class ArcadeInput implements InputInterface {
+public class ArcadeInput extends InputInterface {
   public boolean right() {
-    return keyPressed && key == 'a';
+    if (keyPressed && key == 'a') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean up() {
-    return keyPressed && key == 'b';
+    if (keyPressed && key == 'b') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean left() {
-    return keyPressed && key == 'c';
+    if (keyPressed && key == 'c') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean down() {
-    return keyPressed && key == 'd';
+    if (keyPressed && key == 'd') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean buttonA() {
-    return keyPressed && key == 'e';
+    if (keyPressed && key == 'e') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean buttonB() {
-    return keyPressed && key == 'f';
+    if (keyPressed && key == 'f') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -92,5 +195,53 @@ public static class Input {
 
   public static boolean buttonB() {
     return inputInterface.buttonB();
+  }
+
+  public static boolean rightPress() {
+    return inputInterface.rightPress();
+  }
+
+  public static boolean upPress() {
+    return inputInterface.upPress();
+  }
+
+  public static boolean leftPress() {
+    return inputInterface.leftPress();
+  }
+
+  public static boolean downPress() {
+    return inputInterface.downPress();
+  }
+
+  public static boolean buttonAPress() {
+    return inputInterface.buttonAPress();
+  }
+
+  public static boolean buttonBPress() {
+    return inputInterface.buttonBPress();
+  }
+
+  public static boolean rightRelease() {
+    return inputInterface.rightRelease();
+  }
+
+  public static boolean upRelease() {
+    return inputInterface.upRelease();
+  }
+
+  public static boolean leftRelease() {
+    return inputInterface.leftRelease();
+  }
+
+  public static boolean downRelease() {
+    return inputInterface.downRelease();
+  }
+
+  public static boolean buttonARelease() {
+    return inputInterface.buttonARelease();
+  }
+
+  public static boolean buttonBRelease() {
+    return inputInterface.buttonBRelease();
   }
 }

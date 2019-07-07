@@ -16,14 +16,14 @@ public class Guzuta extends Monster {
         aimPoint = new PVector(random(0, stage.map.size.x / 2), random(stage.map.size.y / 2, stage.map.size.y));
         direction = getAimDirection(stage.map, aimPoint);
         break;
-  
+
       case Chase:
         /* ――――――――――――――――――――――――――
-           パックマンから半径260px外ではアカベイと同じ追跡方法、
-           半径260px内ではランダムに動く
-           ―――――――――――――――――――――――――― */
+         パックマンから半径260px外ではアカベイと同じ追跡方法、
+         半径260px内ではランダムに動く
+         ―――――――――――――――――――――――――― */
         break;
-  
+
       default:
         break;
       }

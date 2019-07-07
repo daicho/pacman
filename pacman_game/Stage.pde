@@ -21,7 +21,7 @@ public class Stage implements Scene {
     this.monsters.add(new Guzuta(map.getMonsterStartPosition(3), 1, 1.6));
 
     // マップファイル読み込み
-    PImage mapImage = loadImage("maps/" + mapName + "-map.png");
+    PImage mapImage = loadImage("stages/" + mapName + "-map.png");
     mapImage.loadPixels();
 
     for (int y = 0; y < mapImage.height; y++) {
@@ -195,6 +195,7 @@ public class Stage implements Scene {
             }
 
             frame = 0;
+            return;
           }
           break;
         }

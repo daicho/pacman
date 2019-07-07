@@ -7,6 +7,11 @@ public class Pacman extends Character {
     this.nextDirection = direction;
   }
 
+  public void setDirection(int direction) {
+    super.setDirection(direction);
+    this.nextDirection = direction;
+  }
+
   public int getNextDirection() {
     return this.nextDirection;
   }
