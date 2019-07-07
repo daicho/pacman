@@ -2,10 +2,10 @@
 public class Item extends GameObject {
   protected Animation animation; // アニメーション
 
-  public Item(PVector position, int interval, String itemName) {
+  public Item(PVector position, String itemName) {
     super(position);
 
-    this.animation = new Animation(interval, dataPath("items/" + itemName));
+    this.animation = new Animation(itemName);
     this.size = animation.getSize();
   }
 

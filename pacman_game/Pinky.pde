@@ -1,7 +1,7 @@
 // ピンキー
 public class Pinky extends Monster {
-  public Pinky(PVector position, int direction, float speed, int interval, String characterName) {
-    super(position, direction, speed, interval, characterName);
+  public Pinky(PVector position, int direction, float speed) {
+    super(position, direction, speed, "pinky");
   }
 
   // 進む方向を決定する

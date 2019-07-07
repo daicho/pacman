@@ -4,7 +4,7 @@ public abstract class Character extends GameObject {
   protected float speed;   // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
-  protected Character(PVector position, int direction, float speed, int interval, String characterName) {
+  protected Character(PVector position, int direction, float speed, String characterName) {
     super(position);
 
     this.direction = direction;
@@ -12,7 +12,7 @@ public abstract class Character extends GameObject {
 
     // アニメーション
     for (int i = 0; i < 4; i++)
-      animations[i] = new Animation(interval, dataPath("characters/" + characterName + "-" + i));
+      animations[i] = new Animation(characterName + "-" + i);
     this.size = animations[0].getSize();
   }
 

@@ -6,20 +6,20 @@ public class Stage implements Scene {
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
-  protected Map map;       // マップ
-  protected int frame = 0; // 経過フレーム
-  protected int score = 0; // スコア
+  protected Map map;                 // マップ
+  protected int frame = 0;           // 経過フレーム
+  protected int score = 0;           // スコア
   protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
-  protected int life = 3;  // 残機の数
+  protected int life = 3;            // 残機の数
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
-    this.pacman = new Pacman(map.getPacmanStartPosition(), 2, 1.6, 3, "pacman");
-    this.monsters.add(new Akabei(map.getMonsterStartPosition(0), 1, 1.6, 5, "akabei"));
-    this.monsters.add(new Pinky (map.getMonsterStartPosition(2), 1, 1.6, 5, "pinky" ));
-    this.monsters.add(new Aosuke(map.getMonsterStartPosition(1), 1, 1.6, 5, "aosuke"));
-    this.monsters.add(new Guzuta(map.getMonsterStartPosition(3), 1, 1.6, 5, "guzuta"));
-    
+    this.pacman = new Pacman(map.getPacmanStartPosition(), 2, 1.6);
+    this.monsters.add(new Akabei(map.getMonsterStartPosition(0), 1, 1.6));
+    this.monsters.add(new Aosuke(map.getMonsterStartPosition(1), 1, 1.6));
+    this.monsters.add(new Pinky (map.getMonsterStartPosition(2), 1, 1.6));
+    this.monsters.add(new Guzuta(map.getMonsterStartPosition(3), 1, 1.6));
+
     // マップファイル読み込み
     PImage mapImage = loadImage("maps/" + mapName + "-map.png");
     mapImage.loadPixels();
@@ -30,12 +30,12 @@ public class Stage implements Scene {
 
         // エサ
         if (pixel == color(255, 255, 0)) {
-          foods.add(new Item(new PVector(x, y), 0, "food"));
+          foods.add(new Item(new PVector(x, y), "food"));
         }
 
         // パワーエサ
         else if (pixel == color(0, 255, 255)) {
-          powerFoods.add(new Item(new PVector(x, y), 10, "power_food"));
+          powerFoods.add(new Item(new PVector(x, y), "power_food"));
         }
       }
     }
@@ -187,19 +187,14 @@ public class Stage implements Scene {
             pacman.setDirection(2);
 
             // 敵
-            monsters.get(0).setPosition(map.getMonsterStartPosition(0)); // アカベエ
-            monsters.get(1).setPosition(map.getMonsterStartPosition(2)); // ピンキー
-            monsters.get(2).setPosition(map.getMonsterStartPosition(1)); // アオスケ
-            monsters.get(3).setPosition(map.getMonsterStartPosition(3)); // グズタ
-
             for (int m = 0; m < monsters.size(); m++) {
+              monsters.get(m).setPosition(map.getMonsterStartPosition(m));
+              monsters.get(m).setDirection(1);
               monsters.get(m).setStatus(MonsterStatus.Wait);
               monsters.get(m).setMode(MonsterMode.Rest);
-              monsters.get(m).setDirection(1);
             }
 
             frame = 0;
-            update();
           }
           break;
         }

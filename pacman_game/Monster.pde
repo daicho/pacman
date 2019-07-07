@@ -22,17 +22,17 @@ public abstract class Monster extends Character {
   protected int changeModeLeft;   // あと何fでモードが切り替わるか
   protected int ijikeTime;        // あと何fでイジケモードが終わるか
 
-  protected Monster(PVector position, int direction, float speed, int interval, String characterName) {
-    super(position, direction, speed, interval, characterName);
+  protected Monster(PVector position, int direction, float speed, String characterName) {
+    super(position, direction, speed, characterName);
     this.changeModeLeft = changeMode;
 
     // イジケ時のアニメーション
-    this.ijikeAnimations[0] = new Animation(0, dataPath("characters/ijike-0"));
-    this.ijikeAnimations[1] = new Animation(10, dataPath("characters/ijike-1"));
+    this.ijikeAnimations[0] = new Animation("ijike-0");
+    this.ijikeAnimations[1] = new Animation("ijike-1");
 
     // 帰還時のアニメーション
     for (int i = 0; i < 4; i++)
-      this.returnAnimations[i] = new Animation(0, dataPath("characters/return-" + i));
+      this.returnAnimations[i] = new Animation("return-" + i);
   }
 
   public MonsterStatus getStatus() {

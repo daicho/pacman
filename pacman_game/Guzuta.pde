@@ -1,7 +1,7 @@
 // グズタ
 public class Guzuta extends Monster {
-  public Guzuta(PVector position, int direction, float speed, int interval, String characterName) {
-    super(position, direction, speed, interval, characterName);
+  public Guzuta(PVector position, int direction, float speed) {
+    super(position, direction, speed, "guzuta");
   }
 
   // 進む方向を決定する

@@ -6,14 +6,11 @@ public class Animation {
   protected int interval;     // アニメーションの間隔 [f]
   protected int intervalLeft; // あと何fで次のアニメーションにいくか
 
-  public Animation(int interval, String filePath) {
-    this.cur = 0;
-    this.interval = interval;
-
+  public Animation(String imageName) {
     // 画像ファイルの存在確認
     this.number = 0;
     while (true) {
-      File imageFile = new File(filePath + "-" + number + ".png");
+      File imageFile = new File(dataPath("images/" + imageName + "-" + number + ".png"));
       if (!imageFile.exists())
         break;
 
@@ -23,7 +20,12 @@ public class Animation {
     // 画像ファイル読み込み
     this.images = new PImage[number];
     for (int i = 0; i < number; i++)
-      this.images[i] = loadImage(filePath + "-" + i +  ".png");
+      this.images[i] = loadImage(dataPath("images/" + imageName + "-" + i + ".png"));
+
+    // インターバル読み込み
+    String[] intervalText = loadStrings(dataPath("images/" + imageName + "-interval.txt"));
+    interval = int(intervalText[0]);
+    intervalLeft = interval;
   }
 
   // アニメーションを更新しアニメーションの終端ならばtrueを返す

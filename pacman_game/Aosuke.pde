@@ -1,7 +1,7 @@
 // アオスケ
 public class Aosuke extends Monster {
-  public Aosuke(PVector position, int direction, float speed, int interval, String characterName) {
-    super(position, direction, speed, interval, characterName);
+  public Aosuke(PVector position, int direction, float speed) {
+    super(position, direction, speed, "aosuke");
   }
 
   // 進む方向を決定する

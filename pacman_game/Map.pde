@@ -14,6 +14,7 @@ public class Map {
   protected PVector returnPoint;  // 帰還地点
   protected PImage image;         // 画像ファイル
   protected PVector size;         // 画像サイズ
+  protected HashMap<String, String> setting = new HashMap<String, String>(); // 設定
 
   public Map(String mapName) {
     // 画像ファイル読み込み
@@ -64,6 +65,13 @@ public class Map {
           returnPoint = new PVector(x, y);
         }
       }
+    }
+    
+    // 設定ファイル読み込み
+    String[] settingLines = loadStrings(dataPath("maps/" + mapName + "-setting.txt"));
+    for (String settingLine : settingLines) {
+      String[] curSetting = split(settingLine, ',');
+      setting.put(curSetting[0], curSetting[1]);
     }
   }
 

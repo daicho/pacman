@@ -1,7 +1,7 @@
 // アカベエ
 public class Akabei extends Monster {
-  public Akabei(PVector position, int direction, float speed, int interval, String characterName) {
-    super(position, direction, speed, interval, characterName);
+  public Akabei(PVector position, int direction, float speed) {
+    super(position, direction, speed, "akabei");
   }
 
   // 進む方向を決定する

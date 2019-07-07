@@ -54,7 +54,7 @@ abstract class Character {
     # speed: float
     # animetions: Animation[]
 
-    # Character(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    # Character(position: PVector, direction: int, speed: float, characterName: String)
     + getDirection(): int
     + setDirection(direction: int)
     + getSpeed(): int
@@ -70,7 +70,7 @@ abstract class Character {
 class Pacman {
     # nextDirection: int
 
-    + Pacman(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    + Pacman(position: PVector, direction: int, speed: float)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + decideDirection(stage: Stage)
@@ -85,7 +85,7 @@ abstract class Monster {
     # changeModeLeft: int
     # ijikeTime: int
 
-    # Monster(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    # Monster(position: PVector, direction: int, speed: float, characterName: String)
     + getStatus(): MonsterStatus
     + setStatus(status: MonsterStatus)
     + getMode(): MonsterMode
@@ -113,22 +113,22 @@ enum MonsterMode {
 }
 
 class Akabei {
-    + Akabei(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    + Akabei(position: PVector, direction: int, speed: float)
     + decideDirection(stage: Stage)
 }
 
 class Pinky {
-    + Pinky(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    + Pinky(position: PVector, direction: int, speed: float)
     + decideDirection(stage: Stage)
 }
 
 class Aosuke {
-    + Aosuke(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    + Aosuke(position: PVector, direction: int, speed: float)
     + decideDirection(stage: Stage)
 }
 
 class Guzuta {
-    + Guzuta(position: PVector, direction: int, speed: float, interval: int, characterName: String)
+    + Guzuta(position: PVector, direction: int, speed: float)
     + decideDirection(stage: Stage)
 }
 
@@ -160,7 +160,7 @@ enum MapObject {
 class Item {
     # animation: Animation
 
-    + Item(position: PVector, interval: int, imageName: String)
+    + Item(position: PVector, imageName: String)
     + update()
     + draw()
 }
@@ -172,7 +172,7 @@ class Animation {
     # interval: int
     # intervalLeft: int
 
-    + Animation(interval: int, filePath:: String)
+    + Animation(imageName:: String)
     + update(): boolean
     + getImage(): PImage
     + getSize(): PVector
