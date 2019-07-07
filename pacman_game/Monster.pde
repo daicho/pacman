@@ -1,16 +1,16 @@
 // 敵の状態
 public enum MonsterStatus {
-  Wait, // 待機
-    Release, // 出撃
-    Active, // 活動
-    Return   // 帰還
+  Wait,    // 待機
+  Release, // 出撃
+  Active,  // 活動
+  Return   // 帰還
 }
 
 // 敵のモード
 public enum MonsterMode {
-  Rest, // 休息モード
-    Chase, // 追いかけモード
-    Ijike  // イジケモード
+  Rest,  // 休息モード
+  Chase, // 追いかけモード
+  Ijike  // イジケモード
 }
 
 public abstract class Monster extends Character {
@@ -68,7 +68,7 @@ public abstract class Monster extends Character {
   // 特定の方向へ移動できるか
   public boolean canMove(Map map, int direction) {
 
-    PVector check = getDirectionVector(direction); // 壁かどうかを判定に使用する座標
+    PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
 
     for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
       MapObject mapObject = map.getObject(check.x + getPosition().x, check.y + getPosition().y);
