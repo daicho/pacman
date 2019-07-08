@@ -7,7 +7,7 @@ void setup() {
   
   String dataName = "high_score.txt";
   // ハイスコアデータロード処理
-  Record.loadDataDirectory(dataPath(dataName));
+  Record.loadFilePath(dataPath(dataName));
   // ハイスコアロード処理
   Record.loadHighScore();
 

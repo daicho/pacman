@@ -1,7 +1,6 @@
 public static class Record {
   protected static int highScore;
   protected static String dataName;
-  protected static File directory;
 
   public static int getHighScore() {
     return Record.highScore;
@@ -13,22 +12,23 @@ public static class Record {
       Record.highScore = score;
   }
   
-  // データディレクトリ読み込み
-  public static void loadDataDirectory(String dataDirectory) {
-    Record.dataName = dataDirectory;
-    Record.directory = new File(Record.dataName);
+  // ファイルパス読み込み
+  public static void loadFilePath(String dataFilePath) {
+    Record.dataName = dataFilePath;
   }
 
   // ハイスコアの読み込み
   public static void loadHighScore() {
-    String[] scoreData = loadStrings(Record.directory); // ハイスコアをロード
+    File dataPath = new File(Record.dataName);
+    String[] scoreData = loadStrings(dataPath); // ハイスコアをロード
     int score = int(scoreData[0]);
     Record.highScore = score;
   }
   
   // ハイスコアの保存
   public static void saveHighScore(int score) {
+    File dataPath = new File(Record.dataName);
     String[] scoreData = {str(score)};
-    saveStrings(Record.directory, scoreData);
+    saveStrings(dataPath, scoreData);
   }
 }
