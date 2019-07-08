@@ -26,9 +26,9 @@ public static class Record {
   }
   
   // ハイスコアの保存
-  public static void saveHighScore(int score) {
+  public static void saveHighScore() {
     File dataPath = new File(Record.dataName);
-    String[] scoreData = {str(score)};
+    String[] scoreData = {str(highScore)};
     saveStrings(dataPath, scoreData);
   }
 }

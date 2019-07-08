@@ -1,10 +1,9 @@
 // アニメーション
 public class Animation {
-  protected PImage[] images;  // アニメーション画像
-  protected int cur = 0;      // 現在のアニメーション番号
-  protected int number;       // アニメーションの数
-  protected int interval;     // アニメーションの間隔 [f]
-  protected int intervalLeft; // あと何fで次のアニメーションにいくか
+  protected PImage[] images;     // アニメーション画像
+  protected int cur = 0;         // 現在のアニメーション番号
+  protected int number;          // アニメーションの数
+  protected Timer intervalTimer; // インターバルタイマー
 
   public Animation(String imageName) {
     // 画像ファイルの存在確認
@@ -24,22 +23,16 @@ public class Animation {
 
     // インターバル読み込み
     String[] intervalText = loadStrings(dataPath("images/" + imageName + "-interval.txt"));
-    interval = int(intervalText[0]);
-    intervalLeft = interval;
+    this.intervalTimer = new Timer(int(intervalText[0]));
   }
 
   // アニメーションを更新しアニメーションの終端ならばtrueを返す
   public boolean update() {
-    if (interval > 0) {
-      intervalLeft--;
-      if (intervalLeft < 0) {
-        intervalLeft = interval;
-
-        cur++;
-        if (cur >= number) {
-          cur = 0;
-          return true;
-        }
+    if (intervalTimer.update()) {
+      cur++;
+      if (cur >= number) {
+        cur = 0;
+        return true;
       }
     }
 
@@ -49,7 +42,7 @@ public class Animation {
   // 初期状態にリセット
   public void reset() {
     cur = 0;
-    intervalLeft = interval;
+    intervalTimer.reset();
   }
 
   // 画像を取得

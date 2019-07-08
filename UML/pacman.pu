@@ -16,11 +16,15 @@ Monster <|-- Aosuke
 Monster <|-- Guzuta
 Monster o-- MonsterStatus
 Monster o-- MonsterMode
+Monster o-- Animation
+Monster o-- Timer
 
 Map o-- Item
 Map o-- MapObject
 
 Item o-- Animation
+
+Animation o-- Timer
 
 SceneMaganer o-- Scene
 Scene <|.. Title
@@ -30,6 +34,7 @@ Scene <|.. Result
 Stage o-- Pacman
 Stage o-- Monster
 Stage o-- Map
+Stage o-- Timer
 
 Input o-- InputInterface
 InputInterface <|-- KeyboardInput
@@ -88,15 +93,14 @@ abstract class Monster {
     # returnAnimetions: Animation[]
     # changeMode: int
     # changeModeLeft: int
-    # ijikeTime: int
+    # ijikeTimer: Timer
 
     # Monster(position: PVector, direction: int, speed: float, characterName: String)
     + getStatus(): MonsterStatus
     + setStatus(status: MonsterStatus)
     + getMode(): MonsterMode
     + setMode(mode: MonsterMode)
-    + getIjikeTime(): int
-    + setIjikeTime(ijikeTime: int)
+    + setIjike(ijikeTime: int)
     + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
     + decideDirection(stage: Stage)
@@ -171,13 +175,23 @@ class Animation {
     # images: PImage[]
     # cur: int
     # number: int
-    # interval: int
-    # intervalLeft: int
+    # intervalTimer: Timer
 
-    + Animation(imageName:: String)
+    + Animation(imageName: String)
     + update(): boolean
     + getImage(): PImage
     + getSize(): PVector
+}
+
+class Timer {
+    # time: int
+    # left: int
+
+    + getTime(): int
+    + setTime(int time)
+    + getLeft(): int
+    + update(): boolean
+    + reset()
 }
 
 interface Scene {
@@ -203,6 +217,12 @@ class Stage {
     # score: int
     # monsterEatCount: int
     # life: int
+    # releaseInterval: int
+    # monsterMode: MonsterMode
+    # restTime: int
+    # chaseTime: int
+    # ijikeTime: int
+    # modeTimer: Timer
 
     + Stage(mapName: String)
     + getScore(): int
@@ -296,6 +316,17 @@ class Input {
     + {static} downRelease(): boolean
     + {static} buttonARelease(): boolean
     + {static} buttonBRelease(): boolean
+}
+
+class Record {
+    # {static} highScore: int
+    # {static} dataName: String
+
+    + {static} getHighScore(): int
+    + {static} setHighScore(score: int)
+    + {static} loadFilePath(dataFilePath: String)
+    + {static} loadHighScore()
+    + {static} saveHighScore()
 }
 
 @enduml

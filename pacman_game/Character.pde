@@ -2,7 +2,7 @@
 public abstract class Character extends GameObject {
   protected PVector startPosition; // 初期地点
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
-  protected int startDirection;         // 初期方向
+  protected int startDirection;    // 初期方向
   protected float speed;           // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 

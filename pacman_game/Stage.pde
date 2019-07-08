@@ -13,10 +13,10 @@ public class Stage implements Scene {
   protected int life = 3;            // 残機の数
   protected int releaseInterval;     // 排出間隔 [f]
   protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
-  protected int restTime;            // 休憩モードの時間 [f]
-  protected int chaseTime;           // 追いかけモードの時間 [f]
-  protected int ijikeTime;           // イジケモードの時間 [f]
-  protected int changeModeLeft;      // あと何fでモードが切り替わるか
+  protected int restTime;    // 休憩モードの時間 [f]
+  protected int chaseTime;   // 追いかけモードの時間 [f]
+  protected int ijikeTime;   // イジケモードの時間 [f]
+  protected Timer modeTimer; // モード切り替え用タイマー
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -33,7 +33,7 @@ public class Stage implements Scene {
     this.restTime = int(setting.get("rest_time"));
     this.chaseTime = int(setting.get("chase_time"));
     this.ijikeTime = int(setting.get("ijike_time"));
-    this.changeModeLeft = restTime;
+    this.modeTimer = new Timer(restTime);
     this.releaseInterval = int(setting.get("release_interval"));
 
     // マップファイル読み込み
@@ -100,16 +100,15 @@ public class Stage implements Scene {
       this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
     
     // モード切り替え
-    changeModeLeft--;
-    if (changeModeLeft < 0) {
+    if (modeTimer.update()) {
       switch (monsterMode) {
       case Rest:
-        changeModeLeft = chaseTime;
+        modeTimer.setTime(chaseTime);
         monsterMode = MonsterMode.Chase;
         break;
 
       case Chase:
-        changeModeLeft = restTime;
+        modeTimer.setTime(restTime);
         monsterMode = MonsterMode.Rest;
         break;
 
@@ -169,7 +168,7 @@ public class Stage implements Scene {
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setMode(MonsterMode.Ijike);
-            monster.setIjikeTime(ijikeTime);
+            monster.setIjike(ijikeTime);
           }
         }
 

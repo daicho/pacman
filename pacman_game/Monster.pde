@@ -18,7 +18,7 @@ public abstract class Monster extends Character {
   protected MonsterMode mode = MonsterMode.Rest;             // モード
   protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
-  protected int ijikeTime; // あと何fでイジケモードが終わるか
+  protected Timer ijikeTimer; // イジケモード用タイマー
 
   protected Monster(PVector position, int direction, float speed, String characterName) {
     super(position, direction, speed, characterName);
@@ -53,12 +53,8 @@ public abstract class Monster extends Character {
     }
   }
 
-  public int getIjikeTime() {
-    return this.ijikeTime;
-  }
-
-  public void setIjikeTime(int ijikeTime) {
-    this.ijikeTime = ijikeTime;
+  public void setIjike(int ijikeTime) {
+    ijikeTimer = new Timer(ijikeTime);
   }
 
   // 特定の方向へ移動できるか
@@ -162,8 +158,7 @@ public abstract class Monster extends Character {
     }
 
     // 一定時間経ったらイジケモードを解除する
-    ijikeTime--;
-    if (mode == MonsterMode.Ijike && ijikeTime < 0) {
+    if (mode == MonsterMode.Ijike && ijikeTimer.update()) {
       setMode(MonsterMode.Rest);
     }
 
@@ -174,7 +169,7 @@ public abstract class Monster extends Character {
       case Release:
       case Active:
         if (mode == MonsterMode.Ijike) {
-          if (ijikeTime > 120)
+          if (ijikeTimer.getLeft() > 120)
             ijikeAnimations[0].update();
           else
             ijikeAnimations[1].update();
@@ -199,7 +194,7 @@ public abstract class Monster extends Character {
     case Release:
     case Active:
       if (mode == MonsterMode.Ijike) {
-        if (ijikeTime > 120)
+        if (ijikeTimer.getLeft() > 120)
           image(ijikeAnimations[0].getImage(), minPostision.x, minPostision.y);
         else
           image(ijikeAnimations[1].getImage(), minPostision.x, minPostision.y);
