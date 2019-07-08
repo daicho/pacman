@@ -16,14 +16,14 @@ public class Aosuke extends Monster {
         aimPoint = new PVector(random(stage.map.size.x / 2, stage.map.size.x), random(stage.map.size.y / 2, stage.map.size.y));
         direction = getAimDirection(stage.map, aimPoint);
         break;
-  
+
       case Chase:
         // パックマンを中心にしてアカベイの点対象の地点を目指す
         aimPoint = stage.pacman.getPosition().mult(2);
         aimPoint.sub(stage.monsters.get(0).getPosition());
         direction = getAimDirection(stage.map, aimPoint);
         break;
-  
+
       default:
         break;
       }

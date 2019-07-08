@@ -14,7 +14,7 @@ public class Result implements Scene {
     if (Input.buttonA())
       SceneManager.setScene(new Title());
   }
-  
+
   public void draw() {
     background(0);
     fill(255);

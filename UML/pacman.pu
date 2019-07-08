@@ -32,8 +32,8 @@ Stage o-- Monster
 Stage o-- Map
 
 Input o-- InputInterface
-InputInterface <|.. KeyboardInput
-InputInterface <|.. ArcadeInput
+InputInterface <|-- KeyboardInput
+InputInterface <|-- ArcadeInput
 
 abstract class GameObject {
     # position: PVector
@@ -71,6 +71,7 @@ class Pacman {
     # nextDirection: int
 
     + Pacman(position: PVector, direction: int, speed: float)
+    + setDirection(direction: int)
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + decideDirection(stage: Stage)
@@ -221,13 +222,34 @@ class Result {
     + draw()
 }
 
-interface InputInterface {
+abstract class InputInterface {
+    # previewRight: boolean
+    # previewLeft: boolean
+    # previewUp: boolean
+    # previewDown: boolean
+    # previewButtonA: boolean
+    # previewButtonB: boolean
+
     + {abstract} right(): boolean
     + {abstract} up(): boolean
     + {abstract} left(): boolean
     + {abstract} down(): boolean
     + {abstract} buttonA(): boolean
     + {abstract} buttonB(): boolean
+
+    + rightPress(): boolean
+    + upPress(): boolean
+    + leftPress(): boolean
+    + downPress(): boolean
+    + buttonAPress(): boolean
+    + buttonBPress(): boolean
+
+    + rightRelease(): boolean
+    + upRelease(): boolean
+    + leftRelease(): boolean
+    + downRelease(): boolean
+    + buttonARelease(): boolean
+    + buttonBRelease(): boolean
 }
 
 class KeyboardInput {
@@ -252,12 +274,27 @@ class Input {
     # {static} inputInterface: InputInterface
 
     + {static} setInputInterface(inputInterFace: InputInterFace): void
+
     + {static} right(): boolean
     + {static} up(): boolean
     + {static} left(): boolean
     + {static} down(): boolean
     + {static} buttonA(): boolean
     + {static} buttonB(): boolean
+
+    + {static} rightPress(): boolean
+    + {static} upPress(): boolean
+    + {static} leftPress(): boolean
+    + {static} downPress(): boolean
+    + {static} buttonAPress(): boolean
+    + {static} buttonBPress(): boolean
+
+    + {static} rightRelease(): boolean
+    + {static} upRelease(): boolean
+    + {static} leftRelease(): boolean
+    + {static} downRelease(): boolean
+    + {static} buttonARelease(): boolean
+    + {static} buttonBRelease(): boolean
 }
 
 @enduml

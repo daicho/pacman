@@ -17,12 +17,12 @@ public class Map {
 
   public Map(String mapName) {
     // 画像ファイル読み込み
-    this.image = loadImage("maps/" + mapName + "-image.png");
+    this.image = loadImage("stages/" + mapName + "-image.png");
     this.size = new PVector(image.width, image.height);
     this.objects = new MapObject[image.width][image.height];
 
     // マップファイル読み込み
-    PImage mapImage = loadImage("maps/" + mapName + "-map.png");
+    PImage mapImage = loadImage("stages/" + mapName + "-map.png");
     mapImage.loadPixels();
 
     for (int y = 0; y < mapImage.height; y++) {
@@ -65,17 +65,15 @@ public class Map {
         }
       }
     }
-    
+
     // 設定ファイル読み込み
     HashMap<String, String> setting = new HashMap<String, String>();
-    String[] settingLines = loadStrings(dataPath("maps/" + mapName + "-setting.txt"));
+    String[] settingLines = loadStrings(dataPath("stages/" + mapName + "-setting.txt"));
 
     for (String settingLine : settingLines) {
       String[] curSetting = split(settingLine, ',');
       setting.put(curSetting[0], curSetting[1]);
     }
-
-    
   }
 
   public PVector getPacmanStartPosition() {

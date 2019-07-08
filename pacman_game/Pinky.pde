@@ -16,13 +16,13 @@ public class Pinky extends Monster {
         aimPoint = new PVector(random(0, stage.map.size.x / 2), random(0, stage.map.size.y / 2));
         direction = getAimDirection(stage.map, aimPoint);
         break;
-  
+
       case Chase:
         /* ―――――――――――――――――――
-           パックマンのいる地点の3マス先を目指す
-           ――――――――――――――――――― */
+         パックマンのいる地点の3マス先を目指す
+         ――――――――――――――――――― */
         break;
-  
+
       default:
         break;
       }

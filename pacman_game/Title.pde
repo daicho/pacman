@@ -3,7 +3,7 @@ public class Title implements Scene {
     if (Input.buttonA())
       SceneManager.setScene(new Stage("original"));
   }
-  
+
   public void draw() {
     background(0);
     fill(255);
