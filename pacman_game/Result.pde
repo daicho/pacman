@@ -3,12 +3,10 @@ public class Result implements Scene {
 
   public Result(int score) {
     this.score = score;
-
-    // ハイスコア更新
-    if (Record.getHighScore() < score) {
-      String[] scoreData = {str(score)};
-      saveStrings("./data/high_score.txt", scoreData);
-      Record.setHighScore(score);
+    // ハイスコア更新処理
+    if(Record.getHighScore() < this.score){
+      Record.setHighScore(this.score);
+      Record.saveHighScore(this.score);
     }
   }
 
