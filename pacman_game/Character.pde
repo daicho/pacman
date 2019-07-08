@@ -1,13 +1,17 @@
 // キャラクターの基底クラス
 public abstract class Character extends GameObject {
-  protected int direction; // 向き (0:右 1:上 2:左 3:下)
-  protected float speed;   // 速さ [px/f]
+  protected PVector startPosition; // 初期地点
+  protected int direction;         // 向き (0:右 1:上 2:左 3:下)
+  protected int startDirection;         // 初期方向
+  protected float speed;           // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
   protected Character(PVector position, int direction, float speed, String characterName) {
     super(position);
 
+    this.startPosition = position.copy();
     this.direction = direction;
+    this.startDirection = direction;
     this.speed = speed;
 
     // アニメーション
@@ -99,6 +103,12 @@ public abstract class Character extends GameObject {
 
   // 進む方向を決定する
   public abstract void decideDirection(Stage stage);
+
+  // リセット
+  public void reset() {
+    position = startPosition.copy();
+    direction = startDirection;
+  }
 
   // 更新
   public void update(Map map) {

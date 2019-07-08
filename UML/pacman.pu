@@ -50,7 +50,9 @@ abstract class GameObject {
 }
 
 abstract class Character {
+    # startPosition: PVector
     # direction: int
+    # startDirection: int
     # speed: float
     # animetions: Animation[]
 
@@ -63,6 +65,7 @@ abstract class Character {
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
     + {abstract} decideDirection(stage: Stage)
+    + reset()
     + update(map: Map)
     + draw()
 }
@@ -75,6 +78,7 @@ class Pacman {
     + getNextDirection(): int
     + setNextDirection(nextDirection: int)
     + decideDirection(stage: Stage)
+    + reset()
 }
 
 abstract class Monster {
@@ -96,6 +100,7 @@ abstract class Monster {
     + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
     + decideDirection(stage: Stage)
+    + reset()
     + update(map: Map)
     + draw()
 }
@@ -135,16 +140,12 @@ class Guzuta {
 
 class Map {
     # objects: MapObject[][]
-    # pacmanStartPosition: PVector
-    # monsterStartPositions: ArrayList<PVector>
     # releasePoint: PVector
     # returnPoint: PVector
     # image: PImage
     # size: PVector
 
     + Map(mapName: String)
-    + getPacmanStartPosition(): PVector
-    + geMonsterStartPosition(index: int): PVector
     + getReleasePoint(): PVector
     + getReturnPoint(): PVector
     + getSize(): PVector

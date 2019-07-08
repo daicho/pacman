@@ -8,8 +8,6 @@ public enum MapObject {
 // マップ
 public class Map {
   protected MapObject[][] objects;       // マップ内のオブジェクト
-  protected PVector pacmanStartPosition; // パックマン初期地点
-  protected ArrayList<PVector> monsterStartPositions = new ArrayList<PVector>(); // 敵初期地点
   protected PVector releasePoint; // 出撃地点
   protected PVector returnPoint;  // 帰還地点
   protected PImage image;         // 画像ファイル
@@ -44,18 +42,8 @@ public class Map {
           objects[x][y] = MapObject.Route;
         }
 
-        // パックマン
-        if (pixel == color(255, 0, 0)) {
-          pacmanStartPosition = new PVector(x, y);
-        }
-
-        // 敵
-        else if (pixel == color(0, 0, 255)) {
-          monsterStartPositions.add(new PVector(x, y));
-        }
-
         // 出撃地点
-        else if (pixel == color(255, 0, 255)) {
+        if (pixel == color(255, 0, 255)) {
           releasePoint = new PVector(x, y);
         }
 
@@ -65,23 +53,6 @@ public class Map {
         }
       }
     }
-
-    // 設定ファイル読み込み
-    HashMap<String, String> setting = new HashMap<String, String>();
-    String[] settingLines = loadStrings(dataPath("stages/" + mapName + "-setting.txt"));
-
-    for (String settingLine : settingLines) {
-      String[] curSetting = split(settingLine, ',');
-      setting.put(curSetting[0], curSetting[1]);
-    }
-  }
-
-  public PVector getPacmanStartPosition() {
-    return this.pacmanStartPosition.copy();
-  }
-
-  public PVector getMonsterStartPosition(int index) {
-    return this.monsterStartPositions.get(index).copy();
   }
 
   public PVector getReleasePoint() {

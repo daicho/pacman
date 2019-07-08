@@ -11,16 +11,24 @@ public class Stage implements Scene {
   protected int score = 0;           // スコア
   protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
   protected int life = 3;            // 残機の数
+  protected int releaseInterval;     // 排出間隔 [f]
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
-    this.pacman = new Pacman(map.getPacmanStartPosition(), 2, 1.6);
-    this.monsters.add(new Akabei(map.getMonsterStartPosition(0), 1, 1.6));
-    this.monsters.add(new Aosuke(map.getMonsterStartPosition(1), 1, 1.6));
-    this.monsters.add(new Pinky (map.getMonsterStartPosition(2), 1, 1.6));
-    this.monsters.add(new Guzuta(map.getMonsterStartPosition(3), 1, 1.6));
+
+    // 設定ファイル読み込み
+    HashMap<String, String> setting = new HashMap<String, String>();
+    String[] settingLines = loadStrings(dataPath("stages/" + mapName + "-setting.txt"));
+
+    for (String settingLine : settingLines) {
+      String[] curSetting = split(settingLine, ',');
+      setting.put(curSetting[0], curSetting[1]);
+    }
+
+    this.releaseInterval = int(setting.get("release_interval"));
 
     // マップファイル読み込み
+    ArrayList<PVector> monsterPositions = new ArrayList<PVector>();
     PImage mapImage = loadImage("stages/" + mapName + "-map.png");
     mapImage.loadPixels();
 
@@ -28,8 +36,20 @@ public class Stage implements Scene {
       for (int x = 0; x < mapImage.width; x++) {
         color pixel = mapImage.pixels[y * mapImage.width + x];
 
+        // パックマン
+        if (pixel == color(255, 0, 0)) {
+          int pacmanDirection = int(setting.get("pacman_direction"));
+          float pacmanSpeed = float(setting.get("pacman_speed"));
+          this.pacman = new Pacman(new PVector(x, y), pacmanDirection, pacmanSpeed);
+        }
+
+        // 敵
+        else if (pixel == color(0, 0, 255)) {
+          monsterPositions.add(new PVector(x, y));
+        }
+
         // エサ
-        if (pixel == color(255, 255, 0)) {
+        else if (pixel == color(255, 255, 0)) {
           foods.add(new Item(new PVector(x, y), "food"));
         }
 
@@ -39,6 +59,13 @@ public class Stage implements Scene {
         }
       }
     }
+
+    int monsterDirection = int(setting.get("monster_direction"));
+    float monsterSpeed = float(setting.get("monster_rest_speed"));
+    this.monsters.add(new Akabei(monsterPositions.get(0), monsterDirection, monsterSpeed));
+    this.monsters.add(new Aosuke(monsterPositions.get(1), monsterDirection, monsterSpeed));
+    this.monsters.add(new Pinky (monsterPositions.get(2), monsterDirection, monsterSpeed));
+    this.monsters.add(new Guzuta(monsterPositions.get(3), monsterDirection, monsterSpeed));
 
     this.draw();
   }
@@ -60,23 +87,8 @@ public class Stage implements Scene {
       pacman.setNextDirection(3); // ↓
 
     // モンスター放出
-    switch (frame) {
-    case 0:
-      this.monsters.get(0).setStatus(MonsterStatus.Release);
-      break;
-
-    case 300:
-      this.monsters.get(1).setStatus(MonsterStatus.Release);
-      break;
-
-    case 600:
-      this.monsters.get(2).setStatus(MonsterStatus.Release);
-      break;
-
-    case 900:
-      this.monsters.get(3).setStatus(MonsterStatus.Release);
-      break;
-    }
+    if (frame < releaseInterval * 4 && frame % releaseInterval == 0)
+      this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
 
     // パックマンと敵の向きを決定
     for (Monster monster : monsters)
@@ -182,17 +194,10 @@ public class Stage implements Scene {
             life--;
             println(life);
 
-            // パックマン
-            pacman.setPosition(map.getPacmanStartPosition());
-            pacman.setDirection(2);
-
-            // 敵
-            for (int m = 0; m < monsters.size(); m++) {
-              monsters.get(m).setPosition(map.getMonsterStartPosition(m));
-              monsters.get(m).setDirection(1);
-              monsters.get(m).setStatus(MonsterStatus.Wait);
-              monsters.get(m).setMode(MonsterMode.Rest);
-            }
+            // リセット
+            pacman.reset();
+            for (Monster m : monsters)
+              m.reset();
 
             frame = 0;
             return;

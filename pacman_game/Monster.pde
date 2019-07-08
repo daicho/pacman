@@ -137,6 +137,13 @@ public abstract class Monster extends Character {
     }
   }
 
+  // リセット
+  public void reset() {
+    super.reset();
+    setStatus(MonsterStatus.Wait);
+    setMode(MonsterMode.Rest);
+  }
+
   // 更新
   public void update(Map map) {
     // 目標地点に到達したら状態遷移
