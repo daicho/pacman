@@ -9,9 +9,14 @@ public class Stage implements Scene {
   protected Map map;                 // マップ
   protected int frame = 0;           // 経過フレーム
   protected int score = 0;           // スコア
-  protected int monsterEatCount = 4; // イジケ時に敵を食べた個数
+  protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
   protected int life = 3;            // 残機の数
   protected int releaseInterval;     // 排出間隔 [f]
+  protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
+  protected int restTime;            // 休憩モードの時間 [f]
+  protected int chaseTime;           // 追いかけモードの時間 [f]
+  protected int ijikeTime;           // イジケモードの時間 [f]
+  protected int changeModeLeft;      // あと何fでモードが切り替わるか
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -25,6 +30,10 @@ public class Stage implements Scene {
       setting.put(curSetting[0], curSetting[1]);
     }
 
+    this.restTime = int(setting.get("rest_time"));
+    this.chaseTime = int(setting.get("chase_time"));
+    this.ijikeTime = int(setting.get("ijike_time"));
+    this.changeModeLeft = restTime;
     this.releaseInterval = int(setting.get("release_interval"));
 
     // マップファイル読み込み
@@ -87,8 +96,32 @@ public class Stage implements Scene {
       pacman.setNextDirection(3); // ↓
 
     // モンスター放出
-    if (frame < releaseInterval * 4 && frame % releaseInterval == 0)
+    if (frame < releaseInterval * monsters.size() && frame % releaseInterval == 0)
       this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
+    
+    // モード切り替え
+    changeModeLeft--;
+    if (changeModeLeft < 0) {
+      switch (monsterMode) {
+      case Rest:
+        changeModeLeft = chaseTime;
+        monsterMode = MonsterMode.Chase;
+        break;
+
+      case Chase:
+        changeModeLeft = restTime;
+        monsterMode = MonsterMode.Rest;
+        break;
+
+      default:
+        break;
+      }
+
+      for (Monster monster : monsters) {
+        if (monster.getMode() != MonsterMode.Ijike)
+          monster.setMode(monsterMode);
+      }
+    }
 
     // パックマンと敵の向きを決定
     for (Monster monster : monsters)
@@ -136,7 +169,7 @@ public class Stage implements Scene {
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setMode(MonsterMode.Ijike);
-            monster.setIjikeTime(480);
+            monster.setIjikeTime(ijikeTime);
           }
         }
 
@@ -162,25 +195,8 @@ public class Stage implements Scene {
         case Active:
           if (monster.getMode() == MonsterMode.Ijike) {
             // モンスターを食べた時のスコア
-            this.monsterEatCount++;
-
-            switch (this.monsterEatCount) {
-            case 1:
-              this.score += 200;
-              break;
-
-            case 2:
-              this.score += 400;
-              break;
-
-            case 3:
-              this.score += 800;
-              break;
-
-            case 4:
-              this.score += 1600;
-              break;
-            }
+            monsterEatCount++;
+            score += pow(2, monsterEatCount) * 100;
             monster.setStatus(MonsterStatus.Return);
             break;
           }

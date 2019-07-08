@@ -3,10 +3,11 @@ pacman_speed,1.6
 monster_direction,1
 monster_wait_speed,1
 monster_release_speed,1
+monster_return_speed,4
 monster_rest_speed,1.6
 monster_chase_speed,1.6
 monster_ijike_speed,1
-monster_return_speed,4
 rest_time,300
 chase_time,600
+ijike_time,480
 release_interval,300

@@ -18,13 +18,10 @@ public abstract class Monster extends Character {
   protected MonsterMode mode = MonsterMode.Rest;             // モード
   protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
-  protected int changeMode = 600; // モードが切り替わる間隔 [f]
-  protected int changeModeLeft;   // あと何fでモードが切り替わるか
-  protected int ijikeTime;        // あと何fでイジケモードが終わるか
+  protected int ijikeTime; // あと何fでイジケモードが終わるか
 
   protected Monster(PVector position, int direction, float speed, String characterName) {
     super(position, direction, speed, characterName);
-    this.changeModeLeft = changeMode;
 
     // イジケ時のアニメーション
     this.ijikeAnimations[0] = new Animation("ijike-0");
@@ -49,7 +46,6 @@ public abstract class Monster extends Character {
 
   public void setMode(MonsterMode mode) {
     this.mode = mode;
-    changeModeLeft = changeMode;
 
     if (mode == MonsterMode.Ijike) {
       ijikeAnimations[0].reset();
@@ -163,25 +159,6 @@ public abstract class Monster extends Character {
 
     default:
       break;
-    }
-
-    // 一定時間経ったらモードを切り替える
-    changeModeLeft--;
-    if (changeModeLeft < 0) {
-      changeModeLeft = changeMode;
-
-      switch (mode) {
-      case Rest:
-        setMode(MonsterMode.Chase);
-        break;
-
-      case Chase:
-        setMode(MonsterMode.Rest);
-        break;
-
-      default:
-        break;
-      }
     }
 
     // 一定時間経ったらイジケモードを解除する
