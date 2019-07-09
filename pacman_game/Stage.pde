@@ -15,7 +15,9 @@ public class Stage implements Scene {
   protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
   protected Timer modeTimer; // モード切り替え用タイマー
   protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
-
+  protected SoundEffect se = new SoundEffect();            // 効果音
+  protected boolean eatSEFlag = true;  // 普通のエサを食べたときの効果音切り替えフラグ
+  
   public Stage(String mapName) {
     this.map = new Map(mapName);
 
@@ -165,6 +167,13 @@ public class Stage implements Scene {
         /* ―――――
          音を鳴らす
          ――――― */
+        if(eatSEFlag){
+          se.eatFood0();
+          eatSEFlag = false;
+        }else{
+          se.eatFood1();
+          eatSEFlag = true;
+        }
         this.score += 10;
         i.remove();
       }
@@ -177,7 +186,7 @@ public class Stage implements Scene {
         /* ―――――
          音を鳴らす
          ――――― */
-
+        se.eatPowerFoods();
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setMode(MonsterMode.Ijike);
