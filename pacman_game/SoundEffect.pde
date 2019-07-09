@@ -1,10 +1,3 @@
-import ddf.minim.spi.*;
-import ddf.minim.signals.*;
-import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.ugens.*;
-import ddf.minim.effects.*;
-
 //効果音
 public class SoundEffect {
   final protected float VOLUME = 0.5; // 音量
@@ -25,8 +18,7 @@ public class SoundEffect {
   protected AudioOutput out;
   protected Minim minim;
 
-  public SoundEffect() {
-    minim = new Minim(this);
+  public SoundEffect(Minim minim) {
     out = minim.getLineOut();
   }
 

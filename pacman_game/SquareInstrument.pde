@@ -1,14 +1,9 @@
-import ddf.minim.spi.*;
-import ddf.minim.signals.*;
 import ddf.minim.*;
-import ddf.minim.analysis.*;
 import ddf.minim.ugens.*;
-import ddf.minim.effects.*;
 
 // 矩形波を生成
 public class SquareInstrument implements Instrument {
   protected Oscil oscil;
-  protected Minim minim;
   protected AudioOutput out;
 
   public SquareInstrument(float frequency, float amplitude, AudioOutput out) {

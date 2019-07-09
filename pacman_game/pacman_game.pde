@@ -1,4 +1,5 @@
 public PFont font;
+public Minim minim;
 
 void setup() {
   size(448, 496);
@@ -12,6 +13,8 @@ void setup() {
 
   Input.setInputInterface(new KeyboardInput()); // 入力設定
   SceneManager.setScene(new Title()); // タイトル画面をロード
+
+  minim = new Minim(this);  // サウンド
 }
 
 void draw() {
