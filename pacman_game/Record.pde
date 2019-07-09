@@ -6,16 +6,16 @@ public static class Record {
   public static int getHighScore() {
     return Record.highScore[0];
   }
-  
+
   //記録されているスコアの中で最も低い値のスコア（ランキング10位）を返す
   public static int getRank10() {
     return Record.highScore[9];
   }
 
   public static void setRankScore(int score) {
-    for(int i = 0; i < 10; i++){
-      if (Record.highScore[i] < score){
-        for(int j = 9; j < i; j--){
+    for (int i = 0; i < 10; i++) {
+      if (Record.highScore[i] < score) {
+        for (int j = 9; j < i; j--) {
           Record.highScore[j] = Record.highScore[j-1];
         }
         highScore[i] = score;
@@ -37,7 +37,7 @@ public static class Record {
     Record.highScore = new int[10];
     File dataPath = new File(Record.dataName);
     String[] scoreData = loadStrings(dataPath); // ハイスコアをロード
-    for(int i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++) {
       int score = int(scoreData[i]);
       Record.highScore[i] = score;
     }
@@ -47,10 +47,10 @@ public static class Record {
   public static void saveRankScore() {
     File dataPath = new File(Record.dataName);
     String[] scoreData = {str(Record.highScore[0]), str(Record.highScore[1]), 
-                          str(Record.highScore[2]), str(Record.highScore[3]), 
-                          str(Record.highScore[4]), str(Record.highScore[5]), 
-                          str(Record.highScore[6]), str(Record.highScore[7]), 
-                          str(Record.highScore[8]), str(Record.highScore[9])};
+      str(Record.highScore[2]), str(Record.highScore[3]), 
+      str(Record.highScore[4]), str(Record.highScore[5]), 
+      str(Record.highScore[6]), str(Record.highScore[7]), 
+      str(Record.highScore[8]), str(Record.highScore[9])};
     saveStrings(dataPath, scoreData);
   }
 }
