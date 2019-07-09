@@ -5,7 +5,7 @@ import ddf.minim.analysis.*;
 import ddf.minim.ugens.*;
 import ddf.minim.effects.*;
 
-//効果音
+// 効果音
 public class SoundEffect {
   final protected float VOLUME = 0.5; // 音量
 

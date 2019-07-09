@@ -1,4 +1,6 @@
 public static class Record {
+  protected static final int RANK_NUM = 10;
+
   protected static int[] highScore;
   protected static String dataName;
 
@@ -22,9 +24,6 @@ public static class Record {
         break;
       }
     }
-    //// scoreがhighScoreより高かったら更新
-    //if (Record.getHighScore() < score)
-    //  Record.highScore[0] = score;
   }
 
   // ファイルパス読み込み

@@ -18,9 +18,8 @@ public class Akabei extends Monster {
         break;
 
       case Chase:
-        /* ――――――――――――――
-         パックマンのいる地点を目指す
-         ―――――――――――――― */
+        // パックマンのいる地点を目指す
+        nextDirection = getAimDirection(stage.map, stage.pacman.getPosition());
         break;
 
       default:
