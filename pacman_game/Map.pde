@@ -7,11 +7,11 @@ public enum MapObject {
 
 // マップ
 public class Map {
-  protected MapObject[][] objects;       // マップ内のオブジェクト
-  protected PVector releasePoint; // 出撃地点
-  protected PVector returnPoint;  // 帰還地点
-  protected PImage image;         // 画像ファイル
-  protected PVector size;         // 画像サイズ
+  protected MapObject[][] objects; // マップ内のオブジェクト
+  protected PVector releasePoint;  // 出撃地点
+  protected PVector returnPoint;   // 帰還地点
+  protected PImage image;          // 画像ファイル
+  protected PVector size;          // 画像サイズ
 
   public Map(String mapName) {
     // 画像ファイル読み込み

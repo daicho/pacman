@@ -1,7 +1,7 @@
 // ピンキー
 public class Pinky extends Monster {
-  public Pinky(PVector position, int direction, float speed) {
-    super(position, direction, speed, "pinky");
+  public Pinky(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
+    super(position, direction, speeds, "pinky");
   }
 
   // 進む方向を決定する

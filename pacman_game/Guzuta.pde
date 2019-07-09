@@ -1,7 +1,7 @@
 // グズタ
 public class Guzuta extends Monster {
-  public Guzuta(PVector position, int direction, float speed) {
-    super(position, direction, speed, "guzuta");
+  public Guzuta(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
+    super(position, direction, speeds, "guzuta");
   }
 
   // 進む方向を決定する

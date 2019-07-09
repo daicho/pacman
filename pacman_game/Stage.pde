@@ -12,11 +12,9 @@ public class Stage implements Scene {
   protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
   protected int life = 3;            // 残機の数
   protected int releaseInterval;     // 排出間隔 [f]
-  protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
-  protected int restTime;    // 休憩モードの時間 [f]
-  protected int chaseTime;   // 追いかけモードの時間 [f]
-  protected int ijikeTime;   // イジケモードの時間 [f]
+  protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
   protected Timer modeTimer; // モード切り替え用タイマー
+  protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -30,11 +28,20 @@ public class Stage implements Scene {
       setting.put(curSetting[0], curSetting[1]);
     }
 
-    this.restTime = int(setting.get("rest_time"));
-    this.chaseTime = int(setting.get("chase_time"));
-    this.ijikeTime = int(setting.get("ijike_time"));
-    this.modeTimer = new Timer(restTime);
     this.releaseInterval = int(setting.get("release_interval"));
+
+    this.modeTimes.put(MonsterMode.Rest , int(setting.get("rest_time")));
+    this.modeTimes.put(MonsterMode.Chase, int(setting.get("chase_time")));
+    this.modeTimes.put(MonsterMode.Ijike, int(setting.get("ijike_time")));
+    this.modeTimer = new Timer(modeTimes.get(MonsterMode.Rest));
+
+    HashMap<MonsterSpeed, Float> monsterSpeeds = new HashMap<MonsterSpeed, Float>();
+    monsterSpeeds.put(MonsterSpeed.Wait   , float(setting.get("monster_wait_speed")));
+    monsterSpeeds.put(MonsterSpeed.Release, float(setting.get("monster_release_speed")));
+    monsterSpeeds.put(MonsterSpeed.Return , float(setting.get("monster_return_speed")));
+    monsterSpeeds.put(MonsterSpeed.Rest   , float(setting.get("monster_rest_speed")));
+    monsterSpeeds.put(MonsterSpeed.Chase  , float(setting.get("monster_chase_speed")));
+    monsterSpeeds.put(MonsterSpeed.Ijike  , float(setting.get("monster_ijike_speed")));
 
     // マップファイル読み込み
     ArrayList<PVector> monsterPositions = new ArrayList<PVector>();
@@ -70,17 +77,24 @@ public class Stage implements Scene {
     }
 
     int monsterDirection = int(setting.get("monster_direction"));
-    float monsterSpeed = float(setting.get("monster_rest_speed"));
-    this.monsters.add(new Akabei(monsterPositions.get(0), monsterDirection, monsterSpeed));
-    this.monsters.add(new Aosuke(monsterPositions.get(1), monsterDirection, monsterSpeed));
-    this.monsters.add(new Pinky (monsterPositions.get(2), monsterDirection, monsterSpeed));
-    this.monsters.add(new Guzuta(monsterPositions.get(3), monsterDirection, monsterSpeed));
+    this.monsters.add(new Akabei(monsterPositions.get(0), monsterDirection, monsterSpeeds));
+    this.monsters.add(new Aosuke(monsterPositions.get(1), monsterDirection, monsterSpeeds));
+    this.monsters.add(new Pinky (monsterPositions.get(2), monsterDirection, monsterSpeeds));
+    this.monsters.add(new Guzuta(monsterPositions.get(3), monsterDirection, monsterSpeeds));
 
     this.draw();
   }
 
+  public int getFrame() {
+    return this.frame;
+  }
+
   public int getScore() {
     return this.score;
+  }
+
+  public int getLife() {
+    return this.life;
   }
 
   // ステージ内の状態を更新
@@ -98,17 +112,17 @@ public class Stage implements Scene {
     // モンスター放出
     if (frame < releaseInterval * monsters.size() && frame % releaseInterval == 0)
       this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
-    
+
     // モード切り替え
     if (modeTimer.update()) {
       switch (monsterMode) {
       case Rest:
-        modeTimer.setTime(chaseTime);
+        modeTimer.setTime(modeTimes.get(MonsterMode.Chase));
         monsterMode = MonsterMode.Chase;
         break;
 
       case Chase:
-        modeTimer.setTime(restTime);
+        modeTimer.setTime(modeTimes.get(MonsterMode.Rest));
         monsterMode = MonsterMode.Rest;
         break;
 
@@ -168,7 +182,7 @@ public class Stage implements Scene {
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setMode(MonsterMode.Ijike);
-            monster.setIjike(ijikeTime);
+            monster.setIjike(modeTimes.get(MonsterMode.Ijike));
           }
         }
 

@@ -13,15 +13,26 @@ public enum MonsterMode {
   Ijike  // イジケモード
 }
 
+public enum MonsterSpeed {
+  Wait, 
+  Release, 
+  Return, 
+  Rest, 
+  Chase, 
+  Ijike
+}
+
 public abstract class Monster extends Character {
   protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected MonsterMode mode = MonsterMode.Rest;             // モード
   protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected Timer ijikeTimer; // イジケモード用タイマー
+  protected HashMap<MonsterSpeed, Float> speeds;
 
-  protected Monster(PVector position, int direction, float speed, String characterName) {
-    super(position, direction, speed, characterName);
+  protected Monster(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds, String characterName) {
+    super(position, direction, speeds.get(MonsterSpeed.Wait), characterName);
+    this.speeds = speeds;
 
     // イジケ時のアニメーション
     this.ijikeAnimations[0] = new Animation("ijike-0");
@@ -32,12 +43,44 @@ public abstract class Monster extends Character {
       this.returnAnimations[i] = new Animation("return-" + i);
   }
 
+  protected void updateSpeed() {
+    switch (status) {
+    case Wait:
+      speed = speeds.get(MonsterSpeed.Wait);
+      break;
+
+    case Release:
+      speed = speeds.get(MonsterSpeed.Release);
+      break;
+
+    case Return:
+      speed = speeds.get(MonsterSpeed.Return);
+      break;
+
+    case Active:
+      switch (mode) {
+      case Rest:
+        speed = speeds.get(MonsterSpeed.Rest);
+        break;
+
+      case Chase:
+        speed = speeds.get(MonsterSpeed.Chase);
+        break;
+
+      case Ijike:
+        speed = speeds.get(MonsterSpeed.Ijike);
+        break;
+      }
+    }
+  }
+
   public MonsterStatus getStatus() {
     return this.status;
   }
 
   public void setStatus(MonsterStatus status) {
     this.status = status;
+    updateSpeed();
   }
 
   public MonsterMode getMode() {
@@ -46,6 +89,7 @@ public abstract class Monster extends Character {
 
   public void setMode(MonsterMode mode) {
     this.mode = mode;
+    updateSpeed();
 
     if (mode == MonsterMode.Ijike) {
       ijikeAnimations[0].reset();

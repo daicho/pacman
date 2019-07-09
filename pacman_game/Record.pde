@@ -8,10 +8,10 @@ public static class Record {
 
   public static void setHighScore(int score) {
     // scoreがhighScoreより高かったら更新
-    if(Record.getHighScore() < score)
+    if (Record.getHighScore() < score)
       Record.highScore = score;
   }
-  
+
   // ファイルパス読み込み
   public static void loadFilePath(String dataFilePath) {
     Record.dataName = dataFilePath;
@@ -24,7 +24,7 @@ public static class Record {
     int score = int(scoreData[0]);
     Record.highScore = score;
   }
-  
+
   // ハイスコアの保存
   public static void saveHighScore() {
     File dataPath = new File(Record.dataName);
