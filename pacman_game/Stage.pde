@@ -167,13 +167,8 @@ public class Stage implements Scene {
         /* ―――――
          音を鳴らす
          ――――― */
-        if (eatSEFlag) {
-          se.eatFood0();
-          eatSEFlag = false;
-        } else {
-          se.eatFood1();
-          eatSEFlag = true;
-        }
+        se.eatFood(eatSEFlag);
+        eatSEFlag = !eatSEFlag;
         this.score += 10;
         i.remove();
       }

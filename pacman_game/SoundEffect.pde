@@ -47,18 +47,16 @@ public class SoundEffect {
   }
 
   // 普通のエサを食べたとき
-  public void eatFood0() {
+  public void eatFood(boolean flag) {
     float soundWidth = 0.015;
-    out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(P9, VOLUME, out));
-    out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(P10, VOLUME, out));
-    out.playNote(soundWidth * 2, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
-  }
-
-  // 普通のエサを食べたとき
-  public void eatFood1() {
-    float soundWidth = 0.015;
-    out.playNote(soundWidth * 0, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
-    out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(P10, VOLUME, out));
-    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(P9, VOLUME, out));
+    if (flag) {
+      out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(P9, VOLUME, out));
+      out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(P10, VOLUME, out));
+      out.playNote(soundWidth * 2, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
+    } else {
+      out.playNote(soundWidth * 0, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
+      out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(P10, VOLUME, out));
+      out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(P9, VOLUME, out));
+    }
   }
 }
