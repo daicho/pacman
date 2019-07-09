@@ -9,7 +9,7 @@ void setup() {
   // ハイスコアデータロード処理
   Record.loadFilePath(dataPath(dataName));
   // ハイスコアロード処理
-  Record.loadHighScore();
+  Record.loadRankScore();
 
   Input.setInputInterface(new KeyboardInput()); // 入力設定
   SceneManager.setScene(new Title()); // タイトル画面をロード

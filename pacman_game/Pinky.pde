@@ -18,9 +18,11 @@ public class Pinky extends Monster {
         break;
 
       case Chase:
-        /* ―――――――――――――――――――
-         パックマンのいる地点の3マス先を目指す
-         ――――――――――――――――――― */
+        // パックマンのいる地点の3マス先を目指す
+        PVector directionVector = getDirectionVector(stage.pacman.direction).mult(3);
+        aimPoint = stage.pacman.getPosition();
+        aimPoint.add(directionVector.x * stage.pacman.size.x, directionVector.y * stage.pacman.size.y);
+        nextDirection = getAimDirection(stage.map, aimPoint);
         break;
 
       default:

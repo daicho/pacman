@@ -1,4 +1,4 @@
-//効果音
+// 効果音
 public class SoundEffect {
   final protected float VOLUME = 0.5; // 音量
 

@@ -15,7 +15,7 @@ public class Stage implements Scene {
   protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
   protected Timer modeTimer; // モード切り替え用タイマー
   protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
-  protected SoundEffect se = new SoundEffect(minim);    // 効果音
+  protected SoundEffect se = new SoundEffect(minim);            // 効果音
   protected boolean eatSEFlag = true;  // 普通のエサを食べたときの効果音切り替えフラグ
 
   public Stage(String mapName) {
@@ -265,8 +265,8 @@ public class Stage implements Scene {
     text("SCORE", 75, 180);
     text(score, 75, 200);
     text("HiSCORE", 465, 180);
-    if (Record.getHighScore() > score)
-      text(Record.getHighScore(), 445, 200);
+    if (Record.getRankScore(1) > score)
+      text(Record.getRankScore(1), 445, 200);
     else
       text(score, 445, 200);
   }

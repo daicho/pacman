@@ -1,15 +1,30 @@
 public static class Record {
-  protected static int highScore;
+  protected static final int RANK_NUM = 10;
+
+  protected static int[] highScore;
   protected static String dataName;
 
-  public static int getHighScore() {
-    return Record.highScore;
+  //指定されたランクのスコアを返す
+  public static int getRankScore(int rank) {
+    if (0 < rank && rank <= Record.RANK_NUM) {
+      return Record.highScore[rank-1];
+    } else if (rank == -1) {
+      return Record.highScore[Record.RANK_NUM-1];
+    } else {
+      return 0;
+    }
   }
 
-  public static void setHighScore(int score) {
-    // scoreがhighScoreより高かったら更新
-    if (Record.getHighScore() < score)
-      Record.highScore = score;
+  public static void setRankScore(int score) {
+    for (int i = 0; i < Record.RANK_NUM; i++) {
+      if (Record.highScore[i] < score) {
+        for (int j = Record.RANK_NUM - 1; j < i; j--) {
+          Record.highScore[j] = Record.highScore[j-1];
+        }
+        highScore[i] = score;
+        break;
+      }
+    }
   }
 
   // ファイルパス読み込み
@@ -18,17 +33,23 @@ public static class Record {
   }
 
   // ハイスコアの読み込み
-  public static void loadHighScore() {
+  public static void loadRankScore() {
+    Record.highScore = new int[10];
     File dataPath = new File(Record.dataName);
     String[] scoreData = loadStrings(dataPath); // ハイスコアをロード
-    int score = int(scoreData[0]);
-    Record.highScore = score;
+    for (int i = 0; i < Record.RANK_NUM; i++) {
+      int score = int(scoreData[i]);
+      Record.highScore[i] = score;
+    }
   }
 
   // ハイスコアの保存
-  public static void saveHighScore() {
+  public static void saveRankScore() {
     File dataPath = new File(Record.dataName);
-    String[] scoreData = {str(highScore)};
+    String[] scoreData = new String[Record.RANK_NUM];
+    for (int i = 0; i < Record.RANK_NUM; i++) {
+      scoreData[i] = str(Record.highScore[i]);
+    }
     saveStrings(dataPath, scoreData);
   }
 }
