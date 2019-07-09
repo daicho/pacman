@@ -4,7 +4,7 @@ public class Result implements Scene {
   public Result(int score) {
     this.score = score;
     // ハイスコア更新処理
-    if (Record.getRank10() < this.score) {
+    if (Record.getRankScore(-1) < this.score) {
       Record.setRankScore(this.score);
       Record.saveRankScore();
     }

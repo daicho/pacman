@@ -265,8 +265,8 @@ public class Stage implements Scene {
     text("SCORE", 75, 180);
     text(score, 75, 200);
     text("HiSCORE", 465, 180);
-    if (Record.getHighScore() > score)
-      text(Record.getHighScore(), 445, 200);
+    if (Record.getRankScore(1) > score)
+      text(Record.getRankScore(1), 445, 200);
     else
       text(score, 445, 200);
   }
