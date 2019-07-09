@@ -136,10 +136,9 @@ public class Stage implements Scene {
       }
     }
 
-    // パックマンと敵の向きを決定
+    // 敵の向きを決定
     for (Monster monster : monsters)
       monster.decideDirection(this);
-    pacman.decideDirection(this);
 
     // 移動
     for (Monster monster : monsters)

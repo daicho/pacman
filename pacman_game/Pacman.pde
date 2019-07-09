@@ -1,29 +1,6 @@
 // パックマン
 public class Pacman extends Character {
-  protected int nextDirection; // 次に進む方向
-
   public Pacman(PVector position, int direction, float speed) {
     super(position, direction, speed, "pacman");
-    this.nextDirection = direction;
-  }
-
-  public int getNextDirection() {
-    return this.nextDirection;
-  }
-
-  public void setNextDirection(int nextDirection) {
-    this.nextDirection = nextDirection;
-  }
-
-  // 進む方向を決定する
-  public void decideDirection(Stage stage) {
-    if (canMove(stage.map, nextDirection))
-      direction = nextDirection;
-  }
-
-  // リセット
-  public void reset() {
-    super.reset();
-    nextDirection = direction;
   }
 }

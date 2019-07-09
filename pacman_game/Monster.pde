@@ -102,10 +102,10 @@ public abstract class Monster extends Character {
   }
 
   // 特定の方向へ移動できるか
-  public boolean canMove(Map map, int direction) {
-    PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
+  public boolean canMove(Map map, int aimDirection) {
+    PVector check = getDirectionVector(aimDirection); // 壁かどうかの判定に使用する座標
 
-    for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
+    for (; check.mag() <= getDirectionVector(aimDirection).mult(speed).mag(); check.add(getDirectionVector(aimDirection))) {
       MapObject mapObject = map.getObject(PVector.add(check, position));
       if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
         return false;
@@ -148,27 +148,27 @@ public abstract class Monster extends Character {
     case Wait:
       // 待機中は前後に動く
       if (!canMove(stage.map, direction))
-        direction = (direction + 2) % 4;
+        nextDirection = (direction + 2) % 4;
       break;
 
     case Release:
       // 出撃中は出撃地点を目指す
       aimPoint = stage.map.getReleasePoint();
-      direction = getAimDirection(stage.map, aimPoint);
+      nextDirection = getAimDirection(stage.map, aimPoint);
       break;
 
     case Active:
       if (mode == MonsterMode.Ijike) {
         // イジケ中はランダムに動く
         aimPoint = new PVector(position.x + random(-1, 1), position.y + random(-1, 1));
-        direction = getAimDirection(stage.map, aimPoint);
+        nextDirection = getAimDirection(stage.map, aimPoint);
       }
       break;
 
     case Return:
       // 帰還中は帰還地点を目指す
       aimPoint = stage.map.getReturnPoint();
-      direction = getAimDirection(stage.map, aimPoint);
+      nextDirection = getAimDirection(stage.map, aimPoint);
       break;
     }
   }

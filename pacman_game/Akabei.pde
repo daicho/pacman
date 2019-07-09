@@ -14,7 +14,7 @@ public class Akabei extends Monster {
       case Rest:
         // 休息中は右上を徘徊
         aimPoint = new PVector(random(stage.map.size.x / 2, stage.map.size.x), random(0, stage.map.size.y / 2));
-        direction = getAimDirection(stage.map, aimPoint);
+        nextDirection = getAimDirection(stage.map, aimPoint);
         break;
 
       case Chase:

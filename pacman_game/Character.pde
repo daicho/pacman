@@ -2,6 +2,7 @@
 public abstract class Character extends GameObject {
   protected PVector startPosition; // 初期地点
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
+  protected int nextDirection;     // 次に進む方向
   protected int startDirection;    // 初期方向
   protected float speed;           // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
@@ -11,6 +12,7 @@ public abstract class Character extends GameObject {
 
     this.startPosition = position.copy();
     this.direction = direction;
+    this.nextDirection = direction;
     this.startDirection = direction;
     this.speed = speed;
 
@@ -26,6 +28,14 @@ public abstract class Character extends GameObject {
 
   public void setDirection(int direction) {
     this.direction = direction;
+  }
+
+  public int getNextDirection() {
+    return this.nextDirection;
+  }
+
+  public void setNextDirection(int nextDirection) {
+    this.nextDirection = nextDirection;
   }
 
   public float getSpeed() {
@@ -58,6 +68,9 @@ public abstract class Character extends GameObject {
 
   // 移動
   public void move(Map map) {
+    if (canMove(map, nextDirection))
+      direction = nextDirection;
+
     if (canMove(map, direction)) {
       position.add(getDirectionVector(direction).mult(speed));
 
@@ -89,10 +102,10 @@ public abstract class Character extends GameObject {
   }
 
   // 特定の方向へ移動できるか
-  public boolean canMove(Map map, int direction) {
-    PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
+  public boolean canMove(Map map, int aimDirection) {
+    PVector check = getDirectionVector(aimDirection); // 壁かどうかの判定に使用する座標
 
-    for (; check.mag() <= getDirectionVector(direction).mult(speed).mag(); check.add(getDirectionVector(direction))) {
+    for (; check.mag() <= getDirectionVector(aimDirection).mult(speed).mag(); check.add(getDirectionVector(aimDirection))) {
       MapObject mapObject = map.getObject(PVector.add(position, check));
       if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
         return false;
@@ -101,13 +114,11 @@ public abstract class Character extends GameObject {
     return true;
   }
 
-  // 進む方向を決定する
-  public abstract void decideDirection(Stage stage);
-
   // リセット
   public void reset() {
     position = startPosition.copy();
     direction = startDirection;
+    nextDirection = direction;
   }
 
   // 更新

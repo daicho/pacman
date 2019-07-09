@@ -14,7 +14,7 @@ public class Guzuta extends Monster {
       case Rest:
         // 休息中は左下を徘徊
         aimPoint = new PVector(random(0, stage.map.size.x / 2), random(stage.map.size.y / 2, stage.map.size.y));
-        direction = getAimDirection(stage.map, aimPoint);
+        nextDirection = getAimDirection(stage.map, aimPoint);
         break;
 
       case Chase:
