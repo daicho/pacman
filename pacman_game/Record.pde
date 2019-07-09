@@ -4,12 +4,12 @@ public static class Record {
   protected static int[] highScore;
   protected static String dataName;
 
-  //指定されたランクのスコアを返す(+なら上から,-なら下からの順位を参照)
+  // 指定されたランクのスコアを返す (+なら上から、-なら下からの順位を参照)
   public static int getRankScore(int rank) {
     if (0 < rank && rank <= Record.RANK_NUM) {
-      return Record.highScore[rank-1];
+      return Record.highScore[rank - 1];
     } else if (-Record.RANK_NUM <= rank && rank < 0) {
-      return Record.highScore[Record.RANK_NUM - rank * (-1)];
+      return Record.highScore[Record.RANK_NUM + rank];
     } else {
       return 0;
     }
@@ -19,7 +19,7 @@ public static class Record {
     for (int i = 0; i < Record.RANK_NUM; i++) {
       if (Record.highScore[i] < score) {
         for (int j = Record.RANK_NUM - 1; j < i; j--) {
-          Record.highScore[j] = Record.highScore[j-1];
+          Record.highScore[j] = Record.highScore[j - 1];
         }
         highScore[i] = score;
         break;

@@ -1,6 +1,6 @@
 // 効果音
 public class SoundEffect {
-  final protected float VOLUME = 0.5; // 音量
+  final protected float VOLUME = 0.1; // 音量
 
   final protected float P1 = 787.330; // 音程
   final protected float P2 = 864.255;
