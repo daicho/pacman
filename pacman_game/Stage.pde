@@ -17,7 +17,7 @@ public class Stage implements Scene {
   protected MonsterMode monsterMode = MonsterMode.Rest; // 敵のモード
   protected SoundEffect se = new SoundEffect();            // 効果音
   protected boolean eatSEFlag = true;  // 普通のエサを食べたときの効果音切り替えフラグ
-  
+
   public Stage(String mapName) {
     this.map = new Map(mapName);
 
@@ -32,18 +32,18 @@ public class Stage implements Scene {
 
     this.releaseInterval = int(setting.get("release_interval"));
 
-    this.modeTimes.put(MonsterMode.Rest , int(setting.get("rest_time")));
+    this.modeTimes.put(MonsterMode.Rest, int(setting.get("rest_time")));
     this.modeTimes.put(MonsterMode.Chase, int(setting.get("chase_time")));
     this.modeTimes.put(MonsterMode.Ijike, int(setting.get("ijike_time")));
     this.modeTimer = new Timer(modeTimes.get(MonsterMode.Rest));
 
     HashMap<MonsterSpeed, Float> monsterSpeeds = new HashMap<MonsterSpeed, Float>();
-    monsterSpeeds.put(MonsterSpeed.Wait   , float(setting.get("monster_wait_speed")));
+    monsterSpeeds.put(MonsterSpeed.Wait, float(setting.get("monster_wait_speed")));
     monsterSpeeds.put(MonsterSpeed.Release, float(setting.get("monster_release_speed")));
-    monsterSpeeds.put(MonsterSpeed.Return , float(setting.get("monster_return_speed")));
-    monsterSpeeds.put(MonsterSpeed.Rest   , float(setting.get("monster_rest_speed")));
-    monsterSpeeds.put(MonsterSpeed.Chase  , float(setting.get("monster_chase_speed")));
-    monsterSpeeds.put(MonsterSpeed.Ijike  , float(setting.get("monster_ijike_speed")));
+    monsterSpeeds.put(MonsterSpeed.Return, float(setting.get("monster_return_speed")));
+    monsterSpeeds.put(MonsterSpeed.Rest, float(setting.get("monster_rest_speed")));
+    monsterSpeeds.put(MonsterSpeed.Chase, float(setting.get("monster_chase_speed")));
+    monsterSpeeds.put(MonsterSpeed.Ijike, float(setting.get("monster_ijike_speed")));
 
     // マップファイル読み込み
     ArrayList<PVector> monsterPositions = new ArrayList<PVector>();
@@ -81,7 +81,7 @@ public class Stage implements Scene {
     int monsterDirection = int(setting.get("monster_direction"));
     this.monsters.add(new Akabei(monsterPositions.get(0), monsterDirection, monsterSpeeds));
     this.monsters.add(new Aosuke(monsterPositions.get(1), monsterDirection, monsterSpeeds));
-    this.monsters.add(new Pinky (monsterPositions.get(2), monsterDirection, monsterSpeeds));
+    this.monsters.add(new Pinky(monsterPositions.get(2), monsterDirection, monsterSpeeds));
     this.monsters.add(new Guzuta(monsterPositions.get(3), monsterDirection, monsterSpeeds));
 
     this.draw();
@@ -167,10 +167,10 @@ public class Stage implements Scene {
         /* ―――――
          音を鳴らす
          ――――― */
-        if(eatSEFlag){
+        if (eatSEFlag) {
           se.eatFood0();
           eatSEFlag = false;
-        }else{
+        } else {
           se.eatFood1();
           eatSEFlag = true;
         }
@@ -186,7 +186,7 @@ public class Stage implements Scene {
         /* ―――――
          音を鳴らす
          ――――― */
-        se.eatPowerFoods();
+        se.eatPowerFood();
         for (Monster monster : monsters) {
           if (monster.status != MonsterStatus.Return) {
             monster.setMode(MonsterMode.Ijike);

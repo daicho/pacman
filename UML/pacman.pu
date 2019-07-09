@@ -58,6 +58,7 @@ abstract class GameObject {
 abstract class Character {
     # startPosition: PVector
     # direction: int
+    # nextDirection: int
     # startDirection: int
     # speed: float
     # animetions: Animation[]
@@ -65,25 +66,20 @@ abstract class Character {
     # Character(position: PVector, direction: int, speed: float, characterName: String)
     + getDirection(): int
     + setDirection(direction: int)
+    + getNextDirection(): int
+    + setNextDirection(nextDirection: int)
     + getSpeed(): int
     + setSpeed(speed: float)
     # getDirectionVector(int direction)
     + move(map: Map)
     + canMove(map: Map, direction: int): boolean
-    + {abstract} decideDirection(stage: Stage)
     + reset()
     + update(map: Map)
     + draw()
 }
 
 class Pacman {
-    # nextDirection: int
-
     + Pacman(position: PVector, direction: int, speed: float)
-    + getNextDirection(): int
-    + setNextDirection(nextDirection: int)
-    + decideDirection(stage: Stage)
-    + reset()
 }
 
 abstract class Monster {
