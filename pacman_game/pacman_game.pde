@@ -7,7 +7,7 @@ void setup() {
   minim = new Minim(this); // サウンド
 
   // ハイスコアをロード
-  String dataName = "high_score.txt";
+  String dataName = "ranking.txt";
   Record.setFilePath(dataPath(dataName));
   Record.loadRanking();
 

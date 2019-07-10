@@ -1,14 +1,18 @@
 @startuml pacman
 
+left to right direction
+
 skinparam Shadowing false
 skinparam classAttributeIconSize 0
 
 GameObject <|-- Character
 GameObject <|-- Item
+GameObject o-- Animation
+
+Animation o-- Timer
 
 Character <|-- Pacman
 Character <|-- Monster
-Character o-- Animation
 
 Monster <|-- Akabei
 Monster <|-- Pinky
@@ -17,25 +21,16 @@ Monster <|-- Guzuta
 Monster o-- MonsterStatus
 Monster o-- MonsterMode
 Monster o-- MonsterSpeed
-Monster o-- Animation
-Monster o-- Timer
 
-Map o-- Item
 Map o-- MapObject
-
-Item o-- Animation
-
-Animation o-- Timer
 
 SceneMaganer o-- Scene
 Scene <|.. Title
 Scene <|.. Stage
 Scene <|.. Result
 
-Stage o-- Pacman
-Stage o-- Monster
+Stage o-- GameObject
 Stage o-- Map
-Stage o-- Timer
 Stage o-- SoundEffect
 
 SoundEffect o-- SquareInstrument

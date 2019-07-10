@@ -121,23 +121,24 @@ public class Stage implements Scene {
     if (modeTimer.update()) {
       switch (monsterMode) {
       case Rest:
-        modeTimer.setTime(modeTimes.get(MonsterMode.Chase));
         monsterMode = MonsterMode.Chase;
+        modeTimer.setTime(modeTimes.get(MonsterMode.Chase));
         break;
 
       case Chase:
-        modeTimer.setTime(modeTimes.get(MonsterMode.Rest));
+      case Ijike:
         monsterMode = MonsterMode.Rest;
-        break;
-
-      default:
+        modeTimer.setTime(modeTimes.get(MonsterMode.Rest));
         break;
       }
 
-      for (Monster monster : monsters) {
-        if (monster.getMode() != MonsterMode.Ijike)
-          monster.setMode(monsterMode);
-      }
+      for (Monster monster : monsters)
+        monster.setMode(monsterMode);
+    }
+
+    if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 120) {
+      for (Monster monster : monsters)
+        monster.setIjikeStatus(1);
     }
 
     // 敵の向きを決定
@@ -166,11 +167,14 @@ public class Stage implements Scene {
       Item food = i.next();
 
       if (pacman.isColliding(food)) {
+        i.remove();
+
         // 音を鳴らす
         se.eatFood(eatSEFlag);
         eatSEFlag = !eatSEFlag;
+
+        // スコア加算
         this.score += 10;
-        i.remove();
       }
     }
 
@@ -178,18 +182,22 @@ public class Stage implements Scene {
       Item powerFood = i.next();
 
       if (pacman.isColliding(powerFood)) {
+        i.remove();
+
         // 音を鳴らす
         se.eatPowerFood();
+
+        // イジケモードに
         for (Monster monster : monsters) {
-          if (monster.status != MonsterStatus.Return) {
-            monster.setMode(MonsterMode.Ijike);
-            monster.setIjike(modeTimes.get(MonsterMode.Ijike));
-          }
+          monster.setMode(MonsterMode.Ijike);
+          monsterMode = MonsterMode.Ijike;
+          modeTimer.setTime(modeTimes.get(MonsterMode.Ijike));
         }
 
         this.monsterEatCount = 0;
+
+        // スコア加算
         this.score += 50;
-        i.remove();
       }
     }
 
@@ -212,6 +220,7 @@ public class Stage implements Scene {
             monsterEatCount++;
             score += pow(2, monsterEatCount) * 100;
             monster.setStatus(MonsterStatus.Return);
+            monster.setMode(MonsterMode.Rest);
             break;
           }
 
