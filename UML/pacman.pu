@@ -36,6 +36,9 @@ Stage o-- Pacman
 Stage o-- Monster
 Stage o-- Map
 Stage o-- Timer
+Stage o-- SoundEffect
+
+SoundEffect o-- SquareInstrument
 
 Input o-- InputInterface
 InputInterface <|-- KeyboardInput
@@ -251,6 +254,36 @@ class Result {
     + draw()
 }
 
+class SoundEffect {
+    # {static} VOLUME: float
+    # {static} P1: float
+    # {static} P2: float
+    # {static} P3: float
+    # {static} P4: float
+    # {static} P5: float
+    # {static} P6: float
+    # {static} P7: float
+    # {static} P8: float
+    # {static} P9: float
+    # {static} P10: float
+    # {static} P11: float
+
+    # minim: Minim
+
+    + SoundEffect(minim: Minim)
+    + eatPowerFood()
+    + eatFood()
+}
+
+class SquareInstrument {
+    # oscil: Oscil
+    # out: AudioOutput
+
+    + SquareInstrument(frequency: float, amplitude: float, out: AudioOutput)
+    + noteOn(duration: float)
+    + noteOff()
+}
+
 abstract class InputInterface {
     # previewRight: boolean
     # previewLeft: boolean
@@ -327,14 +360,16 @@ class Input {
 }
 
 class Record {
-    # {static} highScore: int
-    # {static} dataName: String
+    # {static} RANK_NUM: int
 
-    + {static} getHighScore(): int
-    + {static} setHighScore(score: int)
-    + {static} loadFilePath(dataFilePath: String)
-    + {static} loadHighScore()
-    + {static} saveHighScore()
+    # {static} ranking: int[]
+    # {static} filePath: String
+
+    + {static} getRanking(rank: int): int
+    + {static} setRanking(score: int)
+    + {static} loadFilePath(filePath: String)
+    + {static} loadRanking()
+    + {static} saveRanking()
 }
 
 @enduml

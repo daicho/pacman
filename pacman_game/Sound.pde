@@ -3,23 +3,22 @@ import ddf.minim.ugens.*;
 
 // 効果音
 public class SoundEffect {
-  final protected float VOLUME = 0.1; // 音量
+  protected final float VOLUME = 0.1; // 音量
 
-  final protected float P1 = 787.330; // 音程
-  final protected float P2 = 864.255;
-  final protected float P3 = 908.456;
-  final protected float P4 = 998.991;
-  final protected float P5 = 1100.000;
-  final protected float P6 = 1212.767;
-  final protected float P7 = 1276.562;
-  final protected float P8 = 1409.659;
+  protected final float P1 = 787.330; // 音程
+  protected final float P2 = 864.255;
+  protected final float P3 = 908.456;
+  protected final float P4 = 998.991;
+  protected final float P5 = 1100.000;
+  protected final float P6 = 1212.767;
+  protected final float P7 = 1276.562;
+  protected final float P8 = 1409.659;
 
-  final protected float P9 = 174.614;
-  final protected float P10 = 195.998;
-  final protected float P11 = 220;
+  protected final float P9 = 174.614;
+  protected final float P10 = 195.998;
+  protected final float P11 = 220;
 
   protected AudioOutput out;
-  protected Minim minim;
 
   public SoundEffect(Minim minim) {
     out = minim.getLineOut();
