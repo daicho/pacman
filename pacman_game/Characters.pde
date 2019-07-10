@@ -1,3 +1,10 @@
+// パックマン
+public class Pacman extends Character {
+  public Pacman(PVector position, int direction, float speed) {
+    super(position, direction, speed, "pacman");
+  }
+}
+
 // アカベエ
 public class Akabei extends Monster {
   public Akabei(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
