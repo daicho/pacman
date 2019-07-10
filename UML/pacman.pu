@@ -83,9 +83,9 @@ class Pacman {
 abstract class Monster {
     # status: MonsterStatus
     # mode: MonsterMode
+    # ijikeStatus: int
     # ijikeAnimetions: Animation[]
     # returnAnimetions: Animation[]
-    # ijikeTimer: Timer
     # speeds: HashMap<MonsterSpeed, Float>
 
     # Monster(position: PVector, direction: int, speeds: HashMap<MonsterSpeed, Float>, characterName: String)
@@ -94,7 +94,8 @@ abstract class Monster {
     + setStatus(status: MonsterStatus)
     + getMode(): MonsterMode
     + setMode(mode: MonsterMode)
-    + setIjike(ijikeTime: int)
+    + getIjikeStatus(): int
+    + setIjikeStatus(ijikeStatus: int)
     + canMove(map: Map, direction: int): boolean
     # getAimDirection(map: map, point: PVector): int
     + decideDirection(stage: Stage)
