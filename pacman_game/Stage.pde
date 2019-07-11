@@ -1,22 +1,36 @@
 import java.util.Iterator;
 
+// ステージの状態
+public enum StageStatus {
+  Start, // 開始
+  Play,  // ゲーム
+  Eat,   // 敵を食べたときの硬直
+  Clear, // クリア
+  Die,   // 敵に食べられた
+  Finish // 終了
+}
+
 // ステージ
 public class Stage implements Scene {
+  protected Map map;       // マップ
   protected Pacman pacman; // パックマン
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
-  protected Map map;                 // マップ
+
+  protected int score = 0; // スコア
+  protected int life = 3;  // 残機の数
+  
+  protected StageStatus status = StageStatus.Start; // 状態
   protected int frame = 0;           // 経過フレーム
-  protected int score = 0;           // スコア
-  protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
-  protected int life = 3;            // 残機の数
-  protected int releaseInterval;     // 排出間隔 [f]
+  protected MonsterMode monsterMode; // 敵のモード
   protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
   protected Timer modeTimer;         // モード切り替え用タイマー
-  protected MonsterMode monsterMode; // 敵のモード
+  protected int releaseInterval;     // 排出間隔 [f]
+  protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
+
   protected SoundEffect se = new SoundEffect(minim); // 効果音
-  protected boolean eatSEFlag = true;  // 普通のエサを食べたときの効果音切り替えフラグ
+  protected boolean eatSEFlag = true; // 普通のエサを食べたときの効果音切り替えフラグ
 
   public Stage(String mapName) {
     this.map = new Map(mapName);

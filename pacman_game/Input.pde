@@ -1,5 +1,6 @@
 // 入力のインターフェース
 public abstract class InputInterface {
+  // 前回の状態
   public boolean prevRight = false;
   public boolean prevUp = false;
   public boolean prevLeft = false;

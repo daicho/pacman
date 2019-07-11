@@ -1,9 +1,9 @@
 // スコアの記録
 public static class Record {
-  protected static final int RANK_NUM = 10;
+  protected static final int RANK_NUM = 10; // ランキングの数
 
-  protected static int[] ranking;
-  protected static String filePath;
+  protected static int[] ranking;   // ランキング
+  protected static String filePath; // ランキングファイルパス
 
   // 指定されたランクのスコアを返す (+なら上から、-なら下からの順位を参照)
   public static int getRanking(int rank) {

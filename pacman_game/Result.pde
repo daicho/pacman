@@ -1,6 +1,6 @@
 // リザルト画面
 public class Result implements Scene {
-  protected int score;
+  protected int score; // スコア
 
   public Result(int score) {
     this.score = score;
