@@ -12,7 +12,7 @@ public class Result implements Scene {
   }
 
   public void update() {
-    if (Input.buttonA())
+    if (Input.buttonAPress())
       SceneManager.setScene(new Title());
   }
 

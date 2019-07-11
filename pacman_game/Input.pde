@@ -1,11 +1,11 @@
 // 入力のインターフェース
 public abstract class InputInterface {
-  public boolean previewRight = false;
-  public boolean previewUp = false;
-  public boolean previewLeft = false;
-  public boolean previewDown = false;
-  public boolean previewButtonA = false;
-  public boolean previewButtonB = false;
+  public boolean prevRight = false;
+  public boolean prevUp = false;
+  public boolean prevLeft = false;
+  public boolean prevDown = false;
+  public boolean prevButtonA = false;
+  public boolean prevButtonB = false;
 
   public abstract boolean right();   // →
   public abstract boolean up();      // ↑
@@ -15,51 +15,51 @@ public abstract class InputInterface {
   public abstract boolean buttonB(); // B
 
   public boolean rightPress() {
-    return false;
+    return right();
   }
 
   public boolean upPress() {
-    return false;
+    return up();
   }
 
   public boolean leftPress() {
-    return false;
+    return left();
   }
 
   public boolean downPress() {
-    return false;
+    return down();
   }
 
   public boolean buttonAPress() {
-    return false;
+    return buttonA();
   }
 
   public boolean buttonBPress() {
-    return false;
+    return buttonB();
   }
 
   public boolean rightRelease() {
-    return false;
+    return right();
   }
 
   public boolean upRelease() {
-    return false;
+    return up();
   }
 
   public boolean leftRelease() {
-    return false;
+    return left();
   }
 
   public boolean downRelease() {
-    return false;
+    return down();
   }
 
   public boolean buttonARelease() {
-    return false;
+    return buttonA();
   }
 
   public boolean buttonBRelease() {
-    return false;
+    return buttonB();
   }
 }
 

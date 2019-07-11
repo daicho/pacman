@@ -1,7 +1,7 @@
 // タイトル画面
 public class Title implements Scene {
   public void update() {
-    if (Input.buttonA())
+    if (Input.buttonAPress())
       SceneManager.setScene(new Stage("original"));
   }
 
