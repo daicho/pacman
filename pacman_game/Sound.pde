@@ -9,7 +9,8 @@ public class BGM {
 
   public BGM(Minim minim) {
     // 音楽ファイル読み込み
-    player = minim.loadFile("sounds/looped.mp3");
+    this.minim = minim;
+    player = this.minim.loadFile("sounds/looped.mp3");
     player.cue(20000);
     length = player.length();
   }
