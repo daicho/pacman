@@ -5,21 +5,20 @@ import ddf.minim.ugens.*;
 public class BGM {
   protected Minim minim;
   protected AudioPlayer player;
-  protected int length; 
+  //protected int length; 
 
   public BGM(Minim minim) {
     // 音楽ファイル読み込み
     this.minim = minim;
-    player = this.minim.loadFile("sounds/looped.mp3");
-    player.cue(20000);
-    length = player.length();
+    player = this.minim.loadFile("sounds/schoolSong.mp3");
+    //length = player.length();
+    player.cue(3500);
   }
 
   // 再生
   public void play() {
-    if (player.position() >= length - 500) {
-      //player.rewind();
-      player.cue(0);
+    if (player.position() >= 52000) {
+      player.cue(4100);
     }
     player.play();
   }
