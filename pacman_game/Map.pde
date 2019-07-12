@@ -68,19 +68,11 @@ public class Map {
   }
 
   public MapObject getObject(float x, float y) {
-    // 画面外は通路判定
-    if (round(x) < 0 || round(x) >= size.x || round(y) < 0 || round(y) >= size.y)
-      return MapObject.Route;
-    else
-      return this.objects[round(x)][round(y)];
+    return this.objects[round(x + size.x) % int(size.x)][round(y + size.y) % int(size.y)];
   }
 
   public MapObject getObject(PVector v) {
-    // 画面外は通路判定
-    if (round(v.x) < 0 || round(v.x) >= size.x || round(v.y) < 0 || round(v.y) >= size.y)
-      return MapObject.Route;
-    else
-      return this.objects[round(v.x)][round(v.y)];
+    return this.objects[round(v.x + size.x) % int(size.x)][round(v.y + size.y) % int(size.y)];
   }
 
   // 画面描画
