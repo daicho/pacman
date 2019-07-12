@@ -3,11 +3,11 @@ import java.util.Iterator;
 // ステージの状態
 public enum StageStatus {
   Start, // 開始
-  Play,  // ゲーム
-  Eat,   // 敵を食べたときの硬直
-  Clear, // クリア
-  Die,   // 敵に食べられた
-  Finish // 終了
+    Play, // ゲーム
+    Eat, // 敵を食べたときの硬直
+    Clear, // クリア
+    Die, // 敵に食べられた
+    Finish // 終了
 }
 
 // ステージ
@@ -20,7 +20,7 @@ public class Stage implements Scene {
 
   protected int score = 0; // スコア
   protected int life = 3;  // 残機の数
-  
+
   protected StageStatus status = StageStatus.Start; // 状態
   protected int frame = 0;           // 経過フレーム
   protected MonsterMode monsterMode; // 敵のモード
@@ -31,6 +31,7 @@ public class Stage implements Scene {
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
   protected boolean eatSEFlag = true; // 普通のエサを食べたときの効果音切り替えフラグ
+  protected BGM bgm = new BGM(minim); // BGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -217,6 +218,7 @@ public class Stage implements Scene {
 
     if (foods.isEmpty() && powerFoods.isEmpty()) {
       // ゲームクリア
+      bgm.stop();
       SceneManager.setScene(new Result(score));
     }
 
@@ -241,6 +243,7 @@ public class Stage implements Scene {
         default:
           if (life <= 0) {
             // ゲームオーバー
+            bgm.stop();
             SceneManager.setScene(new Result(score));
           } else {
             // 残機を1つ減らしゲーム続行
@@ -293,5 +296,8 @@ public class Stage implements Scene {
       text(Record.getRanking(1), 445, 200);
     else
       text(score, 445, 200);
+      
+    //BGMを再生
+    bgm.play();
   }
 }

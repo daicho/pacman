@@ -1,6 +1,36 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
 
+//BGM
+public class BGM {
+  protected Minim minim;
+  protected AudioPlayer player;
+  protected int length; 
+
+  public BGM(Minim minim) {
+    // 音楽ファイル読み込み
+    player = minim.loadFile("sounds/looped.mp3");
+    player.cue(20000);
+    length = player.length();
+  }
+
+  // 再生
+  public void play() {
+    if (player.position() >= length - 500) {
+      //player.rewind();
+      player.cue(0);
+    }
+    player.play();
+  }
+
+  // 停止
+  public void stop() {
+    player.close();
+    minim.stop();
+    //super.stop();
+  }
+}
+
 // 効果音
 public class SoundEffect {
   protected final float VOLUME = 0.1; // 音量
