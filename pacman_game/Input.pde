@@ -16,51 +16,171 @@ public abstract class InputInterface {
   public abstract boolean buttonB(); // B
 
   public boolean rightPress() {
-    return right();
+    if (right()) {
+      if (prevRight) {
+        return false;
+      } else {
+        prevRight = true;
+        return true;
+      }
+    } else {
+      prevRight = false;
+      return false;
+    }
   }
 
   public boolean upPress() {
-    return up();
+    if (up()) {
+      if (prevUp) {
+        return false;
+      } else {
+        prevUp = true;
+        return true;
+      }
+    } else {
+      prevUp = false;
+      return false;
+    }
   }
 
   public boolean leftPress() {
-    return left();
+    if (left()) {
+      if (prevLeft) {
+        return false;
+      } else {
+        prevLeft = true;
+        return true;
+      }
+    } else {
+      prevLeft = false;
+      return false;
+    }
   }
 
   public boolean downPress() {
-    return down();
+    if (down()) {
+      if (prevDown) {
+        return false;
+      } else {
+        prevDown = true;
+        return true;
+      }
+    } else {
+      prevDown = false;
+      return false;
+    }
   }
 
   public boolean buttonAPress() {
-    return buttonA();
+    if (buttonA()) {
+      if (prevButtonA) {
+        return false;
+      } else {
+        prevButtonA = true;
+        return true;
+      }
+    } else {
+      prevButtonA = false;
+      return false;
+    }
   }
 
   public boolean buttonBPress() {
-    return buttonB();
+    if (buttonB()) {
+      if (prevButtonB) {
+        return false;
+      } else {
+        prevButtonB = true;
+        return true;
+      }
+    } else {
+      prevButtonB = false;
+      return false;
+    }
   }
 
   public boolean rightRelease() {
-    return right();
+    if (right()) {
+      prevRight = true;
+      return false;
+    } else {
+      if (prevRight) {
+        prevRight = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   public boolean upRelease() {
-    return up();
+    if (up()) {
+      prevUp = true;
+      return false;
+    } else {
+      if (prevUp) {
+        prevUp = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   public boolean leftRelease() {
-    return left();
+    if (left()) {
+      prevLeft = true;
+      return false;
+    } else {
+      if (prevLeft) {
+        prevLeft = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   public boolean downRelease() {
-    return down();
+    if (down()) {
+      prevDown = true;
+      return false;
+    } else {
+      if (prevDown) {
+        prevDown = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   public boolean buttonARelease() {
-    return buttonA();
+    if (buttonA()) {
+      prevButtonA = true;
+      return false;
+    } else {
+      if (prevButtonA) {
+        prevButtonA = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   public boolean buttonBRelease() {
-    return buttonB();
+    if (buttonB()) {
+      prevButtonB = true;
+      return false;
+    } else {
+      if (prevButtonB) {
+        prevButtonB = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
 
