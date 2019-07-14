@@ -7,6 +7,7 @@ public abstract class InputInterface {
   public boolean prevDown = false;
   public boolean prevButtonA = false;
   public boolean prevButtonB = false;
+  public boolean prevButtonC = false;
 
   public abstract boolean right();   // →
   public abstract boolean up();      // ↑
@@ -14,6 +15,7 @@ public abstract class InputInterface {
   public abstract boolean down();    // ↓
   public abstract boolean buttonA(); // A
   public abstract boolean buttonB(); // B
+  public abstract boolean buttonC(); // C
 
   public boolean rightPress() {
     if (right()) {
@@ -98,6 +100,20 @@ public abstract class InputInterface {
       return false;
     }
   }
+  
+  public boolean buttonCPress() {
+    if (buttonC()) {
+      if (prevButtonC) {
+        return false;
+      } else {
+        prevButtonC = true;
+        return true;
+      }
+    } else {
+      prevButtonC = false;
+      return false;
+    }
+  }  
 
   public boolean rightRelease() {
     if (right()) {
@@ -182,6 +198,20 @@ public abstract class InputInterface {
       }
     }
   }
+  
+  public boolean buttonCRelease() {
+    if (buttonC()) {
+      prevButtonC = true;
+      return false;
+    } else {
+      if (prevButtonC) {
+        prevButtonC = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
 
 // キーボードからの入力
@@ -228,6 +258,14 @@ public class KeyboardInput extends InputInterface {
 
   public boolean buttonB() {
     if (keyPressed && key == 'x') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  public boolean buttonC() {
+    if (keyPressed && key == 'c') {
       return true;
     } else {
       return false;
@@ -284,6 +322,14 @@ public class ArcadeInput extends InputInterface {
       return false;
     }
   }
+  
+  public boolean buttonC() {
+    if (keyPressed && key == 'g') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 // 入力
@@ -317,6 +363,10 @@ public static class Input {
   public static boolean buttonB() {
     return inputInterface.buttonB();
   }
+  
+  public static boolean buttonC() {
+    return inputInterface.buttonC();
+  }
 
   public static boolean rightPress() {
     return inputInterface.rightPress();
@@ -341,6 +391,10 @@ public static class Input {
   public static boolean buttonBPress() {
     return inputInterface.buttonBPress();
   }
+  
+  public static boolean buttonCPress() {
+    return inputInterface.buttonCPress();
+  }
 
   public static boolean rightRelease() {
     return inputInterface.rightRelease();
@@ -364,5 +418,9 @@ public static class Input {
 
   public static boolean buttonBRelease() {
     return inputInterface.buttonBRelease();
+  }
+  
+  public static boolean buttonCRelease() {
+    return inputInterface.buttonCRelease();
   }
 }
