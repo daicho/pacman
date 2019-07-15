@@ -56,6 +56,7 @@ public class Animation {
   }
 }
 
+// タイマー
 public class Timer {
   protected int time; // 設定時間
   protected int left; // 残り時間

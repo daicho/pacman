@@ -17,13 +17,16 @@ public class Stage implements Scene {
   protected ArrayList<Monster> monsters = new ArrayList<Monster>(); // 敵
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
+  protected Item specialItem;                        // スペシャルアイテム
+  protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
+  protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
 
   protected int score = 0; // スコア
   protected int life = 3;  // 残機の数
 
   protected StageStatus status = StageStatus.Start; // 状態
-  protected Timer startTimer = new Timer(300); // 開始時のタイマー
-  protected Timer eatTimer = new Timer(60);   // 敵を食べたときの硬直タイマー
+  protected Timer startTimer = new Timer(200);      // 開始時のタイマー
+  protected Timer eatTimer = new Timer(60);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
   protected MonsterMode monsterMode; // 敵のモード
@@ -33,8 +36,8 @@ public class Stage implements Scene {
   protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
-  protected boolean eatSEFlag = true; // 普通のエサを食べたときの効果音切り替えフラグ
-  protected BGM bgm = new BGM(minim); // BGM
+  protected boolean eatSEFlag = true;                // 普通のエサを食べたときの効果音切り替えフラグ
+  protected BGM bgm = new BGM(minim);                // BGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -95,6 +98,11 @@ public class Stage implements Scene {
         else if (pixel == color(0, 255, 255)) {
           powerFoods.add(new Item(new PVector(x, y), "power_food"));
         }
+
+        // スペシャルアイテム
+        else if (pixel == color(127, 0, 255)) {
+          specialItem = new Item(new PVector(x, y), setting.get("special_item_name"));
+        }
       }
     }
 
@@ -129,7 +137,7 @@ public class Stage implements Scene {
       if (startTimer.update())
         status = StageStatus.Play;
       break;
-      
+
     case Play:
       // ボタン入力
       if (Input.right())
@@ -140,11 +148,11 @@ public class Stage implements Scene {
         pacman.setNextDirection(2); // ←
       else if (Input.down())
         pacman.setNextDirection(3); // ↓
-  
+
       // モンスター放出
       if (frame < releaseInterval * monsters.size() && frame % releaseInterval == 0)
         this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
-  
+
       // モード切り替え
       if (modeTimer.update()) {
         switch (monsterMode) {
@@ -152,97 +160,97 @@ public class Stage implements Scene {
           monsterMode = MonsterMode.Chase;
           modeTimer.setTime(modeTimes.get(MonsterMode.Chase));
           break;
-  
+
         case Chase:
         case Ijike:
           monsterMode = MonsterMode.Rest;
           modeTimer.setTime(modeTimes.get(MonsterMode.Rest));
           break;
         }
-  
+
         for (Monster monster : monsters)
           monster.setMode(monsterMode);
       }
-  
+
       if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 120) {
         for (Monster monster : monsters)
           monster.setIjikeStatus(1);
       }
-  
+
       // 敵の向きを決定
       for (Monster monster : monsters)
         monster.decideDirection(this);
-  
+
       // 移動
       for (Monster monster : monsters)
         monster.move(map);
       pacman.move(map);
-  
+
       // 更新
       pacman.update(map);
-  
+
       for (Monster monster : monsters)
         monster.update(map);
-  
+
       for (Item food : foods)
         food.update();
-  
+
       for (Item powerFood : powerFoods)
         powerFood.update();
-  
+
       // 当たり判定
       for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
         Item food = i.next();
-  
+
         if (pacman.isColliding(food)) {
           i.remove();
-  
+
           // 音を鳴らす
           se.eatFood(eatSEFlag);
           eatSEFlag = !eatSEFlag;
-  
+
           // スコア加算
           this.score += 10;
         }
       }
-  
+
       for (Iterator<Item> i = powerFoods.iterator(); i.hasNext(); ) {
         Item powerFood = i.next();
-  
+
         if (pacman.isColliding(powerFood)) {
           i.remove();
-  
+
           // 音を鳴らす
           se.eatPowerFood();
-  
+
           // イジケモードに
           for (Monster monster : monsters) {
             monster.setMode(MonsterMode.Ijike);
             monsterMode = MonsterMode.Ijike;
             modeTimer.setTime(modeTimes.get(MonsterMode.Ijike));
           }
-  
+
           this.monsterEatCount = 0;
-  
+
           // スコア加算
           this.score += 50;
         }
       }
-  
+
       if (foods.isEmpty() && powerFoods.isEmpty()) {
         // ゲームクリア
         bgm.stop();
-        SceneManager.setScene(new Result(score));
+        status = StageStatus.Clear;
       }
-  
+
       for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
         Monster monster = i.next();
-  
+
         if (pacman.isColliding(monster)) {
           switch (monster.getStatus()) {
           case Return:
             break;
-  
+
           case Active:
             if (monster.getMode() == MonsterMode.Ijike) {
               // モンスターを食べた時のスコア
@@ -253,39 +261,52 @@ public class Stage implements Scene {
               status = StageStatus.Eat;
               break;
             }
-  
+
           default:
             if (life <= 0) {
               // ゲームオーバー
               bgm.stop();
-              SceneManager.setScene(new Result(score));
+              status = StageStatus.Die;
             } else {
               // 残機を1つ減らしゲーム続行
               life--;
               println(life);
-  
+
               // リセット
               pacman.reset();
               for (Monster m : monsters)
                 m.reset();
-  
+
               frame = 0;
               monsterMode = MonsterMode.Rest;
               modeTimer = new Timer(modeTimes.get(monsterMode));
-  
+
               return;
             }
             break;
           }
         }
       }
-  
+
+      bgm.play(); // BGMを再生
       frame++;
       break;
 
     case Eat:
       if (eatTimer.update())
         status = StageStatus.Play;
+      break;
+
+    case Clear:
+      status = StageStatus.Finish;
+      break;
+
+    case Die:
+      status = StageStatus.Finish;
+      break;
+
+    case Finish:
+      SceneManager.setScene(new Result(score));
       break;
     }
   }
@@ -317,8 +338,5 @@ public class Stage implements Scene {
       text(Record.getRanking(1), 445, 200);
     else
       text(score, 445, 200);
-      
-    //BGMを再生
-    bgm.play();
   }
 }

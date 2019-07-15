@@ -21,6 +21,6 @@ public class Result implements Scene {
     fill(255);
     textAlign(CENTER, CENTER);
     textFont(font, 20);
-    text("Result\nScore:" + score + "\nPress 'Z' Key", screenSize.x / 2, screenSize.y / 2);
+    text("Result\nScore:" + score + "\nPress 'Z' Key", SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
   }
 }

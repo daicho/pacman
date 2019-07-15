@@ -357,7 +357,6 @@ class Input {
 
 class Record {
     # {static} RANK_NUM: int
-
     # {static} ranking: int[]
     # {static} filePath: String
 

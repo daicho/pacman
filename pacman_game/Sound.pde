@@ -10,7 +10,7 @@ public class BGM {
   public BGM(Minim minim) {
     // 音楽ファイル読み込み
     this.minim = minim;
-    player = this.minim.loadFile("sounds/schoolSong.mp3");
+    player = this.minim.loadFile("sounds/SchoolSong.mp3");
     //length = player.length();
     player.cue(3500);
   }
@@ -35,7 +35,8 @@ public class BGM {
 public class SoundEffect {
   protected final float VOLUME = 0.1; // 音量
 
-  protected final float P1 = 787.330; // 音程
+  // 音程
+  protected final float P1 = 787.330;
   protected final float P2 = 864.255;
   protected final float P3 = 908.456;
   protected final float P4 = 998.991;
