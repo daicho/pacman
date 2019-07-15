@@ -18,6 +18,7 @@ public class Stage implements Scene {
   protected ArrayList<Item> foods = new ArrayList<Item>();          // エサ
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
   protected Item specialItem;                        // スペシャルアイテム
+  protected int specialItemScore;                    // スペシャルアイテムのスコア
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
 
@@ -51,6 +52,7 @@ public class Stage implements Scene {
       setting.put(curSetting[0], curSetting[1]);
     }
 
+    this.specialItemScore = int(setting.get("special_item_score"));
     this.releaseInterval = int(setting.get("release_interval"));
 
     this.modeTimes.put(MonsterMode.Rest, int(setting.get("rest_time")));
