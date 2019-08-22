@@ -3,11 +3,11 @@ import java.util.Iterator;
 // ステージの状態
 public enum StageStatus {
   Start, // 開始
-  Play,  // ゲーム
-  Eat,   // 敵を食べたときの硬直
-  Clear, // クリア
-  Die,   // 敵に食べられた
-  Finish // 終了
+    Play, // ゲーム
+    Eat, // 敵を食べたときの硬直
+    Clear, // クリア
+    Die, // 敵に食べられた
+    Finish // 終了
 }
 
 // ステージ
@@ -21,6 +21,7 @@ public class Stage implements Scene {
   protected int specialItemScore;                    // スペシャルアイテムのスコア
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
+  protected int foodCount = 0;  // 食べたエサの数
 
   protected int score = 0; // スコア
   protected int life = 3;  // 残機の数
@@ -200,7 +201,11 @@ public class Stage implements Scene {
       for (Item powerFood : powerFoods)
         powerFood.update();
 
+      if (specialItemAppear == true)
+        specialItem.update();
+
       // 当たり判定
+      // ノーマルエサ
       for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
         Item food = i.next();
 
@@ -211,11 +216,15 @@ public class Stage implements Scene {
           se.eatFood(eatSEFlag);
           eatSEFlag = !eatSEFlag;
 
+          // 食べたエサの数をカウント
+          foodCount++;
+
           // スコア加算
           this.score += 10;
         }
       }
 
+      // パワーエサ
       for (Iterator<Item> i = powerFoods.iterator(); i.hasNext(); ) {
         Item powerFood = i.next();
 
@@ -239,12 +248,28 @@ public class Stage implements Scene {
         }
       }
 
+      // スペシャルアイテム
+      if (specialItemAppear == true) {
+        if (pacman.isColliding(specialItem)) {
+          // 音を鳴らす
+          se.eatPowerFood();
+
+          // スコア加算
+          this.score += specialItemScore;
+
+          // スペシャルアイテムを取得したので終了
+          specialItemAppear = false;
+        }
+      }
+
+      // エサがなくなった時
       if (foods.isEmpty() && powerFoods.isEmpty()) {
         // ゲームクリア
         bgm.stop();
         status = StageStatus.Clear;
       }
 
+      // 接敵
       for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
         Monster monster = i.next();
 
@@ -290,6 +315,17 @@ public class Stage implements Scene {
         }
       }
 
+      //スペシャルアイテムタイマー
+      if (specialItemAppear == true) {
+        if (specialItemTimer.update())
+          specialItemAppear = false;
+      }
+
+      //スペシャルアイテム発生
+      if (foodCount == 70 || foodCount == 170) {
+        specialItemAppear = true;
+      }
+
       bgm.play(); // BGMを再生
       frame++;
       break;
@@ -328,6 +364,10 @@ public class Stage implements Scene {
 
     for (Monster monster : monsters)
       monster.draw();
+
+    if (specialItemAppear == true) {
+      specialItem.draw();
+    }
 
     // スコア表示
     fill(255);
