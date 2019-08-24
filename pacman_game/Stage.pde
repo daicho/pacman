@@ -22,6 +22,7 @@ public class Stage implements Scene {
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
   protected int foodCount = 0;  // 食べたエサの数
+  protected boolean specialItemFlag = false; // 食べたエサが丁度70,170の時の多数発生回避フラグ
 
   protected int score = 0; // スコア
   protected int life = 3;  // 残機の数
@@ -322,8 +323,13 @@ public class Stage implements Scene {
       }
 
       //スペシャルアイテム発生
-      if (foodCount == 70 || foodCount == 170) {
+      if ((foodCount == 70 || foodCount == 170) && specialItemFlag == false) {
         specialItemAppear = true;
+        specialItemFlag = true;
+      }
+      
+      if(foodCount != 70 && foodCount != 170){
+        specialItemFlag = false;
       }
 
       bgm.play(); // BGMを再生
