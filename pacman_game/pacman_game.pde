@@ -3,7 +3,8 @@ public PFont font;  // フォント
 public Minim minim; // サウンド
 
 void setup() {
-  fullScreen();
+  //fullScreen(); // フルスクリーン
+  size(448, 496); // ウィンドウ
 
   font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
   minim = new Minim(this);
@@ -19,7 +20,7 @@ void setup() {
 
 void draw() {
   // 画面描画
-  translate((displayWidth - SCREEN_SIZE.x) / 2, (displayHeight - SCREEN_SIZE.y) / 2);
+  translate((width - SCREEN_SIZE.x) / 2, (height - SCREEN_SIZE.y) / 2);
   SceneManager.update();
   SceneManager.draw();
 }
