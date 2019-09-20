@@ -2,7 +2,7 @@
 public class Title implements Scene {
   public void update() {
     if (Input.buttonAPress())
-      SceneManager.setScene(new Stage("original"));
+      SceneManager.setScene(new Game());
   }
 
   public void draw() {

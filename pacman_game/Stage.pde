@@ -3,11 +3,11 @@ import java.util.Iterator;
 // ステージの状態
 public enum StageStatus {
   Start, // 開始
-    Play, // ゲーム
-    Eat, // 敵を食べたときの硬直
-    Clear, // クリア
-    Die, // 敵に食べられた
-    Finish // 終了
+  Play,  // ゲーム
+  Eat,   // 敵を食べたときの硬直
+  Clear, // クリア
+  Die,   // 敵に食べられた
+  Finish // 終了
 }
 
 // ステージ
@@ -21,7 +21,7 @@ public class Stage implements Scene {
   protected int specialItemScore;                    // スペシャルアイテムのスコア
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
-  protected int foodCount = 0;  // 食べたエサの数
+  protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70,170の時の多数発生回避フラグ
 
   protected int score = 0; // スコア
@@ -327,8 +327,8 @@ public class Stage implements Scene {
         specialItemAppear = true;
         specialItemFlag = true;
       }
-      
-      if(foodCount != 70 && foodCount != 170){
+
+      if (foodCount != 70 && foodCount != 170) {
         specialItemFlag = false;
       }
 
