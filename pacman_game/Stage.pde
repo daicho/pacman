@@ -130,6 +130,10 @@ public class Stage implements Scene {
   public int getLife() {
     return this.life;
   }
+  
+  public StageStatus getStatus() {
+    return this.status;
+  }
 
   // ステージ内の状態を更新
   public void update() {
@@ -350,7 +354,6 @@ public class Stage implements Scene {
       break;
 
     case Finish:
-      SceneManager.setScene(new Result(score));
       break;
     }
   }
@@ -374,17 +377,5 @@ public class Stage implements Scene {
     if (specialItemAppear == true) {
       specialItem.draw();
     }
-
-    // スコア表示
-    fill(255);
-    textAlign(RIGHT, BASELINE);
-    textFont(font, 20);
-    text("SCORE", 75, 180);
-    text(score, 75, 200);
-    text("HiSCORE", 465, 180);
-    if (Record.getRanking(1) > score)
-      text(Record.getRanking(1), 445, 200);
-    else
-      text(score, 445, 200);
   }
 }
