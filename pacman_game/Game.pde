@@ -15,10 +15,6 @@ class Game implements Scene {
     this.life = life - 1;
   }
 
-  public int getScore() {
-    return score;
-  }
-
   public void update() {
     stages[curStage].update();
 
