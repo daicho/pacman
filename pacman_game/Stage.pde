@@ -2,12 +2,13 @@ import java.util.Iterator;
 
 // ステージの状態
 public enum StageStatus {
-  Start, // 開始
-  Play,  // ゲーム
-  Eat,   // 敵を食べたときの硬直
-  Clear, // クリア
-  Die,   // 敵に食べられた
-  Finish // 終了
+  Start,  // 開始
+  Play,   // ゲーム
+  Eat,    // 敵を食べたときの硬直
+  Clear,  // クリア
+  Die,    // 敵に食べられた
+  Finish, // 終了
+  Reset   // リセット
 }
 
 // ステージ
@@ -22,10 +23,8 @@ public class Stage implements Scene {
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
   protected int foodCount = 0;               // 食べたエサの数
-  protected boolean specialItemFlag = false; // 食べたエサが丁度70,170の時の多数発生回避フラグ
-
+  protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
   protected int score = 0; // スコア
-  protected int life = 3;  // 残機の数
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected Timer startTimer = new Timer(200);      // 開始時のタイマー
@@ -127,10 +126,6 @@ public class Stage implements Scene {
     return this.score;
   }
 
-  public int getLife() {
-    return this.life;
-  }
-  
   public StageStatus getStatus() {
     return this.status;
   }
@@ -295,38 +290,19 @@ public class Stage implements Scene {
             }
 
           default:
-            if (life <= 0) {
-              // ゲームオーバー
-              bgm.stop();
-              status = StageStatus.Die;
-            } else {
-              // 残機を1つ減らしゲーム続行
-              life--;
-              println(life);
-
-              // リセット
-              pacman.reset();
-              for (Monster m : monsters)
-                m.reset();
-
-              frame = 0;
-              monsterMode = MonsterMode.Rest;
-              modeTimer = new Timer(modeTimes.get(monsterMode));
-
-              return;
-            }
-            break;
+            status = StageStatus.Die;
+            return;
           }
         }
       }
 
-      //スペシャルアイテムタイマー
+      // スペシャルアイテムタイマー
       if (specialItemAppear == true) {
         if (specialItemTimer.update())
           specialItemAppear = false;
       }
 
-      //スペシャルアイテム発生
+      // スペシャルアイテム発生
       if ((foodCount == 70 || foodCount == 170) && specialItemFlag == false) {
         specialItemAppear = true;
         specialItemFlag = true;
@@ -350,10 +326,23 @@ public class Stage implements Scene {
       break;
 
     case Die:
-      status = StageStatus.Finish;
+      // リセット
+      pacman.reset();
+      for (Monster m : monsters)
+        m.reset();
+
+      frame = 0;
+      monsterMode = MonsterMode.Rest;
+      modeTimer = new Timer(modeTimes.get(monsterMode));
+
+      status = StageStatus.Reset;
       break;
 
     case Finish:
+      break;
+    
+    case Reset:
+      status = StageStatus.Start;
       break;
     }
   }
