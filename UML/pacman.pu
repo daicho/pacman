@@ -25,9 +25,12 @@ Monster o-- MonsterSpeed
 Map o-- MapObject
 
 SceneMaganer o-- Scene
+
 Scene <|.. Title
-Scene <|.. Stage
+Scene <|.. Game
 Scene <|.. Result
+
+Game o-- Stage
 
 Stage o-- GameObject
 Stage o-- Map
@@ -212,6 +215,18 @@ class SceneMaganer {
     + {static} draw(): void
 }
 
+class Game {
+    # life: int
+    # score: int
+    # prevScore: int
+    # curStage: int
+    # stages: Stage
+
+    + Game(life: int)
+    + update()
+    + draw()
+}
+
 class Stage {
     # pacman: Pacman
     # monsters: ArrayList<Monster>
@@ -221,7 +236,6 @@ class Stage {
     # frame: int
     # score: int
     # monsterEatCount: int
-    # life: int
     # releaseInterval: int
     # restTime: int
     # chaseTime: int
