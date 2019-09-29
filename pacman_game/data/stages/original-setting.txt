@@ -11,5 +11,7 @@ rest_time,300
 chase_time,600
 ijike_time,480
 release_interval,300
-special_item_name,cherry
+special_item_name1,cherry
+special_item_name2,orange
+special_item_name3,strawberry
 special_item_score,100
