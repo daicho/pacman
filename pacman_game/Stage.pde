@@ -136,6 +136,7 @@ public class Stage implements Scene {
     case Start:
       // スタートBGM再生
       ;
+      bgm.rewind();
 
       if (startTimer.update())
         status = StageStatus.Play;
@@ -265,7 +266,6 @@ public class Stage implements Scene {
       // エサがなくなった時
       if (foods.isEmpty() && powerFoods.isEmpty()) {
         // ゲームクリア
-        bgm.stop();
         status = StageStatus.Clear;
       }
 
@@ -323,6 +323,7 @@ public class Stage implements Scene {
 
     case Clear:
       status = StageStatus.Finish;
+      bgm.pause();
       break;
 
     case Die:
@@ -336,6 +337,7 @@ public class Stage implements Scene {
       modeTimer = new Timer(modeTimes.get(monsterMode));
 
       status = StageStatus.Reset;
+      bgm.pause();
       break;
 
     case Finish:

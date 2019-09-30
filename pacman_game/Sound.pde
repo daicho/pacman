@@ -20,6 +20,13 @@ public class BGM {
       player.setGain(-10); // 音量調節
     }
   }
+  
+  // 再生開始する位置を初期位置にセット
+  public void rewind() {
+    if (breakFlag == false) {
+      player.cue(4100);
+    }
+  }
 
   // 再生
   public void play() {
@@ -28,6 +35,13 @@ public class BGM {
         player.cue(4100);
       }
       player.play();
+    }
+  }
+  
+  // 一時停止
+  public void pause() {
+    if (breakFlag == false) {
+      player.pause();
     }
   }
 
