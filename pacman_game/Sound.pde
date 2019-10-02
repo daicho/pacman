@@ -15,10 +15,10 @@ abstract public class BGM {
 
   // 再生開始する位置を初期位置にセット
   abstract public void rewind();
-  
+
   // 再生
   abstract public boolean play();
-  
+
   // 一時停止
   public void pause() {
     if (breakFlag == false) {
@@ -48,14 +48,14 @@ public class StartBGM extends BGM {
       player.setGain(-10); // 音量調節
     }
   }
-  
+
   // 再生開始する位置を初期位置にセット
   public void rewind() {
     if (breakFlag == false) {
       player.rewind();
     }
   }
-  
+
   // 再生
   public boolean play() {
     if (breakFlag == false) {
@@ -74,7 +74,7 @@ public class StartBGM extends BGM {
 
 // 通常時のBGM
 public class NomalBGM extends BGM {
-  
+
   public NomalBGM(Minim minim) {
     super(minim);
     player = this.minim.loadFile("sounds/schoolSong.mp3");
@@ -86,14 +86,14 @@ public class NomalBGM extends BGM {
       player.setGain(-10); // 音量調節
     }
   }
-  
+
   // 再生開始する位置を初期位置にセット
   public void rewind() {
     if (breakFlag == false) {
       player.cue(3500);
     }
   }
-  
+
   // 再生
   public boolean play() {
     if (breakFlag == false) {
@@ -158,6 +158,20 @@ public class SoundEffect {
       out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(P10, VOLUME, out));
       out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(P9, VOLUME, out));
     }
+  }
+
+  // 食べられたとき
+  public void eaten() {
+    float soundWidth = 0.125;
+    out.playNote(0, soundWidth, new SquareInstrument(1396.913, VOLUME, out));
+    out.playNote(soundWidth, soundWidth, new SquareInstrument(1479.978, VOLUME, out));
+    out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(1318.510, VOLUME, out));
+    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(1396.918, VOLUME, out));
+    out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(1174.659, VOLUME, out));
+    out.playNote(soundWidth * 5, soundWidth, new SquareInstrument(1244.508, VOLUME, out));
+    out.playNote(soundWidth * 6, soundWidth, new SquareInstrument(1046.502, VOLUME, out));
+    out.playNote(soundWidth * 7.5, soundWidth, new SquareInstrument(739.989, VOLUME, out));
+    out.playNote(soundWidth * 9, soundWidth, new SquareInstrument(739.989, VOLUME, out));
   }
 }
 

@@ -27,7 +27,7 @@ public class Stage implements Scene {
   protected int score = 0; // スコア
 
   protected StageStatus status = StageStatus.Start; // 状態
-  //protected Timer startTimer = new Timer(200);      // 開始時のタイマー
+  protected Timer dieTimer = new Timer(200);        // 死亡時のタイマー
   protected Timer eatTimer = new Timer(60);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
@@ -290,6 +290,7 @@ public class Stage implements Scene {
             }
 
           default:
+            se.eaten();
             status = StageStatus.Die;
             return;
           }
@@ -336,10 +337,11 @@ public class Stage implements Scene {
       frame = 0;
       monsterMode = MonsterMode.Rest;
       modeTimer = new Timer(modeTimes.get(monsterMode));
-
-      status = StageStatus.Reset;
       nomalbgm.pause();
       startbgm.rewind();
+      if (dieTimer.update()) {
+        status = StageStatus.Reset;
+      }
       break;
 
     case Finish:
