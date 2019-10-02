@@ -68,13 +68,13 @@ public abstract class Character extends GameObject {
 
   // 移動
   public void move(Map map) {
-    PVector canCurrectMove = canMove(map, direction);
-    PVector canNextMove = canMove(map, nextDirection);
-    if (canNextMove.mag() != 0.0) {
+    // 曲がれたら曲がる、曲がれなかったら直進
+    PVector nextMove = canMove(map, nextDirection);
+    if (nextMove.mag() != 0)
       direction = nextDirection;
-      position.add(canNextMove);
-    } else
-      position.add(canCurrectMove);
+    else
+      nextMove = canMove(map, direction);
+    position.add(nextMove);
 
     // ワープトンネル
     PVector mapSize = map.getSize();
@@ -104,49 +104,46 @@ public abstract class Character extends GameObject {
 
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
-    PVector result = new PVector(0, 0); // 結果用
-    float  t;
-    boolean flag = false;
+    boolean turnFlag = false;
+    PVector result = new PVector(0, 0);
 
-    if (direction == aimDirection) {
-      flag = true;
-      PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
-      for (t = 0; t <= speed; t++) {
-        MapObject mapObject = map.getObject(PVector.add(position, check));
+    for (float t = 0; t < speed; t++) {
+      float moveDistance;
+      PVector moveVector;
+      MapObject mapObject;
+
+      // 1マスずつ進みながらチェック
+      if (t + 1 <= int(speed))
+        moveDistance = 1;
+      else
+        moveDistance = speed - t;
+
+      // 進みたい方向に進んでみる
+      moveVector = getDirectionVector(aimDirection);
+      moveVector.mult(moveDistance);
+      result.add(moveVector);
+
+      mapObject = map.getObject(PVector.add(position, result));
+      if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
+        turnFlag = true;
+      } else {
+        result.sub(moveVector);
+
+        if (turnFlag)
+          break;
+
+        // 壁があったら直進する
+        moveVector = getDirectionVector(direction);
+        moveVector.mult(moveDistance);
+        result.add(moveVector);
+
+        mapObject = map.getObject(PVector.add(position, result));
         if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
           break;
-        result.set(check);
-        check.add(getDirectionVector(direction));
-      }
-    } else {
-      PVector check = new PVector(0, 0);
-      flag = false;
-
-      for (t = 0; t <= speed; t++) {
-        if (flag == false) {
-          check.add(getDirectionVector(aimDirection));
-          MapObject mapObject = map.getObject(PVector.add(position, check));
-          if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
-            flag = true;
-          } else {
-            check.sub(getDirectionVector(aimDirection));
-            check.add(getDirectionVector(direction));
-            mapObject = map.getObject(PVector.add(position, check));
-            if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
-              break;
-            result.set(check);
-          }
-        }
-        if (flag == true) {
-          check.add(getDirectionVector(aimDirection));
-          MapObject mapObject = map.getObject(PVector.add(position, check));
-          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
-            break;
-          result.set(check);
-        }
       }
     }
-    if (flag)
+
+    if (turnFlag)
       return result;
     else
       return new PVector(0, 0);
@@ -157,6 +154,8 @@ public abstract class Character extends GameObject {
     position = startPosition.copy();
     direction = startDirection;
     nextDirection = direction;
+    for (Animation animetion: animations)
+      animetion.reset();
   }
 
   // 更新
