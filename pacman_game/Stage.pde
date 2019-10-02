@@ -27,7 +27,7 @@ public class Stage implements Scene {
   protected int score = 0; // スコア
 
   protected StageStatus status = StageStatus.Start; // 状態
-  protected Timer startTimer = new Timer(200);      // 開始時のタイマー
+  //protected Timer startTimer = new Timer(200);      // 開始時のタイマー
   protected Timer eatTimer = new Timer(60);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
@@ -39,7 +39,8 @@ public class Stage implements Scene {
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
   protected boolean eatSEFlag = true;                // 普通のエサを食べたときの効果音切り替えフラグ
-  protected NomalBGM nomalbgm = new NomalBGM(minim);                // BGM
+  protected StartBGM startbgm = new StartBGM(minim); // スタート時のBGM
+  protected NomalBGM nomalbgm = new NomalBGM(minim); // 通常時のBGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -135,11 +136,10 @@ public class Stage implements Scene {
     switch (status) {
     case Start:
       // スタートBGM再生
-      ;
-      nomalbgm.rewind();
-
-      if (startTimer.update())
+      if (startbgm.play()) {
+        nomalbgm.rewind();  
         status = StageStatus.Play;
+      }
       break;
 
     case Play:
@@ -324,6 +324,7 @@ public class Stage implements Scene {
     case Clear:
       status = StageStatus.Finish;
       nomalbgm.pause();
+      startbgm.rewind();
       break;
 
     case Die:
@@ -338,6 +339,7 @@ public class Stage implements Scene {
 
       status = StageStatus.Reset;
       nomalbgm.pause();
+      startbgm.rewind();
       break;
 
     case Finish:

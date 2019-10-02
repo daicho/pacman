@@ -13,8 +13,11 @@ abstract public class BGM {
     this.minim = minim;
   }
 
+  // 再生開始する位置を初期位置にセット
+  abstract public void rewind();
+  
   // 再生
-  abstract public void play();
+  abstract public boolean play();
   
   // 一時停止
   public void pause() {
@@ -32,6 +35,44 @@ abstract public class BGM {
   }
 }
 
+// スタート時のBGM
+public class StartBGM extends BGM {
+  public StartBGM(Minim minim) {
+    super(minim);
+    player = this.minim.loadFile("sounds/start.mp3");
+    if (player == null) {
+      breakFlag = true;
+    } else {
+      player.rewind();
+      //player.printControls(); // 音量調節可能な範囲を表示
+      player.setGain(-10); // 音量調節
+    }
+  }
+  
+  // 再生開始する位置を初期位置にセット
+  public void rewind() {
+    if (breakFlag == false) {
+      player.rewind();
+    }
+  }
+  
+  // 再生
+  public boolean play() {
+    if (breakFlag == false) {
+      player.play();
+      if (player.position() >= 4700) {
+        player.pause();
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+}
+
+// 通常時のBGM
 public class NomalBGM extends BGM {
   
   public NomalBGM(Minim minim) {
@@ -53,13 +94,15 @@ public class NomalBGM extends BGM {
     }
   }
   
-  public void play() {
+  // 再生
+  public boolean play() {
     if (breakFlag == false) {
       if (player.position() >= 52000) {
         player.cue(4100);
       }
       player.play();
     }
+    return true;
   }
 }
 
