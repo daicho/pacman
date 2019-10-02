@@ -76,6 +76,19 @@ public abstract class Character extends GameObject {
       nextMove = canMove(map, direction);
     position.add(nextMove);
 
+    // 道の真ん中を進むように調整
+    switch (direction) {
+    case 0:
+    case 2:
+      position.y = round(position.y);
+      break;
+
+    case 1:
+    case 3:
+      position.x = round(position.x);
+      break;
+    }
+
     // ワープトンネル
     PVector mapSize = map.getSize();
 
@@ -154,7 +167,7 @@ public abstract class Character extends GameObject {
     position = startPosition.copy();
     direction = startDirection;
     nextDirection = direction;
-    for (Animation animetion: animations)
+    for (Animation animetion : animations)
       animetion.reset();
   }
 

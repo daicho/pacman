@@ -329,11 +329,6 @@ public class Stage implements Scene {
       break;
 
     case Die:
-      // リセット
-      pacman.reset();
-      for (Monster m : monsters)
-        m.reset();
-
       frame = 0;
       monsterMode = MonsterMode.Rest;
       modeTimer = new Timer(modeTimes.get(monsterMode));
@@ -348,6 +343,16 @@ public class Stage implements Scene {
       break;
     
     case Reset:
+      // リセット
+      pacman.reset();
+      for (Monster m : monsters)
+        m.reset();
+      for (Item food : foods)
+        food.reset();
+      for (Item powerFood : powerFoods)
+        powerFood.reset();
+      specialItem.reset();
+
       status = StageStatus.Start;
       break;
     }

@@ -56,6 +56,11 @@ public class Item extends GameObject {
     this.size = animation.getSize();
   }
 
+  // リセット
+  public void reset() {
+    animation.reset();
+  }
+
   // 更新
   public void update() {
     animation.update();
