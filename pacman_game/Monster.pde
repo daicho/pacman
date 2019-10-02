@@ -105,25 +105,62 @@ public abstract class Monster extends Character {
   public void setIjikeStatus(int ijikeStatus) {
     this.ijikeStatus = ijikeStatus;
   }
-
+  
   // 特定の方向へ移動できるか
-  public boolean canMove(Map map, int aimDirection) {
-    PVector check = getDirectionVector(aimDirection); // 壁かどうかの判定に使用する座標
+  public PVector canMove(Map map, int aimDirection) {
+    PVector result = new PVector(0, 0);
+    float  t;
+    boolean flag = false;
 
-    for (; check.mag() <= getDirectionVector(aimDirection).mult(speed).mag(); check.add(getDirectionVector(aimDirection))) {
-      MapObject mapObject = map.getObject(PVector.add(check, position));
-      if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
-        return false;
+    if (direction == aimDirection) {
+      flag = true;
+      PVector check = getDirectionVector(direction);
+      for (t = 0; t <= speed; t++) {
+        MapObject mapObject = map.getObject(PVector.add(position, check));
+        if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
+          break;
+        result.set(check);
+        check.add(getDirectionVector(direction));
+      }
+    } else {
+      PVector check = new PVector(0, 0);
+      flag = false;
+
+      for (t = 0; t <= speed; t++) {
+        if (flag == false) {
+          check.add(getDirectionVector(aimDirection));
+          MapObject mapObject = map.getObject(PVector.add(position, check));
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor) {
+            check.sub(getDirectionVector(aimDirection));
+            check.add(getDirectionVector(direction));
+            mapObject = map.getObject(PVector.add(position, check));
+            if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
+              break;
+            result.set(check);
+          } else {
+            flag = true;
+          } 
+        }
+        if (flag == true) { // 曲がれた
+          check.add(getDirectionVector(aimDirection));
+          MapObject mapObject = map.getObject(PVector.add(position, check));
+          if (mapObject == MapObject.Wall || status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor)
+            break;
+          result.set(check);
+        }
+      }
     }
-
-    return true;
+    if (flag)
+      return result;
+    else
+      return new PVector(0, 0);
   }
-
+  
   // 目標地点に進むための方向を返す
   protected int getAimDirection(Map map, PVector point) {
     int aimDirection = 0;
     float distanceMin = map.size.mag();
-    boolean canForward = canMove(map, direction);
+    boolean canForward = canMove(map, direction).mag() != 0.0;
 
     for (int i = 0; i < 4; i++) {
       // 前進できるなら後退しない
@@ -136,7 +173,7 @@ public abstract class Monster extends Character {
       PVector checkPosition = position.copy();
       checkPosition.add(getDirectionVector(checkDirection).mult(speed));
 
-      if (canMove(map, checkDirection) && checkPosition.dist(point) < distanceMin) {
+      if (canMove(map, checkDirection).mag() != 0.0 && checkPosition.dist(point) < distanceMin) {
         aimDirection = checkDirection;
         distanceMin = checkPosition.dist(point);
       }
@@ -152,7 +189,7 @@ public abstract class Monster extends Character {
     switch (status) {
     case Wait:
       // 待機中は前後に動く
-      if (!canMove(stage.map, direction))
+      if (canMove(stage.map, direction).mag() == 0.0)
         nextDirection = (direction + 2) % 4;
       break;
 
@@ -206,7 +243,7 @@ public abstract class Monster extends Character {
     }
 
     // アニメーションを更新
-    if (canMove(map, direction)) {
+    if (canMove(map, direction).mag() != 0.0) {
       switch (status) {
       case Wait:
       case Release:

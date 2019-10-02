@@ -68,50 +68,88 @@ public abstract class Character extends GameObject {
 
   // 移動
   public void move(Map map) {
-    if (canMove(map, nextDirection))
+    PVector canCurrectMove = canMove(map, direction);
+    PVector canNextMove = canMove(map, nextDirection);
+    if (canNextMove.mag() != 0.0) {
       direction = nextDirection;
+      position.add(canNextMove);
+    } else
+      position.add(canCurrectMove);
 
-    if (canMove(map, direction)) {
-      position.add(getDirectionVector(direction).mult(speed));
+    // ワープトンネル
+    PVector mapSize = map.getSize();
 
-      // ワープトンネル
-      PVector mapSize = map.getSize();
+    switch(direction) {
+    case 0: // 右
+      if (position.x >= mapSize.x)
+        position.x -= mapSize.x;
+      break;
 
-      switch(direction) {
-      case 0: // 右
-        if (position.x >= mapSize.x)
-          position.x -= mapSize.x;
-        break;
+    case 1: // 上
+      if (position.y < 0)
+        position.y += mapSize.y;
+      break;
 
-      case 1: // 上
-        if (position.y < 0)
-          position.y += mapSize.y;
-        break;
+    case 2: // 左
+      if (position.x < 0)
+        position.x += mapSize.x;
+      break;
 
-      case 2: // 左
-        if (position.x < 0)
-          position.x += mapSize.x;
-        break;
-
-      case 3: // 下
-        if (position.y >= mapSize.y)
-          position.y -= mapSize.y;
-        break;
-      }
+    case 3: // 下
+      if (position.y >= mapSize.y)
+        position.y -= mapSize.y;
+      break;
     }
   }
 
   // 特定の方向へ移動できるか
-  public boolean canMove(Map map, int aimDirection) {
-    PVector check = getDirectionVector(aimDirection); // 壁かどうかの判定に使用する座標
+  public PVector canMove(Map map, int aimDirection) {
+    PVector result = new PVector(0, 0); // 結果用
+    float  t;
+    boolean flag = false;
 
-    for (; check.mag() <= getDirectionVector(aimDirection).mult(speed).mag(); check.add(getDirectionVector(aimDirection))) {
-      MapObject mapObject = map.getObject(PVector.add(position, check));
-      if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
-        return false;
+    if (direction == aimDirection) {
+      flag = true;
+      PVector check = getDirectionVector(direction); // 壁かどうかの判定に使用する座標
+      for (t = 0; t <= speed; t++) {
+        MapObject mapObject = map.getObject(PVector.add(position, check));
+        if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
+          break;
+        result.set(check);
+        check.add(getDirectionVector(direction));
+      }
+    } else {
+      PVector check = new PVector(0, 0);
+      flag = false;
+
+      for (t = 0; t <= speed; t++) {
+        if (flag == false) {
+          check.add(getDirectionVector(aimDirection));
+          MapObject mapObject = map.getObject(PVector.add(position, check));
+          if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
+            flag = true;
+          } else {
+            check.sub(getDirectionVector(aimDirection));
+            check.add(getDirectionVector(direction));
+            mapObject = map.getObject(PVector.add(position, check));
+            if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
+              break;
+            result.set(check);
+          }
+        }
+        if (flag == true) {
+          check.add(getDirectionVector(aimDirection));
+          MapObject mapObject = map.getObject(PVector.add(position, check));
+          if (mapObject == MapObject.Wall || mapObject == MapObject.MonsterDoor)
+            break;
+          result.set(check);
+        }
+      }
     }
-
-    return true;
+    if (flag)
+      return result;
+    else
+      return new PVector(0, 0);
   }
 
   // リセット
@@ -123,7 +161,7 @@ public abstract class Character extends GameObject {
 
   // 更新
   public void update(Map map) {
-    if (canMove(map, direction))
+    if (canMove(map, direction).mag() != 0)
       animations[direction].update();
   }
 
