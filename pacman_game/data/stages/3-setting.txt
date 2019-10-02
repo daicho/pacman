@@ -11,5 +11,5 @@ rest_time,300
 chase_time,600
 ijike_time,480
 release_interval,300
-special_item_name,strawberry
+special_item_name,computer
 special_item_score,500
