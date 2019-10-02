@@ -1,8 +1,8 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
 
-//BGM
-public class BGM {
+// BGMの基底クラス
+abstract public class BGM {
   protected Minim minim;
   protected AudioPlayer player;
   //protected int length; 
@@ -11,32 +11,10 @@ public class BGM {
   public BGM(Minim minim) {
     // 音楽ファイル読み込み
     this.minim = minim;
-    player = this.minim.loadFile("sounds/schoolSong.mp3");
-    if (player == null) {
-      breakFlag = true;
-    } else {
-      player.cue(3500);
-      //player.printControls(); // 音量調節可能な範囲を表示
-      player.setGain(-10); // 音量調節
-    }
-  }
-  
-  // 再生開始する位置を初期位置にセット
-  public void rewind() {
-    if (breakFlag == false) {
-      player.cue(4100);
-    }
   }
 
   // 再生
-  public void play() {
-    if (breakFlag == false) {
-      if (player.position() >= 52000) {
-        player.cue(4100);
-      }
-      player.play();
-    }
-  }
+  abstract public void play();
   
   // 一時停止
   public void pause() {
@@ -50,6 +28,37 @@ public class BGM {
     if (breakFlag == false) {
       player.close();
       minim.stop();
+    }
+  }
+}
+
+public class NomalBGM extends BGM {
+  
+  public NomalBGM(Minim minim) {
+    super(minim);
+    player = this.minim.loadFile("sounds/schoolSong.mp3");
+    if (player == null) {
+      breakFlag = true;
+    } else {
+      player.cue(3500);
+      //player.printControls(); // 音量調節可能な範囲を表示
+      player.setGain(-10); // 音量調節
+    }
+  }
+  
+  // 再生開始する位置を初期位置にセット
+  public void rewind() {
+    if (breakFlag == false) {
+      player.cue(3500);
+    }
+  }
+  
+  public void play() {
+    if (breakFlag == false) {
+      if (player.position() >= 52000) {
+        player.cue(4100);
+      }
+      player.play();
     }
   }
 }

@@ -39,7 +39,7 @@ public class Stage implements Scene {
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
   protected boolean eatSEFlag = true;                // 普通のエサを食べたときの効果音切り替えフラグ
-  protected BGM bgm = new BGM(minim);                // BGM
+  protected NomalBGM nomalbgm = new NomalBGM(minim);                // BGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -136,7 +136,7 @@ public class Stage implements Scene {
     case Start:
       // スタートBGM再生
       ;
-      bgm.rewind();
+      nomalbgm.rewind();
 
       if (startTimer.update())
         status = StageStatus.Play;
@@ -312,7 +312,7 @@ public class Stage implements Scene {
         specialItemFlag = false;
       }
 
-      bgm.play(); // BGMを再生
+      nomalbgm.play(); // BGMを再生
       frame++;
       break;
 
@@ -323,7 +323,7 @@ public class Stage implements Scene {
 
     case Clear:
       status = StageStatus.Finish;
-      bgm.pause();
+      nomalbgm.pause();
       break;
 
     case Die:
@@ -337,7 +337,7 @@ public class Stage implements Scene {
       modeTimer = new Timer(modeTimes.get(monsterMode));
 
       status = StageStatus.Reset;
-      bgm.pause();
+      nomalbgm.pause();
       break;
 
     case Finish:
