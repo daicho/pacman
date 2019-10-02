@@ -23,11 +23,13 @@ class Game implements Scene {
       curStage++;
       if (curStage >= stages.length)
         SceneManager.setScene(new Result(score));
+      break;
 
     case Reset:
       if (life <= 0)
         SceneManager.setScene(new Result(score));
       life--;
+      break;
 
     default:
       break;

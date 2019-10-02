@@ -28,6 +28,7 @@ public class Stage implements Scene {
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected Timer dieTimer = new Timer(200);        // 死亡時のタイマー
+  protected Timer clearTimer = new Timer(200);       // クリア時のタイマー
   protected Timer eatTimer = new Timer(60);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
@@ -133,6 +134,16 @@ public class Stage implements Scene {
 
   // ステージ内の状態を更新
   public void update() {
+    // ボタン入力
+    if (Input.right())
+      pacman.setNextDirection(0); // →
+    else if (Input.up())
+      pacman.setNextDirection(1); // ↑
+    else if (Input.left())
+      pacman.setNextDirection(2); // ←
+    else if (Input.down())
+      pacman.setNextDirection(3); // ↓
+
     switch (status) {
     case Start:
       // スタートBGM再生
@@ -143,16 +154,6 @@ public class Stage implements Scene {
       break;
 
     case Play:
-      // ボタン入力
-      if (Input.right())
-        pacman.setNextDirection(0); // →
-      else if (Input.up())
-        pacman.setNextDirection(1); // ↑
-      else if (Input.left())
-        pacman.setNextDirection(2); // ←
-      else if (Input.down())
-        pacman.setNextDirection(3); // ↓
-
       // モンスター放出
       if (frame < releaseInterval * monsters.size() && frame % releaseInterval == 0)
         this.monsters.get(frame / releaseInterval).setStatus(MonsterStatus.Release);
@@ -263,9 +264,9 @@ public class Stage implements Scene {
         }
       }
 
-      // エサがなくなった時
+      // エサがなくなったらゲームクリア
       if (foods.isEmpty() && powerFoods.isEmpty()) {
-        // ゲームクリア
+        startbgm.rewind();
         status = StageStatus.Clear;
       }
 
@@ -290,6 +291,8 @@ public class Stage implements Scene {
             }
 
           default:
+            // 食べられた
+            startbgm.rewind();
             se.eaten();
             status = StageStatus.Die;
             return;
@@ -323,27 +326,26 @@ public class Stage implements Scene {
       break;
 
     case Clear:
-      status = StageStatus.Finish;
       nomalbgm.pause();
-      startbgm.rewind();
+      if (clearTimer.update())
+        status = StageStatus.Finish;
       break;
 
     case Die:
-      frame = 0;
-      monsterMode = MonsterMode.Rest;
-      modeTimer = new Timer(modeTimes.get(monsterMode));
       nomalbgm.pause();
-      startbgm.rewind();
-      if (dieTimer.update()) {
+      if (dieTimer.update())
         status = StageStatus.Reset;
-      }
       break;
 
     case Finish:
       break;
-    
+
     case Reset:
       // リセット
+      frame = 0;
+      monsterMode = MonsterMode.Rest;
+      modeTimer = new Timer(modeTimes.get(monsterMode));
+
       pacman.reset();
       for (Monster m : monsters)
         m.reset();
