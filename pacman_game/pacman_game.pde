@@ -9,7 +9,7 @@ void setup() {
 
   // 入力設定
   Input.setInputInterface(new KeyboardInput()); // キーボード
-  //Input.setInputInterface(new ArcadeInput()); // アーケード
+  //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
 
   font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
   minim = new Minim(this);

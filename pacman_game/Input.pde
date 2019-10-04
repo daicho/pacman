@@ -286,6 +286,40 @@ public class ArcadeInput extends InputInterface {
   }
 }
 
+// キーボード・アーケード同時対応
+public class MixInput extends InputInterface {
+  private KeyboardInput keyboardInput = new KeyboardInput();
+  private ArcadeInput arcadeInput = new ArcadeInput();
+  
+  public boolean right() {
+    return keyboardInput.right() || arcadeInput.right();
+  }
+
+  public boolean up() {
+    return keyboardInput.up() || arcadeInput.up();
+  }
+
+  public boolean left() {
+    return keyboardInput.left() || arcadeInput.left();
+  }
+
+  public boolean down() {
+    return keyboardInput.down() || arcadeInput.down();
+  }
+
+  public boolean buttonA() {
+    return keyboardInput.buttonA() || arcadeInput.buttonA();
+  }
+
+  public boolean buttonB() {
+    return keyboardInput.buttonB() || arcadeInput.buttonB();
+  }
+  
+  public boolean buttonC() {
+    return keyboardInput.buttonC() || arcadeInput.buttonC();
+  }
+}
+
 // 入力
 public static class Input {
   protected static InputInterface inputInterface;
