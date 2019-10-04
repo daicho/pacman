@@ -44,12 +44,12 @@ class Game implements Scene {
     fill(255);
     textAlign(RIGHT, BASELINE);
     textFont(font, 20);
-    text("SCORE", 75, 180);
-    text(score, 75, 200);
-    text("HiSCORE", 465, 180);
+    text("SCORE", 75, 140);
+    text(score, 75, 160);
+    text("HiSCORE", 465, 140);
     if (Record.getRanking(1) > score)
-      text(Record.getRanking(1), 445, 200);
+      text(Record.getRanking(1), 445, 160);
     else
-      text(score, 445, 200);
+      text(score, 445, 160);
   }
 }

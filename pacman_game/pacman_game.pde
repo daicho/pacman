@@ -1,11 +1,11 @@
-public final PVector SCREEN_SIZE = new PVector(448, 496); // ゲーム画面サイズ
+public final PVector SCREEN_SIZE = new PVector(480, 848); // ゲーム画面サイズ
 public PFont font;  // フォント
 public Minim minim; // サウンド
 
 void setup() {
   // 画面設定
   //fullScreen(); // フルスクリーン
-  size(448, 496); // ウィンドウ
+  size(480, 848); // ウィンドウ
 
   // 入力設定
   Input.setInputInterface(new KeyboardInput()); // キーボード
