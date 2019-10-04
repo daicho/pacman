@@ -160,11 +160,25 @@ public class SoundEffect {
     }
   }
 
+  // モンスターを食べたとき
+  public void eatMonster() {
+    float soundWidth = 0.03;
+    out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(659.255, VOLUME, out));
+    out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(698.456, VOLUME, out));
+    out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(783.991, VOLUME, out));
+    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(880.000, VOLUME, out));
+    out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(987.767, VOLUME, out));
+    out.playNote(soundWidth * 5, soundWidth, new SquareInstrument(1046.502, VOLUME, out));
+    out.playNote(soundWidth * 6, soundWidth, new SquareInstrument(1174.659, VOLUME, out));
+    out.playNote(soundWidth * 7, soundWidth, new SquareInstrument(1318.510, VOLUME, out));
+    out.playNote(soundWidth * 8, soundWidth, new SquareInstrument(1396.918, VOLUME, out));
+  }
+
   // 食べられたとき
   public void eaten() {
     float soundWidth = 0.125;
-    out.playNote(0, soundWidth, new SquareInstrument(1396.913, VOLUME, out));
-    out.playNote(soundWidth, soundWidth, new SquareInstrument(1479.978, VOLUME, out));
+    out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(1396.913, VOLUME, out));
+    out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(1479.978, VOLUME, out));
     out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(1318.510, VOLUME, out));
     out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(1396.918, VOLUME, out));
     out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(1174.659, VOLUME, out));

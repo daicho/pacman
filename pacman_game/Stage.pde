@@ -286,6 +286,7 @@ public class Stage implements Scene {
               score += pow(2, monsterEatCount) * 100;
               monster.setStatus(MonsterStatus.Return);
               monster.setMode(MonsterMode.Rest);
+              se.eatMonster();
               status = StageStatus.Eat;
               break;
             }
