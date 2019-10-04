@@ -3,8 +3,13 @@ public PFont font;  // フォント
 public Minim minim; // サウンド
 
 void setup() {
+  // 画面設定
   //fullScreen(); // フルスクリーン
   size(448, 496); // ウィンドウ
+
+  // 入力設定
+  Input.setInputInterface(new KeyboardInput()); // キーボード
+  //Input.setInputInterface(new ArcadeInput()); // アーケード
 
   font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
   minim = new Minim(this);
@@ -14,7 +19,6 @@ void setup() {
   Record.setFilePath(dataPath(dataName));
   Record.loadRanking();
 
-  Input.setInputInterface(new KeyboardInput()); // 入力設定
   SceneManager.setScene(new Title());           // タイトル画面をロード
 }
 

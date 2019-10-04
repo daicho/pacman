@@ -1,4 +1,6 @@
-// 入力のインターフェース
+import processing.io.*;
+
+// 入力の基底クラス
 public abstract class InputInterface {
   // 前回の状態
   public boolean prevRight = false;
@@ -217,118 +219,70 @@ public abstract class InputInterface {
 // キーボードからの入力
 public class KeyboardInput extends InputInterface {
   public boolean right() {
-    if (keyPressed && keyCode == RIGHT) {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && keyCode == RIGHT;
   }
 
   public boolean up() {
-    if (keyPressed && keyCode == UP) {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && keyCode == UP;
   }
 
   public boolean left() {
-    if (keyPressed && keyCode == LEFT) {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && keyCode == LEFT;
   }
 
   public boolean down() {
-    if (keyPressed && keyCode == DOWN) {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && keyCode == DOWN;
   }
 
   public boolean buttonA() {
-    if (keyPressed && key == 'z') {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && key == 'z';
   }
 
   public boolean buttonB() {
-    if (keyPressed && key == 'x') {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && key == 'x';
   }
   
   public boolean buttonC() {
-    if (keyPressed && key == 'c') {
-      return true;
-    } else {
-      return false;
-    }
+    return keyPressed && key == 'c';
   }
 }
 
 // アーケードからの入力
 public class ArcadeInput extends InputInterface {
+  public static final int RIGHT = 18;
+  public static final int UP = 4;
+  public static final int LEFT = 27;
+  public static final int DOWN = 17;
+  public static final int ROUND_UP = 22;
+  public static final int ROUND_LEFT = 24;
+  public static final int ROUND_RIGHT = 23;
+
   public boolean right() {
-    if (keyPressed && key == 'a') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.RIGHT) == GPIO.LOW;
   }
 
   public boolean up() {
-    if (keyPressed && key == 'b') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.UP) == GPIO.LOW;
   }
 
   public boolean left() {
-    if (keyPressed && key == 'c') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.LEFT) == GPIO.LOW;
   }
 
   public boolean down() {
-    if (keyPressed && key == 'd') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.DOWN) == GPIO.LOW;
   }
 
   public boolean buttonA() {
-    if (keyPressed && key == 'e') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.ROUND_UP) == GPIO.LOW;
   }
 
   public boolean buttonB() {
-    if (keyPressed && key == 'f') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.ROUND_LEFT) == GPIO.LOW;
   }
   
   public boolean buttonC() {
-    if (keyPressed && key == 'g') {
-      return true;
-    } else {
-      return false;
-    }
+    return GPIO.digitalRead(ArcadeInput.ROUND_RIGHT) == GPIO.LOW;
   }
 }
 
