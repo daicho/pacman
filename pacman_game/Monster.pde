@@ -166,13 +166,11 @@ public abstract class Monster extends Character {
 
       // 各方向に進んだときに目標地点との距離が最短となる方向を探す
       int checkDirection = (direction + i) % 4;
+      PVector checkMove = canMove(map, checkDirection);
 
-      PVector checkPosition = position.copy();
-      checkPosition.add(getDirectionVector(checkDirection).mult(speed));
-
-      if (canMove(map, checkDirection).mag() != 0 && checkPosition.dist(point) < distanceMin) {
+      if (checkMove.mag() != 0 && PVector.add(position, checkMove).dist(point) < distanceMin) {
         aimDirection = checkDirection;
-        distanceMin = checkPosition.dist(point);
+        distanceMin = PVector.add(position, checkMove).dist(point);
       }
     }
 
