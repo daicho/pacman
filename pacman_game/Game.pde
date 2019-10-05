@@ -1,3 +1,4 @@
+// ゲーム画面
 class Game implements Scene {
   protected int life;      // 残機の数
   protected int score = 0;     // 現在のスコア
