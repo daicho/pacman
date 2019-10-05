@@ -106,7 +106,7 @@ public class Pinky extends Monster {
 // グズタ
 public class Guzuta extends Monster {
   public Guzuta(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
-    super(position, direction, speeds, "guzuta");
+    super(position, direction, speeds, "ohya");
   }
 
   // 進む方向を決定する
