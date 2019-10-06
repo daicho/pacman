@@ -1,9 +1,14 @@
 // リザルト画面
 public class Result implements Scene {
-  protected int score; // スコア
+  protected int score;     // スコア
+  protected int stage;     // ステージ
+  protected boolean clear; // クリアしたか
 
-  public Result(int score) {
+  public Result(int score, int stage, boolean clear) {
     this.score = score;
+    this.stage = stage;
+    this.clear = clear;
+
     // ハイスコア更新処理
     if (Record.getRanking(-1) < this.score) {
       Record.setRanking(this.score);

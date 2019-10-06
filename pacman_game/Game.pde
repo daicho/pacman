@@ -1,6 +1,6 @@
 // ゲーム画面
 class Game implements Scene {
-  protected int life;      // 残機の数
+  protected int life;          // 残機の数
   protected int score = 0;     // 現在のスコア
   protected int prevScore = 0; // 前ステージまでのスコア
   protected int curStage = 0;  // 現在のステージ
@@ -22,14 +22,19 @@ class Game implements Scene {
     switch (stages[curStage].getStatus()) {
     case Finish:
       curStage++;
+      
+      // ゲームクリア
       if (curStage >= stages.length)
-        SceneManager.setScene(new Result(score));
+        SceneManager.setScene(new Result(score, curStage + 1, true));
+
       break;
 
     case Reset:
+      // ゲームオーバー
       if (life <= 0)
-        SceneManager.setScene(new Result(score));
+        SceneManager.setScene(new Result(score, curStage + 1, false));
       life--;
+
       break;
 
     default:
