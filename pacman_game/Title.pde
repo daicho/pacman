@@ -4,6 +4,7 @@ public class Title implements Scene {
   protected Timer lightTimer1 = new Timer(60); // タイマー
   protected Timer lightTimer2 = new Timer(30); // タイマー
   protected boolean lightAppear = true;
+  protected boolean jpEn = false;
 
   public void update() {
     if (Input.buttonAPress())
@@ -20,9 +21,15 @@ public class Title implements Scene {
     if (lightAppear == true) {
       fill(0);
       textFont(font2, 32);
-      text("Press Button 'A'!", SCREEN_SIZE.x / 2, 260);
-      if (lightTimer1.update())
+      if (jpEn == false){
+        text("ボタンを押してね!", SCREEN_SIZE.x / 2, 260);
+      } else {
+        text("Press Button 'A'!", SCREEN_SIZE.x / 2, 260);
+      }
+      if (lightTimer1.update()){
         lightAppear = false;
+        jpEn = !jpEn;
+      }
     }
 
     if (lightAppear == false) {
@@ -32,8 +39,8 @@ public class Title implements Scene {
 
     fill(0, 0, 159);
     textFont(font2, 18);
-    text("RANKING", SCREEN_SIZE.x * 0.35, 315);
-    text("SCORE", SCREEN_SIZE.x * 0.65, 315);
+    text("ランキング", SCREEN_SIZE.x * 0.35, 315);
+    text("スコア", SCREEN_SIZE.x * 0.65, 315);
     line(SCREEN_SIZE.x * 0.2, 335, SCREEN_SIZE.x * 0.8, 335);
     fill(0);
     textFont(font2, 24);

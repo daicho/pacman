@@ -13,7 +13,7 @@ void setup() {
   //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
 
   font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
-  font2 = loadFont("fonts/NuKinakoMochi-Reg-48.vlw");
+  font2 = createFont("fonts/NuKinakoMochi-Reg.otf",50);
   minim = new Minim(this);
 
   // ハイスコアをロード
