@@ -3,7 +3,8 @@ public enum MonsterStatus {
   Wait,    // 待機
   Release, // 出撃
   Active,  // 活動
-  Return   // 帰還
+  ReturnRelease,  // 出撃地点への帰還
+  Return  // 帰還
 }
 
 // 敵のモード
@@ -119,6 +120,7 @@ public abstract class Monster extends Character {
       speed = speeds.get(MonsterSpeed.Release);
       break;
 
+    case ReturnRelease:
     case Return:
       speed = speeds.get(MonsterSpeed.Return);
       break;
@@ -194,7 +196,7 @@ public abstract class Monster extends Character {
       result.add(moveVector);
 
       mapObject = map.getObject(PVector.add(position, result));
-      if (mapObject != MapObject.Wall && (status == MonsterStatus.Release || status == MonsterStatus.Return || mapObject != MapObject.MonsterDoor)) {
+      if (mapObject != MapObject.Wall && (status == MonsterStatus.Release || status == MonsterStatus.ReturnRelease || status == MonsterStatus.Return || mapObject != MapObject.MonsterDoor)) {
         turnFlag = true;
       } else {
         result.sub(moveVector);
@@ -208,7 +210,7 @@ public abstract class Monster extends Character {
         result.add(moveVector);
 
         mapObject = map.getObject(PVector.add(position, result));
-        if (mapObject == MapObject.Wall || (status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor))
+        if (mapObject == MapObject.Wall || (status != MonsterStatus.Release && status != MonsterStatus.ReturnRelease && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor))
           break;
       }
     }
@@ -328,6 +330,7 @@ public abstract class Monster extends Character {
         nextDirection = (direction + 2) % 4;
       break;
 
+    case ReturnRelease:
     case Release:
       // 出撃中は出撃地点を目指す
       aimPoint = stage.map.getReleasePoint();
@@ -366,6 +369,12 @@ public abstract class Monster extends Character {
         setStatus(MonsterStatus.Active);
       }
       break;
+    
+    case ReturnRelease:
+      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y)) {
+        setStatus(MonsterStatus.Return);
+      }
+      break;
 
     case Return:
       if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
@@ -390,6 +399,7 @@ public abstract class Monster extends Character {
         }
         break;
 
+      case ReturnRelease:
       case Return:
         returnAnimations[direction].update();
         break;
@@ -412,6 +422,7 @@ public abstract class Monster extends Character {
       }
       break;
 
+    case ReturnRelease:
     case Return:
       image(returnAnimations[direction].getImage(), minPostision.x, minPostision.y);
       break;
