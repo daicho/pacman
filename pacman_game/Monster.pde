@@ -40,18 +40,43 @@ public abstract class Monster extends Character {
 
   // A*アルゴリズム用のノード
   protected class Node {
-    protected NodeStatus status; // 状態
-    protected int cost;          // 実コスト
-    protected int hcost;         // 推定コスト
-    protected int score;         // スコア
-    protected Node parent;       // 親ノード
+    protected NodeStatus status;     // 状態
+    protected int cost;              // 実コスト
+    protected int hcost;             // 推定コスト
+    protected int score;             // スコア
+    protected Node parent;           // 親ノード
+    protected boolean route = false; // 経路かどうか
 
-    public void Node(NodeStatus status) {
+    public Node(NodeStatus status) {
       this.status = status;
     }
     
     public NodeStatus getStatus() {
       return this.status;
+    }
+
+    public int getCost() {
+      return this.cost;
+    }
+
+    public int getHcost() {
+      return this.hcost;
+    }
+
+    public int getScore() {
+      return this.score;
+    }
+
+    public Node getParent() {
+      return this.parent;
+    }
+    
+    public boolean getRoute() {
+      return this.route;
+    }
+
+    public void setRoute(boolean route) {
+      this.route = route;
     }
 
     // ノードをオープン
@@ -216,6 +241,80 @@ public abstract class Monster extends Character {
     }
 
     return aimDirection;
+    
+    /*PVector mapSize = map.getSize();
+    Node[][] nodes = new Node[round(mapSize.x)][round(mapSize.y)];
+    int minScore = -1;
+    int x = 0;
+    int y = 0;
+    Node curNode;
+
+    // 通路以外はClose
+    for (int i = 0; i < round(mapSize.y); i++) {
+      for (int j = 0; j < round(mapSize.x); j++) {
+        if (map.getObject(j, i) != MapObject.Wall)
+          nodes[j][i] = new Node(NodeStatus.None);
+        else
+          nodes[j][i] = new Node(NodeStatus.Close);
+      }
+    }
+
+    // 初期地点をOpen
+    nodes[round(position.x)][round(position.y)].open(0, round(abs(point.x - position.x) + abs(point.y - position.y)), null);
+    nodes[round(position.x)][round(position.y)].setRoute(true);
+
+    for (int n = 0; n < 10; n++) {
+      // スコアが小さいノードを探索
+      for (int i = 0; i < round(mapSize.y); i++) {
+        for (int j = 0; j < round(mapSize.x); j++) {
+          if (nodes[j][i].getStatus() == NodeStatus.Open && (minScore == -1 || nodes[j][i].getScore() < minScore)) {
+            minScore = nodes[j][i].getScore();
+            x = j;
+            y = i;
+          }
+        }
+      }
+      
+      // ゴールじゃなかったらClose
+      if (x == round(point.x) && y == round(point.y))
+        break;
+      else
+        nodes[x][y].close();
+        
+      // 周囲をOpen
+      for (int i = 0; i < 4; i++) {
+        PVector directionVector = getDirectionVector(i);
+        int openX = x + round(directionVector.x);
+        int openY = y + round(directionVector.y);
+        
+        if (nodes[openX][openY].getStatus() == NodeStatus.None)
+          nodes[openX][openY].open(nodes[x][y].getCost(), round(abs(point.x - openX) + abs(point.y - openY)), nodes[x][y]);
+      }
+    }
+    
+    curNode = nodes[x][y];
+    while (curNode != null) {
+      curNode.setRoute(true);
+      curNode = curNode.getParent();
+    }
+    
+    for (int i = 0; i < 4; i++) {
+      // 前進できるなら後退しない
+      //if (i == 2 && canMove(map, direction).mag() != 0)
+      //  continue;
+
+      // 各方向に進んだときに最短経路となる方向を探す
+      int checkDirection = (direction + i) % 4;
+      PVector checkMove = canMove(map, checkDirection);
+      
+      if (checkMove.mag() != 0) {
+        PVector checkPosition = PVector.add(position, checkMove);
+        if (nodes[round(checkPosition.x)][round(checkPosition.y)].getRoute())
+          return checkDirection;
+      }
+    }
+    
+    return direction;*/
   }
 
   // 進む方向を決定する
