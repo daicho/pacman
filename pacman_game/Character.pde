@@ -48,22 +48,7 @@ public class Character extends GameObject {
 
   // 特定の方向の単位ベクトル
   protected PVector getDirectionVector(int direction) {
-    switch (direction) {
-    case 0: // 右
-      return new PVector(1, 0);
-
-    case 1: // 上
-      return new PVector(0, -1);
-
-    case 2: // 左
-      return new PVector(-1, 0);
-
-    case 3: // 下
-      return new PVector(0, 1);
-
-    default:
-      return new PVector(0, 0);
-    }
+    return new PVector(cos(direction * PI / 2), -sin(direction * PI / 2));
   }
 
   // 移動

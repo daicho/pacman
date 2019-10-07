@@ -3,8 +3,7 @@ public enum MonsterStatus {
   Wait,    // 待機
   Release, // 出撃
   Active,  // 活動
-  ReturnRelease,  // 出撃地点への帰還
-  Return  // 帰還
+  Return   // 帰還
 }
 
 // 敵のモード
@@ -24,13 +23,6 @@ public enum MonsterSpeed {
   Ijike    // イジケモード
 }
 
-// ノードの状態
-public enum NodeStatus {
-  None,
-  Open,
-  Close
-}
-
 public abstract class Monster extends Character {
   protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected MonsterMode mode = MonsterMode.Rest;             // モード
@@ -38,64 +30,6 @@ public abstract class Monster extends Character {
   protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected HashMap<MonsterSpeed, Float> speeds;
-
-  // A*アルゴリズム用のノード
-  protected class Node {
-    protected NodeStatus status;     // 状態
-    protected int cost;              // 実コスト
-    protected int hcost;             // 推定コスト
-    protected int score;             // スコア
-    protected Node parent;           // 親ノード
-    protected boolean route = false; // 経路かどうか
-
-    public Node(NodeStatus status) {
-      this.status = status;
-    }
-    
-    public NodeStatus getStatus() {
-      return this.status;
-    }
-
-    public int getCost() {
-      return this.cost;
-    }
-
-    public int getHcost() {
-      return this.hcost;
-    }
-
-    public int getScore() {
-      return this.score;
-    }
-
-    public Node getParent() {
-      return this.parent;
-    }
-    
-    public boolean getRoute() {
-      return this.route;
-    }
-
-    public void setRoute(boolean route) {
-      this.route = route;
-    }
-
-    // ノードをオープン
-    public int open(int cost, int hcost, Node parent) {
-      this.status = NodeStatus.Open;
-      this.cost = cost;
-      this.hcost = hcost;
-      this.score = cost + hcost;
-      this.parent = parent;
-
-      return score;
-    }
-    
-    // ノードをクローズ
-    public void close() {
-      status = NodeStatus.Close;
-    }
-  }
 
   protected Monster(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds, String characterName) {
     super(position, direction, speeds.get(MonsterSpeed.Wait), characterName);
@@ -120,7 +54,6 @@ public abstract class Monster extends Character {
       speed = speeds.get(MonsterSpeed.Release);
       break;
 
-    case ReturnRelease:
     case Return:
       speed = speeds.get(MonsterSpeed.Return);
       break;
@@ -174,6 +107,69 @@ public abstract class Monster extends Character {
     this.ijikeStatus = ijikeStatus;
   }
   
+  // 移動
+  public void move(Map map) {
+    if (status != MonsterStatus.Return) {
+      // 曲がれたら曲がる、曲がれなかったら直進、前進できるなら後退しない
+      PVector forwardMove = canMove(map, direction);
+      PVector nextMove = canMove(map, nextDirection);
+  
+      if (nextMove.mag() != 0 && (forwardMove.mag() == 0 || (direction + 2) % 4 != nextDirection))
+        direction = nextDirection;
+      else
+        nextMove = canMove(map, direction);
+      position.add(nextMove);
+    } else {
+      for (float t = 0; t < speed; t++) {
+        float moveDistance;
+        PVector moveVector;
+  
+        // 1マスずつ進みながらチェック
+        if (t + 1 <= int(speed))
+          moveDistance = 1;
+        else
+          moveDistance = speed - t;
+  
+        // 進むべき方向に進む
+        direction = map.getReturnRoute(position);
+        moveVector = getDirectionVector(direction);
+        moveVector.mult(moveDistance);
+        position.add(moveVector);
+
+        // 巣に到着
+        if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y))
+          break;
+      }
+    }
+
+    // ワープトンネル、道の真ん中を進むように調整
+    switch (direction) {
+    case 0: // 右
+      position.y = round(position.y);
+      if (position.x >= map.getSize().x)
+        position.x -= map.getSize().x;
+      break;
+
+    case 1: // 上
+      position.x = round(position.x);
+      if (position.y < 0)
+        position.y += map.getSize().y;
+      break;
+
+    case 2: // 左
+      position.y = round(position.y);
+      if (position.x < 0)
+        position.x += map.getSize().x;
+      break;
+
+    case 3: // 下
+      position.x = round(position.x);
+      if (position.y >= map.getSize().y)
+        position.y -= map.getSize().y;
+      break;
+    }
+  }
+  
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
     boolean turnFlag = false;
@@ -190,27 +186,27 @@ public abstract class Monster extends Character {
       else
         moveDistance = speed - t;
 
-      // 進みたい方向に進んでみる
+      // 進みたい方向に進んでみる //<>//
       moveVector = getDirectionVector(aimDirection);
       moveVector.mult(moveDistance);
       result.add(moveVector);
 
       mapObject = map.getObject(PVector.add(position, result));
-      if (mapObject != MapObject.Wall && (status == MonsterStatus.Release || status == MonsterStatus.ReturnRelease || status == MonsterStatus.Return || mapObject != MapObject.MonsterDoor)) {
+      if (mapObject != MapObject.Wall && (status == MonsterStatus.Release || status == MonsterStatus.Return || mapObject != MapObject.MonsterDoor)) {
         turnFlag = true;
       } else {
         result.sub(moveVector);
 
         if (turnFlag)
           break;
-
+ //<>//
         // 壁があったら直進する
         moveVector = getDirectionVector(direction);
         moveVector.mult(moveDistance);
         result.add(moveVector);
 
         mapObject = map.getObject(PVector.add(position, result));
-        if (mapObject == MapObject.Wall || (status != MonsterStatus.Release && status != MonsterStatus.ReturnRelease && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor))
+        if (mapObject == MapObject.Wall || (status != MonsterStatus.Release && status != MonsterStatus.Return && mapObject == MapObject.MonsterDoor))
           break;
       }
     }
@@ -225,13 +221,8 @@ public abstract class Monster extends Character {
   protected int getAimDirection(Map map, PVector point) {
     int aimDirection = 0;
     float distanceMin = map.size.mag();
-    boolean canForward = canMove(map, direction).mag() != 0;
 
     for (int i = 0; i < 4; i++) {
-      // 前進できるなら後退しない
-      if (canForward)
-        if (i == 2) continue;
-
       // 各方向に進んだときに目標地点との距離が最短となる方向を探す
       int checkDirection = (direction + i) % 4;
       PVector checkMove = canMove(map, checkDirection);
@@ -243,80 +234,6 @@ public abstract class Monster extends Character {
     }
 
     return aimDirection;
-    
-    /*PVector mapSize = map.getSize();
-    Node[][] nodes = new Node[round(mapSize.x)][round(mapSize.y)];
-    int minScore = -1;
-    int x = 0;
-    int y = 0;
-    Node curNode;
-
-    // 通路以外はClose
-    for (int i = 0; i < round(mapSize.y); i++) {
-      for (int j = 0; j < round(mapSize.x); j++) {
-        if (map.getObject(j, i) != MapObject.Wall)
-          nodes[j][i] = new Node(NodeStatus.None);
-        else
-          nodes[j][i] = new Node(NodeStatus.Close);
-      }
-    }
-
-    // 初期地点をOpen
-    nodes[round(position.x)][round(position.y)].open(0, round(abs(point.x - position.x) + abs(point.y - position.y)), null);
-    nodes[round(position.x)][round(position.y)].setRoute(true);
-
-    for (int n = 0; n < 10; n++) {
-      // スコアが小さいノードを探索
-      for (int i = 0; i < round(mapSize.y); i++) {
-        for (int j = 0; j < round(mapSize.x); j++) {
-          if (nodes[j][i].getStatus() == NodeStatus.Open && (minScore == -1 || nodes[j][i].getScore() < minScore)) {
-            minScore = nodes[j][i].getScore();
-            x = j;
-            y = i;
-          }
-        }
-      }
-      
-      // ゴールじゃなかったらClose
-      if (x == round(point.x) && y == round(point.y))
-        break;
-      else
-        nodes[x][y].close();
-        
-      // 周囲をOpen
-      for (int i = 0; i < 4; i++) {
-        PVector directionVector = getDirectionVector(i);
-        int openX = x + round(directionVector.x);
-        int openY = y + round(directionVector.y);
-        
-        if (nodes[openX][openY].getStatus() == NodeStatus.None)
-          nodes[openX][openY].open(nodes[x][y].getCost(), round(abs(point.x - openX) + abs(point.y - openY)), nodes[x][y]);
-      }
-    }
-    
-    curNode = nodes[x][y];
-    while (curNode != null) {
-      curNode.setRoute(true);
-      curNode = curNode.getParent();
-    }
-    
-    for (int i = 0; i < 4; i++) {
-      // 前進できるなら後退しない
-      //if (i == 2 && canMove(map, direction).mag() != 0)
-      //  continue;
-
-      // 各方向に進んだときに最短経路となる方向を探す
-      int checkDirection = (direction + i) % 4;
-      PVector checkMove = canMove(map, checkDirection);
-      
-      if (checkMove.mag() != 0) {
-        PVector checkPosition = PVector.add(position, checkMove);
-        if (nodes[round(checkPosition.x)][round(checkPosition.y)].getRoute())
-          return checkDirection;
-      }
-    }
-    
-    return direction;*/
   }
 
   // 進む方向を決定する
@@ -330,7 +247,6 @@ public abstract class Monster extends Character {
         nextDirection = (direction + 2) % 4;
       break;
 
-    case ReturnRelease:
     case Release:
       // 出撃中は出撃地点を目指す
       aimPoint = stage.map.getReleasePoint();
@@ -369,12 +285,6 @@ public abstract class Monster extends Character {
         setStatus(MonsterStatus.Active);
       }
       break;
-    
-    case ReturnRelease:
-      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y)) {
-        setStatus(MonsterStatus.Return);
-      }
-      break;
 
     case Return:
       if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
@@ -399,7 +309,6 @@ public abstract class Monster extends Character {
         }
         break;
 
-      case ReturnRelease:
       case Return:
         returnAnimations[direction].update();
         break;
@@ -422,7 +331,6 @@ public abstract class Monster extends Character {
       }
       break;
 
-    case ReturnRelease:
     case Return:
       image(returnAnimations[direction].getImage(), minPostision.x, minPostision.y);
       break;

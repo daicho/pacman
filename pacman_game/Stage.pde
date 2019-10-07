@@ -276,7 +276,6 @@ public class Stage implements Scene {
 
         if (pacman.isColliding(monster)) {
           switch (monster.getStatus()) {
-          case ReturnRelease:
           case Return:
             break;
 
@@ -285,7 +284,7 @@ public class Stage implements Scene {
               // モンスターを食べた時のスコア
               monsterEatCount++;
               score += pow(2, monsterEatCount) * 100;
-              monster.setStatus(MonsterStatus.ReturnRelease);
+              monster.setStatus(MonsterStatus.Return);
               monster.setMode(MonsterMode.Rest);
               se.eatMonster();
               status = StageStatus.Eat;
