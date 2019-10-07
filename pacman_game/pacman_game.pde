@@ -19,7 +19,7 @@ void setup() {
   Record.setFilePath(dataPath(dataName));
   Record.loadRanking();
 
-  SceneManager.setScene(new Title());           // タイトル画面をロード
+  SceneManager.setScene(new Title()); // タイトル画面をロード
 }
 
 void draw() {

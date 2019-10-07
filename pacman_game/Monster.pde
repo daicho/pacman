@@ -13,6 +13,7 @@ public enum MonsterMode {
   Ijike  // イジケモード
 }
 
+// 敵のスピード
 public enum MonsterSpeed {
   Wait,    // 待機
   Release, // 出撃
@@ -22,6 +23,13 @@ public enum MonsterSpeed {
   Ijike    // イジケモード
 }
 
+// ノードの状態
+public enum NodeStatus {
+  None,
+  Open,
+  Close
+}
+
 public abstract class Monster extends Character {
   protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected MonsterMode mode = MonsterMode.Rest;             // モード
@@ -29,6 +37,39 @@ public abstract class Monster extends Character {
   protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected HashMap<MonsterSpeed, Float> speeds;
+
+  // A*アルゴリズム用のノード
+  protected class Node {
+    protected NodeStatus status; // 状態
+    protected int cost;          // 実コスト
+    protected int hcost;         // 推定コスト
+    protected int score;         // スコア
+    protected Node parent;       // 親ノード
+
+    public void Node(NodeStatus status) {
+      this.status = status;
+    }
+    
+    public NodeStatus getStatus() {
+      return this.status;
+    }
+
+    // ノードをオープン
+    public int open(int cost, int hcost, Node parent) {
+      this.status = NodeStatus.Open;
+      this.cost = cost;
+      this.hcost = hcost;
+      this.score = cost + hcost;
+      this.parent = parent;
+
+      return score;
+    }
+    
+    // ノードをクローズ
+    public void close() {
+      status = NodeStatus.Close;
+    }
+  }
 
   protected Monster(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds, String characterName) {
     super(position, direction, speeds.get(MonsterSpeed.Wait), characterName);
