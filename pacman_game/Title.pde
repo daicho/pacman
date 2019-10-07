@@ -21,12 +21,12 @@ public class Title implements Scene {
     if (lightAppear == true) {
       fill(0);
       textFont(font2, 32);
-      if (jpEn == false){
+      if (jpEn == false) {
         text("ボタンを押してね!", SCREEN_SIZE.x / 2, 260);
       } else {
         text("Press Button 'A'!", SCREEN_SIZE.x / 2, 260);
       }
-      if (lightTimer1.update()){
+      if (lightTimer1.update()) {
         lightAppear = false;
         jpEn = !jpEn;
       }

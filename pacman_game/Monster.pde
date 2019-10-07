@@ -1,4 +1,4 @@
-// 敵の状態
+// 敵の状態 //<>// //<>//
 public enum MonsterStatus {
   Wait,    // 待機
   Release, // 出撃
@@ -18,7 +18,7 @@ public enum MonsterSpeed {
   Wait,    // 待機
   Release, // 出撃
   Return,  // 帰還
-  Rest,    // 休憩モード
+  Rest   , // 休憩モード
   Chase,   // 追いかけモード
   Ijike    // イジケモード
 }
@@ -106,14 +106,14 @@ public abstract class Monster extends Character {
   public void setIjikeStatus(int ijikeStatus) {
     this.ijikeStatus = ijikeStatus;
   }
-  
+
   // 移動
   public void move(Map map) {
     if (status != MonsterStatus.Return) {
       // 曲がれたら曲がる、曲がれなかったら直進、前進できるなら後退しない
       PVector forwardMove = canMove(map, direction);
       PVector nextMove = canMove(map, nextDirection);
-  
+
       if (nextMove.mag() != 0 && (forwardMove.mag() == 0 || (direction + 2) % 4 != nextDirection))
         direction = nextDirection;
       else
@@ -123,13 +123,13 @@ public abstract class Monster extends Character {
       for (float t = 0; t < speed; t++) {
         float moveDistance;
         PVector moveVector;
-  
+
         // 1マスずつ進みながらチェック
         if (t + 1 <= int(speed))
           moveDistance = 1;
         else
           moveDistance = speed - t;
-  
+
         // 進むべき方向に進む
         direction = map.getReturnRoute(position);
         moveVector = getDirectionVector(direction);
@@ -169,7 +169,7 @@ public abstract class Monster extends Character {
       break;
     }
   }
-  
+
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
     boolean turnFlag = false;
@@ -186,7 +186,7 @@ public abstract class Monster extends Character {
       else
         moveDistance = speed - t;
 
-      // 進みたい方向に進んでみる //<>//
+      // 進みたい方向に進んでみる
       moveVector = getDirectionVector(aimDirection);
       moveVector.mult(moveDistance);
       result.add(moveVector);
@@ -199,7 +199,7 @@ public abstract class Monster extends Character {
 
         if (turnFlag)
           break;
- //<>//
+
         // 壁があったら直進する
         moveVector = getDirectionVector(direction);
         moveVector.mult(moveDistance);
@@ -216,7 +216,7 @@ public abstract class Monster extends Character {
     else
       return new PVector(0, 0);
   }
-  
+
   // 目標地点に進むための方向を返す
   protected int getAimDirection(Map map, PVector point) {
     int aimDirection = 0;

@@ -1,6 +1,6 @@
 public final PVector SCREEN_SIZE = new PVector(480, 848); // ゲーム画面サイズ
 public PFont font;  // フォント
-public PFont font2;  // フォント
+public PFont font2; // フォント
 public Minim minim; // サウンド
 
 void setup() {
@@ -13,7 +13,7 @@ void setup() {
   //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
 
   font = loadFont("fonts/NuAnkoMochi-Reg-20.vlw");
-  font2 = createFont("fonts/NuKinakoMochi-Reg.otf",50);
+  font2 = createFont("fonts/NuKinakoMochi-Reg.otf", 50);
   minim = new Minim(this);
 
   // ハイスコアをロード

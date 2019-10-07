@@ -22,7 +22,7 @@ class Game implements Scene {
     switch (stages[curStage].getStatus()) {
     case Finish:
       curStage++;
-      
+
       // ゲームクリア
       if (curStage >= stages.length)
         SceneManager.setScene(new Result(score, curStage + 1, true));

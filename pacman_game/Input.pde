@@ -102,7 +102,7 @@ public abstract class InputInterface {
       return false;
     }
   }
-  
+
   public boolean buttonCPress() {
     if (buttonC()) {
       if (prevButtonC) {
@@ -200,7 +200,7 @@ public abstract class InputInterface {
       }
     }
   }
-  
+
   public boolean buttonCRelease() {
     if (buttonC()) {
       prevButtonC = true;
@@ -241,7 +241,7 @@ public class KeyboardInput extends InputInterface {
   public boolean buttonB() {
     return keyPressed && key == 'x';
   }
-  
+
   public boolean buttonC() {
     return keyPressed && key == 'c';
   }
@@ -280,7 +280,7 @@ public class ArcadeInput extends InputInterface {
   public boolean buttonB() {
     return GPIO.digitalRead(ArcadeInput.ROUND_LEFT) == GPIO.LOW;
   }
-  
+
   public boolean buttonC() {
     return GPIO.digitalRead(ArcadeInput.ROUND_RIGHT) == GPIO.LOW;
   }
@@ -290,7 +290,7 @@ public class ArcadeInput extends InputInterface {
 public class MixInput extends InputInterface {
   private KeyboardInput keyboardInput = new KeyboardInput();
   private ArcadeInput arcadeInput = new ArcadeInput();
-  
+
   public boolean right() {
     return keyboardInput.right() || arcadeInput.right();
   }
@@ -314,7 +314,7 @@ public class MixInput extends InputInterface {
   public boolean buttonB() {
     return keyboardInput.buttonB() || arcadeInput.buttonB();
   }
-  
+
   public boolean buttonC() {
     return keyboardInput.buttonC() || arcadeInput.buttonC();
   }
@@ -351,7 +351,7 @@ public static class Input {
   public static boolean buttonB() {
     return inputInterface.buttonB();
   }
-  
+
   public static boolean buttonC() {
     return inputInterface.buttonC();
   }
@@ -379,7 +379,7 @@ public static class Input {
   public static boolean buttonBPress() {
     return inputInterface.buttonBPress();
   }
-  
+
   public static boolean buttonCPress() {
     return inputInterface.buttonCPress();
   }
@@ -407,7 +407,7 @@ public static class Input {
   public static boolean buttonBRelease() {
     return inputInterface.buttonBRelease();
   }
-  
+
   public static boolean buttonCRelease() {
     return inputInterface.buttonCRelease();
   }
