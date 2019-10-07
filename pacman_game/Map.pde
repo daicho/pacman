@@ -5,9 +5,34 @@ public enum MapObject {
   MonsterDoor // 敵出入口
 }
 
+// マップのノード
+public class MapNode {
+  protected int x;
+  protected int y;
+  protected ArrayList<MapNode> nodes;
+
+  public MapNode(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  public int getX() {
+    return this.x;
+  }
+  
+  public int getY() {
+    return this.y;
+  }
+  
+  public void addNode(MapNode node) {
+    nodes.add(node);
+  }
+}
+
 // マップ
 public class Map {
   protected MapObject[][] objects; // マップ内のオブジェクト
+  protected MapNode[][] nodes;     // ノード形式
   protected PVector releasePoint;  // 出撃地点
   protected PVector returnPoint;   // 帰還地点
   protected PImage image;          // 画像ファイル
