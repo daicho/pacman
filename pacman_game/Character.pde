@@ -1,5 +1,5 @@
 // キャラクターの基底クラス
-public abstract class Character extends GameObject {
+public class Character extends GameObject {
   protected PVector startPosition; // 初期地点
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
   protected int nextDirection;     // 次に進む方向
