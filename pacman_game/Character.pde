@@ -183,3 +183,77 @@ public class Character extends GameObject {
     image(animations[direction].getImage(), minPostision.x, minPostision.y);
   }
 }
+
+// 自由に動けるキャラクター
+public class FreeCharacter extends GameObject {
+  protected int direction; // 向き (0:右 1:上 2:左 3:下)
+  protected float speed;   // 速さ [px/f]
+  protected Animation[] animations = new Animation[4]; // アニメーション
+
+  protected FreeCharacter(PVector position, int direction, float speed, String characterName) {
+    super(position);
+
+    this.direction = direction;
+    this.speed = speed;
+
+    // アニメーション
+    for (int i = 0; i < 4; i++)
+      animations[i] = new Animation(characterName + "-" + i);
+    this.size = animations[0].getSize();
+  }
+
+  public int getDirection() {
+    return this.direction;
+  }
+
+  public void setDirection(int direction) {
+    this.direction = direction;
+  }
+
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
+  }
+
+  // 特定の方向の単位ベクトル
+  protected PVector getDirectionVector(int direction) {
+    switch (direction) {
+    case 0: // 右
+      return new PVector(1, 0);
+
+    case 1: // 上
+      return new PVector(0, -1);
+
+    case 2: // 左
+      return new PVector(-1, 0);
+
+    case 3: // 下
+      return new PVector(0, 1);
+
+    default:
+      return new PVector(0, 0);
+    }
+  }
+
+  // 移動
+  public void move() {
+    // 曲がれたら曲がる、曲がれなかったら直進
+    PVector nextMove = getDirectionVector(direction);
+    nextMove.mult(speed);
+    position.add(nextMove);
+  }
+
+  // 更新
+  public void update() {
+    animations[direction].update();
+  }
+
+  // 画面描画
+  public void draw() {
+    PVector minPostision = getMinPosition();
+    image(animations[direction].getImage(), minPostision.x, minPostision.y);
+  }
+}
