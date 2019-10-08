@@ -9,10 +9,10 @@ public class Rule implements Scene {
   };
   protected Timer lightTimer1 = new Timer(30); // 1秒タイマー
   protected Timer lightTimer2 = new Timer(15); // 0.5秒タイマー
-  protected Timer powerfoodTimer = new Timer(5);
   protected boolean lightAppear = true;
-  protected boolean powerfoodAppear = true;
-  ;  
+
+  protected Item bigPowerFood = new Item(new PVector(86, 547), "big_power_food");
+
   public void update() {
     if (Input.buttonAPress())
       SceneManager.setScene(new Game(3));
@@ -50,18 +50,7 @@ public class Rule implements Scene {
       if (lightTimer2.update())
         lightAppear = true;
     }
-
-    if (powerfoodAppear == true) {
-    } else {
-      noStroke();
-      fill(200, 240, 255);
-      rect(70, 531, 33, 33);
-    }
-    if (powerfoodTimer.update())
-      powerfoodAppear = false;
-    else if (powerfoodAppear == false) {
-      if (powerfoodTimer.update())
-        powerfoodAppear = true;
-    }
+    bigPowerFood.draw();
+    bigPowerFood.update();
   }
 }
