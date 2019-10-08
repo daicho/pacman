@@ -14,8 +14,8 @@ void setup() {
   Input.setInputInterface(new KeyboardInput()); // キーボード
   //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
 
-  font = createFont("fonts/NuAnkoMochi-Reg.otf", 20);
-  font2 = createFont("fonts/NuKinakoMochi-Reg.otf", 50);
+  font = createFont("fonts/NuAnkoMochi-Reg.otf", 10);
+  font2 = createFont("fonts/NuKinakoMochi-Reg.otf", 10);
   minim = new Minim(this);
 
   // ハイスコアをロード

@@ -28,7 +28,7 @@ public class Stage implements Scene {
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected Timer dieTimer = new Timer(100);        // 死亡時のタイマー
-  protected Timer clearTimer = new Timer(100);       // クリア時のタイマー
+  protected Timer clearTimer = new Timer(100);      // クリア時のタイマー
   protected Timer eatTimer = new Timer(30);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
@@ -177,7 +177,7 @@ public class Stage implements Scene {
           monster.setMode(monsterMode);
       }
 
-      if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 120) {
+      if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 60) {
         for (Monster monster : monsters)
           monster.setIjikeStatus(1);
       }

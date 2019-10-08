@@ -7,9 +7,9 @@ monster_return_speed,8
 monster_rest_speed,3
 monster_chase_speed,3
 monster_ijike_speed,2
-rest_time,300
-chase_time,600
-ijike_time,480
-release_interval,300
+rest_time,150
+chase_time,300
+ijike_time,240
+release_interval,150
 special_item_name,kakomon
 special_item_score,100
