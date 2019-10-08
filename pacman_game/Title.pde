@@ -1,8 +1,8 @@
 // タイトル画面
 public class Title implements Scene {
   protected PImage logoImage = loadImage("images/logo.png");
-  protected Timer lightTimer1 = new Timer(60); // タイマー
-  protected Timer lightTimer2 = new Timer(30); // タイマー
+  protected Timer lightTimer1 = new Timer(30); // タイマー
+  protected Timer lightTimer2 = new Timer(15); // タイマー
   protected boolean lightAppear = true;
   protected boolean jpEn = false;
 

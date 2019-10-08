@@ -21,15 +21,15 @@ public class Stage implements Scene {
   protected Item specialItem;                        // スペシャルアイテム
   protected int specialItemScore;                    // スペシャルアイテムのスコア
   protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
-  protected Timer specialItemTimer = new Timer(600); // スペシャルアイテム用タイマー
+  protected Timer specialItemTimer = new Timer(300); // スペシャルアイテム用タイマー
   protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
   protected int score = 0; // スコア
 
   protected StageStatus status = StageStatus.Start; // 状態
-  protected Timer dieTimer = new Timer(200);        // 死亡時のタイマー
-  protected Timer clearTimer = new Timer(200);       // クリア時のタイマー
-  protected Timer eatTimer = new Timer(60);         // 敵を食べたときの硬直タイマー
+  protected Timer dieTimer = new Timer(100);        // 死亡時のタイマー
+  protected Timer clearTimer = new Timer(100);       // クリア時のタイマー
+  protected Timer eatTimer = new Timer(30);         // 敵を食べたときの硬直タイマー
 
   protected int frame = 0;           // 経過フレーム
   protected MonsterMode monsterMode; // 敵のモード

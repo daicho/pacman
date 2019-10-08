@@ -7,6 +7,8 @@ void setup() {
   // 画面設定
   //fullScreen(); // フルスクリーン
   size(480, 848); // ウィンドウ
+  
+  frameRate(30); // フレームレート
 
   // 入力設定
   Input.setInputInterface(new KeyboardInput()); // キーボード
