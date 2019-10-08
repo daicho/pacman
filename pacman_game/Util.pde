@@ -116,16 +116,19 @@ public static class Record {
     }
   }
 
-  public static void setRanking(int score) {
+  // ランキングに設定する
+  public static int setRanking(int score) {
     for (int i = 0; i < Record.RANK_NUM; i++) {
-      if (Record.ranking[i] < score) {
+      if (Record.ranking[i] <= score) {
         for (int j = Record.RANK_NUM - 1; j < i; j--) {
           Record.ranking[j] = Record.ranking[j - 1];
         }
         ranking[i] = score;
-        break;
+        return i + 1;
       }
     }
+
+    return 0;
   }
 
   // ファイルパス読み込み

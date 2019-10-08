@@ -13,6 +13,7 @@ public class Title implements Scene {
 
   public void draw() {
     background(200, 240, 255);
+    noStroke();
     textAlign(CENTER, CENTER);
 
     image(logoImage, SCREEN_SIZE.x / 2 - logoImage.width / 2, SCREEN_SIZE.y * 0.08);

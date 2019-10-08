@@ -280,6 +280,7 @@ public class Stage implements Scene {
             break;
 
           case Active:
+          case Release:
             if (monster.getMode() == MonsterMode.Ijike) {
               // モンスターを食べた時のスコア
               monsterEatCount++;
