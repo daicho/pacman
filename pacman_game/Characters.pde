@@ -57,7 +57,7 @@ public class Aosuke extends Monster {
 
       case Chase:
         // パックマンを中心にしてアカベイの点対象の地点を目指す
-        aimPoint = stage.pacman.getPosition().mult(2);
+        aimPoint = stage.pacman.getPosition().copy().mult(2);
         aimPoint.sub(stage.monsters.get(0).getPosition());
         nextDirection = getAimDirection(stage.map, aimPoint);
         break;
@@ -91,7 +91,7 @@ public class Pinky extends Monster {
       case Chase:
         // パックマンのいる地点の3マス先を目指す
         PVector directionVector = getDirectionVector(stage.pacman.direction).mult(3);
-        aimPoint = stage.pacman.getPosition();
+        aimPoint = stage.pacman.getPosition().copy();
         aimPoint.add(directionVector.x * stage.pacman.size.x, directionVector.y * stage.pacman.size.y);
         nextDirection = getAimDirection(stage.map, aimPoint);
         break;

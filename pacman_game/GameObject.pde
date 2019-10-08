@@ -8,15 +8,15 @@ public abstract class GameObject {
   }
 
   public PVector getPosition() {
-    return this.position.copy();
+    return this.position;
   }
 
   public void setPosition(PVector position) {
-    this.position = position.copy();
+    this.position = position;
   }
 
   public PVector getSize() {
-    return this.size.copy();
+    return this.size;
   }
 
   // 左上の座標を取得

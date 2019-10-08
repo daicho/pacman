@@ -1,6 +1,7 @@
 // アニメーション
 public class Animation {
   protected PImage[] images;     // アニメーション画像
+  protected PVector size;        // 画像サイズ
   protected int cur = 0;         // 現在のアニメーション番号
   protected int number;          // アニメーションの数
   protected Timer intervalTimer; // インターバルタイマー
@@ -20,6 +21,7 @@ public class Animation {
     this.images = new PImage[number];
     for (int i = 0; i < number; i++)
       this.images[i] = loadImage(dataPath("images/" + imageName + "-" + i + ".png"));
+    size = new PVector(images[0].width, images[0].height);
 
     // インターバル読み込み
     String[] intervalText = loadStrings(dataPath("images/" + imageName + "-interval.txt"));
@@ -47,12 +49,12 @@ public class Animation {
 
   // 画像を取得
   public PImage getImage() {
-    return images[cur].copy();
+    return images[cur];
   }
 
   // 画像サイズを取得
   public PVector getSize() {
-    return new PVector(images[0].width, images[0].height);
+    return size;
   }
 }
 

@@ -59,15 +59,15 @@ public class Map {
   }
 
   public PVector getReleasePoint() {
-    return this.releasePoint.copy();
+    return this.releasePoint;
   }
 
   public PVector getReturnPoint() {
-    return this.returnPoint.copy();
+    return this.returnPoint;
   }
 
   public PVector getSize() {
-    return this.size.copy();
+    return this.size;
   }
 
   public MapObject getObject(float x, float y) {

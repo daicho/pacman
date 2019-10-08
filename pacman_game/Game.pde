@@ -3,36 +3,35 @@ class Game implements Scene {
   protected int life;          // 残機の数
   protected int score = 0;     // 現在のスコア
   protected int prevScore = 0; // 前ステージまでのスコア
-  protected int curStage = 0;  // 現在のステージ
 
-  // ステージ
-  protected Stage[] stages = {
-    new Stage("1"), 
-    new Stage("2"), 
-    new Stage("3")
-  };
+  protected String[] stageNames = {"1", "2", "3"}; // ステージ名
+  protected int stageNum = 0; // 現在のステージ番号
+  protected Stage stage;      // 現在のステージ
 
   public Game(int life) {
     this.life = life - 1;
+    this.stage = new Stage(stageNames[stageNum]);
   }
 
   public void update() {
-    stages[curStage].update();
+    stage.update();
 
-    switch (stages[curStage].getStatus()) {
+    switch (stage.getStatus()) {
     case Finish:
-      curStage++;
+      // 次のステージへ
+      stageNum++;
 
-      // ゲームクリア
-      if (curStage >= stages.length)
-        SceneManager.setScene(new Result(score, curStage + 1, true));
+      if (stageNum >= stageNames.length)
+        SceneManager.setScene(new Result(score, stageNum + 1, true));
+      else
+        this.stage = new Stage(stageNames[stageNum]);
 
       break;
 
     case Reset:
       // ゲームオーバー
       if (life <= 0)
-        SceneManager.setScene(new Result(score, curStage + 1, false));
+        SceneManager.setScene(new Result(score, stageNum + 1, false));
       life--;
 
       break;
@@ -43,8 +42,8 @@ class Game implements Scene {
   }
 
   public void draw() {
-    stages[curStage].draw();
-    this.score = prevScore + stages[curStage].getScore();
+    stage.draw();
+    this.score = prevScore + stage.getScore();
 
     // スコア表示
     fill(255);
