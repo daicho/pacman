@@ -11,6 +11,13 @@ public enum StageStatus {
     Reset   // リセット
 }
 
+//スペシャルアイテムの状態
+public enum SpecialItemStatus {
+  Appear, //出現
+    Disappear, //出現していない
+    Eat  //食べられた
+}
+
 // ステージ
 public class Stage implements Scene {
   protected Map map;       // マップ
@@ -20,8 +27,8 @@ public class Stage implements Scene {
   protected ArrayList<Item> powerFoods = new ArrayList<Item>();     // パワーエサ
   protected Item specialItem;                        // スペシャルアイテム
   protected int specialItemScore;                    // スペシャルアイテムのスコア
-  protected boolean specialItemAppear = false;       // スペシャルアイテムが出現中か
   protected Timer specialItemTimer = new Timer(300); // スペシャルアイテム用タイマー
+  protected Timer specialItemEatTimer = new Timer(30); 
   protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
   protected int score = 0; // スコア
@@ -29,6 +36,7 @@ public class Stage implements Scene {
   protected Monster eatenMonster = null;    // 食べられた敵
 
   protected StageStatus status = StageStatus.Start; // 状態
+  protected SpecialItemStatus specialItemStatus = SpecialItemStatus.Disappear;
   protected Timer dieTimer = new Timer(100);        // 死亡時のタイマー
   protected Timer clearTimer = new Timer(100);      // クリア時のタイマー
   protected Timer eatTimer = new Timer(30);         // 敵を食べたときの硬直タイマー
@@ -203,7 +211,7 @@ public class Stage implements Scene {
       for (Item powerFood : powerFoods)
         powerFood.update();
 
-      if (specialItemAppear == true)
+      if (specialItemStatus == SpecialItemStatus.Appear)
         specialItem.update();
 
       // 当たり判定
@@ -251,7 +259,7 @@ public class Stage implements Scene {
       }
 
       // スペシャルアイテム
-      if (specialItemAppear == true) {
+      if (specialItemStatus == SpecialItemStatus.Appear) {
         if (pacman.isColliding(specialItem)) {
           // 音を鳴らす
           se.eatPowerFood();
@@ -259,8 +267,8 @@ public class Stage implements Scene {
           // スコア加算
           this.score += specialItemScore;
 
-          // スペシャルアイテムを取得したので終了
-          specialItemAppear = false;
+          // スペシャルアイテムの状態をEatに
+          specialItemStatus = SpecialItemStatus.Eat;
         }
       }
 
@@ -305,14 +313,20 @@ public class Stage implements Scene {
       }
 
       // スペシャルアイテムタイマー
-      if (specialItemAppear == true) {
+      if (specialItemStatus == SpecialItemStatus.Appear) {
         if (specialItemTimer.update())
-          specialItemAppear = false;
+          specialItemStatus = SpecialItemStatus.Disappear;
+      }
+      
+      //スペシャルアイテムを食べたときの点数表示タイマー
+      if (specialItemStatus == SpecialItemStatus.Eat) {
+        if (specialItemEatTimer.update())
+          specialItemStatus = SpecialItemStatus.Disappear;
       }
 
       // スペシャルアイテム発生
       if ((foodCount == 70 || foodCount == 170) && specialItemFlag == false) {
-        specialItemAppear = true;
+        specialItemStatus = SpecialItemStatus.Appear;
         specialItemFlag = true;
       }
 
@@ -376,6 +390,9 @@ public class Stage implements Scene {
   public void draw() {
     background(0);
     map.draw();
+    textAlign(CENTER, CENTER);
+    fill(0, 0, 159);
+    textFont(font2, 16);
 
     for (Item food : foods)
       food.draw();
@@ -385,10 +402,6 @@ public class Stage implements Scene {
 
     // 敵を食べたときの点数表示
     if (status == StageStatus.Eat) {
-      textAlign(CENTER, CENTER);
-      fill(0, 0, 159);
-      textFont(font2, 16);
-      
       PVector position = eatenMonster.getPosition();
       text(monsterScore, position.x, position.y);
     } else {
@@ -400,8 +413,13 @@ public class Stage implements Scene {
         monster.draw();
     }
 
-    if (specialItemAppear == true) {
+    if (specialItemStatus == SpecialItemStatus.Appear) {
       specialItem.draw();
+    } 
+    // スペシャルアイテムを食べたときの点数表示
+    else if (specialItemStatus == SpecialItemStatus.Eat) {
+      PVector position = specialItem.getPosition();
+      text(specialItemScore, position.x, position.y);
     }
   }
 }
