@@ -2,13 +2,13 @@ import java.util.Iterator;
 
 // ステージの状態
 public enum StageStatus {
-  Start,  // 開始
-  Play,   // ゲーム
-  Eat,    // 敵を食べたときの硬直
-  Clear,  // クリア
-  Die,    // 敵に食べられた
-  Finish, // 終了
-  Reset   // リセット
+  Start, // 開始
+    Play, // ゲーム
+    Eat, // 敵を食べたときの硬直
+    Clear, // クリア
+    Die, // 敵に食べられた
+    Finish, // 終了
+    Reset   // リセット
 }
 
 // ステージ
@@ -25,6 +25,8 @@ public class Stage implements Scene {
   protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
   protected int score = 0; // スコア
+  protected int monsterScore = 0; //敵を食べたときのスコア
+  protected boolean monsterEatFlag = false;  //敵を食べたフラグ
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected Timer dieTimer = new Timer(100);        // 死亡時のタイマー
@@ -284,11 +286,13 @@ public class Stage implements Scene {
             if (monster.getMode() == MonsterMode.Ijike) {
               // モンスターを食べた時のスコア
               monsterEatCount++;
-              score += pow(2, monsterEatCount) * 100;
+              monsterScore = (int)pow(2, monsterEatCount) * 100;
+              score += monsterScore;
               monster.setStatus(MonsterStatus.Return);
               monster.setMode(MonsterMode.Rest);
               se.eatMonster();
               status = StageStatus.Eat;
+              monsterEatFlag = true;
               break;
             }
 
@@ -323,8 +327,10 @@ public class Stage implements Scene {
       break;
 
     case Eat:
-      if (eatTimer.update())
+      if (eatTimer.update()) {
+        monsterEatFlag = false;
         status = StageStatus.Play;
+      }
       break;
 
     case Clear:
@@ -373,7 +379,14 @@ public class Stage implements Scene {
     for (Item powerFood : powerFoods)
       powerFood.draw();
 
-    pacman.draw();
+    //敵を食べたときの点数表示
+    if (monsterEatFlag == true) {
+      textFont(font, 16);
+      textAlign(CENTER, CENTER);
+      PVector position = pacman.position;
+      text(monsterScore, position.x, position.y);
+    } else
+      pacman.draw();
 
     for (Monster monster : monsters)
       monster.draw();
