@@ -1,19 +1,20 @@
 // ゲーム画面
 public class Game implements Scene {
-  protected int life;          // 残機の数
-  protected int score = 0;     // 現在のスコア
-  protected int prevScore = 0; // 前ステージまでのスコア
+  protected int life;               // 残機の数
+  protected int score = 0;          // 現在のスコア
+  protected int prevScore = 0;      // 前ステージまでのスコア
+  protected int oneUpScore = 10000; // 1UPするスコア
 
   protected String[] stageNames = {"1", "2", "3"}; // ステージ名
   protected int stageNum = 0; // 現在のステージ番号
   protected Stage stage;      // 現在のステージ
-  
+
   protected PImage lifeImage = loadImage("images/pacman-3-0.png"); // 残基の画像
-  
+
   // ステージの画像
   protected PImage[] stageImages = {
-    loadImage("images/computer-0.png"),
-    loadImage("images/kakomon-0.png"),
+    loadImage("images/computer-0.png"), 
+    loadImage("images/kakomon-0.png"), 
     loadImage("images/monster-0.png")
   };
 
@@ -23,9 +24,6 @@ public class Game implements Scene {
   }
 
   public void update() {
-    this.stage.update();
-    this.score = prevScore + stage.getScore();
-
     switch (stage.getStatus()) {
     case Finish:
       // 次のステージへ
@@ -49,6 +47,15 @@ public class Game implements Scene {
       break;
 
     default:
+      stage.update();
+      score = prevScore + stage.getScore();
+
+      // 1UP
+      if (score >= oneUpScore) {
+        life++;
+        oneUpScore += 10000;
+      }
+
       break;
     }
   }
@@ -63,7 +70,7 @@ public class Game implements Scene {
     fill(0, 0, 159);
     text("SCORE", 100, 138);
     text("HIGH SCORE", 465, 138);
-    
+
     textFont(font2, 24);
     fill(0, 0, 0);
     text(score, 100, 160);
@@ -71,11 +78,11 @@ public class Game implements Scene {
       text(Record.getRanking(1), 465, 160);
     else
       text(score, 465, 160);
-      
+
     // 残基表示
     for (int i = 0; i < life; i++)
       image(lifeImage, i * 32 + 15, 685);
-      
+
     // ステージ表示
     for (int i = 0; i <= stageNum; i++)
       image(stageImages[i], i * -32 + 433, 685);
