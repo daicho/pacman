@@ -13,11 +13,11 @@ public class Title implements Scene {
   protected int startCount = 0;
 
   private final FreeCharacter[] freeCharacters = {
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "pacman"), 
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "akabei"), 
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "aosuke"), 
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "pinky"), 
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "guzuta")
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pacman"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "akabei"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "aosuke"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pinky"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "guzuta")
   };
 
   public void update() {
@@ -97,5 +97,5 @@ public class Title implements Scene {
       if (startTimer.update())
         startAppear = true;
     }
-
+  }
 }
