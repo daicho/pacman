@@ -9,15 +9,15 @@ public class Title implements Scene {
   protected boolean jpEn = false;
 
   protected Timer startTimer = new Timer(10); // タイマー
-  //protected boolean startAppear = true;
-  //protected int startCount = 0;
+  protected boolean startAppear = true;
+  protected int startCount = 0;
 
   private final FreeCharacter[] freeCharacters = {
-    new FreeCharacter(new PVector(210, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pacman"), 
-    new FreeCharacter(new PVector(150, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "akabei"), 
-    new FreeCharacter(new PVector(100, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "aosuke"), 
-    new FreeCharacter(new PVector(50, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pinky"), 
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "guzuta")
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "pacman"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "akabei"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "aosuke"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "pinky"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 3.0, "guzuta")
   };
 
   public void update() {
@@ -68,53 +68,34 @@ public class Title implements Scene {
     image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 700);
 
     for (int i = 0; i < 5; i++) {
-      freeCharacters[i].move();
-      freeCharacters[i].update();
-      freeCharacters[i].draw();
-      if (freeCharacters[i].getDirection() == 0 && freeCharacters[i].position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-        freeCharacters[i].setDirection(3);
-      } else if (freeCharacters[i].getDirection() == 3 && freeCharacters[i].position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-        freeCharacters[i].setDirection(2);
-      } else if (freeCharacters[i].getDirection() == 2 && freeCharacters[i].position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-        freeCharacters[i].setDirection(1);
-      } else if (freeCharacters[i].getDirection() == 1 && freeCharacters[i].position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-        freeCharacters[i].setDirection(0);
+      if (startCount > i) {
+        freeCharacters[i].move();
+        freeCharacters[i].update();
+        freeCharacters[i].draw();
+        if (freeCharacters[i].getDirection() == 0 && freeCharacters[i].position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
+          freeCharacters[i].setDirection(3);
+        } else if (freeCharacters[i].getDirection() == 3 && freeCharacters[i].position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
+          freeCharacters[i].setDirection(2);
+        } else if (freeCharacters[i].getDirection() == 2 && freeCharacters[i].position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
+          freeCharacters[i].setDirection(1);
+        } else if (freeCharacters[i].getDirection() == 1 && freeCharacters[i].position.y <= SCREEN_SIZE.y * 0.08 - 15) {
+          freeCharacters[i].setDirection(0);
+        }
       }
     }
 
-    /*
+
     // タイマー
-     if (startAppear == true) {
-     if (startTimer.update()) {
-     startAppear = false;
-     startCount ++;
-     }
-     }
-     
-     if (startAppear == false) {
-     if (startTimer.update())
-     startAppear = true;
-     }
-     
-     if (startCount > 1) {
-     akabei.move();
-     akabei.update();
-     akabei.draw();
-     }
-     if (startCount > 2) {
-     aosuke.move();
-     aosuke.update();
-     aosuke.draw();
-     }
-     if (startCount > 3) {
-     pinky.move();
-     pinky.update();
-     pinky.draw();
-     }
-     if (startCount > 4) {
-     guzuta.move();
-     guzuta.update();
-     guzuta.draw();
-     }*/
-  }
+    if (startAppear == true) {
+      if (startTimer.update()) {
+        startAppear = false;
+        startCount ++;
+      }
+    }
+
+    if (startAppear == false) {
+      if (startTimer.update())
+        startAppear = true;
+    }
+
 }
