@@ -25,8 +25,8 @@ public class Stage implements Scene {
   protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
   protected int score = 0; // スコア
-  protected int monsterScore = 0; //敵を食べたときのスコア
-  protected boolean monsterEatFlag = false;  //敵を食べたフラグ
+  protected int monsterScore = 0; // 敵を食べたときのスコア
+  protected Monster eatenMonster = null;    // 食べられた敵
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected Timer dieTimer = new Timer(100);        // 死亡時のタイマー
@@ -290,7 +290,7 @@ public class Stage implements Scene {
               monster.setMode(MonsterMode.Rest);
               se.eatMonster();
               status = StageStatus.Eat;
-              monsterEatFlag = true;
+              eatenMonster = monster;
               break;
             }
 
@@ -325,8 +325,14 @@ public class Stage implements Scene {
       break;
 
     case Eat:
+      for (Monster monster : monsters) {
+        if (monster.getStatus() == MonsterStatus.Return && monster != eatenMonster) {
+          monster.move(map);
+          monster.update(map);
+        }
+      }
+
       if (eatTimer.update()) {
-        monsterEatFlag = false;
         status = StageStatus.Play;
       }
       break;
@@ -377,17 +383,22 @@ public class Stage implements Scene {
     for (Item powerFood : powerFoods)
       powerFood.draw();
 
-    //敵を食べたときの点数表示
-    if (monsterEatFlag == true) {
-      textFont(font, 16);
+    // 敵を食べたときの点数表示
+    if (status == StageStatus.Eat) {
       textAlign(CENTER, CENTER);
-      PVector position = pacman.position;
+      fill(0, 0, 159);
+      textFont(font2, 16);
+      
+      PVector position = eatenMonster.getPosition();
       text(monsterScore, position.x, position.y);
-    } else
+    } else {
       pacman.draw();
+    }
 
-    for (Monster monster : monsters)
-      monster.draw();
+    for (Monster monster : monsters) {
+      if (status != StageStatus.Eat || monster != eatenMonster)
+        monster.draw();
+    }
 
     if (specialItemAppear == true) {
       specialItem.draw();
