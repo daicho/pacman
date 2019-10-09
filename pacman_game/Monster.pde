@@ -262,9 +262,6 @@ public abstract class Monster extends Character {
       break;
 
     case Return:
-      // 帰還中は帰還地点を目指す
-      aimPoint = stage.map.getReturnPoint();
-      nextDirection = getAimDirection(stage.map, aimPoint);
       break;
     }
   }

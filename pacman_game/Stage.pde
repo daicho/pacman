@@ -184,14 +184,12 @@ public class Stage implements Scene {
           monster.setIjikeStatus(1);
       }
 
-      // 敵の向きを決定
-      for (Monster monster : monsters)
-        monster.decideDirection(this);
-
       // 移動
-      for (Monster monster : monsters)
-        monster.move(map);
       pacman.move(map);
+      for (Monster monster : monsters) {
+        monster.decideDirection(this);
+        monster.move(map);
+      }
 
       // 更新
       pacman.update(map);
