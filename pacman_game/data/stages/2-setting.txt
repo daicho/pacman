@@ -1,5 +1,5 @@
 pacman_direction,2
-pacman_speed,3
+pacman_speed,3.4
 monster_direction,1
 monster_wait_speed,2
 monster_release_speed,2
@@ -11,5 +11,5 @@ rest_time,150
 chase_time,300
 ijike_time,240
 release_interval,150
-special_item_name,kakomon
+special_item_name,computer
 special_item_score,100
