@@ -29,7 +29,6 @@ void setup() {
 
 void draw() {
   // 画面描画
-  translate((width - SCREEN_SIZE.x) / 2, (height - SCREEN_SIZE.y) / 2);
   SceneManager.update();
   SceneManager.draw();
 }

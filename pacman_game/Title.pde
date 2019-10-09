@@ -28,6 +28,7 @@ public class Title implements Scene {
   public void draw() {
     background(200, 240, 255);
     noStroke();
+    rectMode(CENTER);
     textAlign(CENTER, CENTER);
 
     image(logoImage, SCREEN_SIZE.x / 2 - logoImage.width / 2, SCREEN_SIZE.y * 0.08);
@@ -54,18 +55,17 @@ public class Title implements Scene {
 
     fill(0, 0, 159);
     textFont(font2, 22.5);
-    text("ランキング", SCREEN_SIZE.x * 0.35, 315);
-    text("スコア", SCREEN_SIZE.x * 0.65, 315);
+    text("ランキング", SCREEN_SIZE.x * 0.35, 345);
+    text("スコア", SCREEN_SIZE.x * 0.65, 345);
     fill(0);
-    rect(SCREEN_SIZE.x * 0.2, 336, SCREEN_SIZE.x * 0.6, 1);
+    rect(SCREEN_SIZE.x / 2, 367.5, SCREEN_SIZE.x * 0.7, 1);
     textFont(font2, 30);
     for (int i = 0; i < 10; i++) {
-      text(i + 1, SCREEN_SIZE.x * 0.35, 350 + i * 30);
-      text(Record.getRanking(i + 1), SCREEN_SIZE.x * 0.65, 350 + i * 30);
-      line(SCREEN_SIZE.x * 0.2, 365 + i * 30, SCREEN_SIZE.x * 0.8, 365 + i * 30);
-      rect(SCREEN_SIZE.x * 0.2, 366 + i * 30, SCREEN_SIZE.x * 0.6, 1);
+      text(i + 1, SCREEN_SIZE.x * 0.35, 380 + i * 30);
+      text(Record.getRanking(i + 1), SCREEN_SIZE.x * 0.65, 380 + i * 30);
+      rect(SCREEN_SIZE.x / 2, 397.5 + i * 30, SCREEN_SIZE.x * 0.7, 1);
     }
-    image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 700);
+    image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 740);
 
     for (int i = 0; i < 5; i++) {
       if (startCount > i) {

@@ -225,7 +225,6 @@ public class FreeCharacter extends GameObject {
 
   // 移動
   public void move() {
-    // 曲がれたら曲がる、曲がれなかったら直進
     PVector nextMove = getDirectionVector(direction);
     nextMove.mult(speed);
     position.add(nextMove);

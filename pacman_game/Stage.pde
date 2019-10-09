@@ -31,9 +31,10 @@ public class Stage implements Scene {
   protected Timer specialItemEatTimer = new Timer(30); 
   protected int foodCount = 0;               // 食べたエサの数
   protected boolean specialItemFlag = false; // 食べたエサが丁度70, 170の時の多数発生回避フラグ
-  protected int score = 0; // スコア
-  protected int monsterScore = 0; // 敵を食べたときのスコア
-  protected Monster eatenMonster = null;    // 食べられた敵
+  protected int score = 0;               // スコア
+  protected int monsterScore = 0;        // 敵を食べたときのスコア
+  protected Monster eatenMonster = null; // 食べられた敵
+  protected boolean eatAnyItem = false;         // 前フレームで何か食べたか
 
   protected StageStatus status = StageStatus.Start; // 状態
   protected SpecialItemStatus specialItemStatus = SpecialItemStatus.Disappear;
@@ -192,15 +193,39 @@ public class Stage implements Scene {
           monster.setIjikeStatus(1);
       }
 
+      // 移動
+      if (!eatAnyItem)
+        pacman.move(map);
+      else
+        eatAnyItem = false;
+
+      for (Monster monster : monsters) {
+        monster.decideDirection(this);
+        monster.move(map);
+      }
+
+      // 更新
+      pacman.update(map);
+
+      for (Monster monster : monsters)
+        monster.update(map);
+
+      for (Item food : foods)
+        food.update();
+
+      for (Item powerFood : powerFoods)
+        powerFood.update();
+
+      if (specialItemStatus == SpecialItemStatus.Appear)
+        specialItem.update();
+
       // 当たり判定
       // ノーマルエサ
-      boolean eat = false;
-      
       for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
         Item food = i.next();
 
         if (pacman.isColliding(food)) {
-          eat = true;
+          eatAnyItem = true;
           i.remove();
 
           // 音を鳴らす
@@ -220,7 +245,7 @@ public class Stage implements Scene {
         Item powerFood = i.next();
 
         if (pacman.isColliding(powerFood)) {
-          eat = true;
+          eatAnyItem = true;
           i.remove();
 
           // 音を鳴らす
@@ -243,7 +268,7 @@ public class Stage implements Scene {
       // スペシャルアイテム
       if (specialItemStatus == SpecialItemStatus.Appear) {
         if (pacman.isColliding(specialItem)) {
-          eat = true;
+          eatAnyItem = true;
 
           // 音を鳴らす
           se.eatPowerFood();
@@ -261,30 +286,6 @@ public class Stage implements Scene {
         startbgm.rewind();
         status = StageStatus.Clear;
       }
-
-      // 移動
-      if (!eat)
-        pacman.move(map);
-
-      for (Monster monster : monsters) {
-        monster.decideDirection(this);
-        monster.move(map);
-      }
-
-      // 更新
-      pacman.update(map);
-
-      for (Monster monster : monsters)
-        monster.update(map);
-
-      for (Item food : foods)
-        food.update();
-
-      for (Item powerFood : powerFoods)
-        powerFood.update();
-
-      if (specialItemStatus == SpecialItemStatus.Appear)
-        specialItem.update();
 
       // 接敵
       for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
@@ -326,7 +327,7 @@ public class Stage implements Scene {
           specialItemStatus = SpecialItemStatus.Disappear;
       }
       
-      //スペシャルアイテムを食べたときの点数表示タイマー
+      // スペシャルアイテムを食べたときの点数表示タイマー
       if (specialItemStatus == SpecialItemStatus.Eat) {
         if (specialItemEatTimer.update())
           specialItemStatus = SpecialItemStatus.Disappear;
@@ -379,6 +380,7 @@ public class Stage implements Scene {
       frame = 0;
       monsterMode = MonsterMode.Rest;
       modeTimer = new Timer(modeTimes.get(monsterMode));
+      eatAnyItem = false;
 
       pacman.reset();
       for (Monster m : monsters)
@@ -397,11 +399,15 @@ public class Stage implements Scene {
   // 画面描画
   public void draw() {
     textAlign(CENTER, CENTER);
-    fill(0, 0, 159);
-    textFont(font2, 16);
 
     background(200, 240, 255);
     map.draw();
+    
+    fill(220, 0, 0);
+    textFont(font, 24);
+
+    if (status == StageStatus.Start)
+      text("READY!", SCREEN_SIZE.x / 2, 454);
 
     // アイテム
     for (Item food : foods)
@@ -409,6 +415,9 @@ public class Stage implements Scene {
 
     for (Item powerFood : powerFoods)
       powerFood.draw();
+
+    fill(0, 0, 159);
+    textFont(font2, 16);
 
     // スペシャルアイテム
     if (specialItemStatus == SpecialItemStatus.Appear) {
