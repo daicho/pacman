@@ -2,20 +2,20 @@ import java.util.Iterator;
 
 // ステージの状態
 public enum StageStatus {
-  Start, // 開始
-    Play, // ゲーム
-    Eat, // 敵を食べたときの硬直
-    Clear, // クリア
-    Die, // 敵に食べられた
-    Finish, // 終了
-    Reset   // リセット
+  Start,  // 開始
+  Play,   // ゲーム
+  Eat,    // 敵を食べたときの硬直
+  Clear,  // クリア
+  Die,    // 敵に食べられた
+  Finish, // 終了
+  Reset   // リセット
 }
 
 //スペシャルアイテムの状態
 public enum SpecialItemStatus {
-  Appear, //出現
-    Disappear, //出現していない
-    Eat  //食べられた
+  Appear,    // 出現
+  Disappear, // 出現していない
+  Eat        // 食べられた
 }
 
 // ステージ
@@ -394,11 +394,26 @@ public class Stage implements Scene {
     fill(0, 0, 159);
     textFont(font2, 16);
 
+    // アイテム
     for (Item food : foods)
       food.draw();
 
     for (Item powerFood : powerFoods)
       powerFood.draw();
+
+    // スペシャルアイテム
+    if (specialItemStatus == SpecialItemStatus.Appear) {
+      specialItem.draw();
+    } else if (specialItemStatus == SpecialItemStatus.Eat) {
+      PVector position = specialItem.getPosition();
+      text(specialItemScore, position.x, position.y);
+    }
+
+    // 敵
+    for (Monster monster : monsters) {
+      if (status != StageStatus.Eat || monster != eatenMonster)
+        monster.draw();
+    }
 
     // 敵を食べたときの点数表示
     if (status == StageStatus.Eat) {
@@ -406,20 +421,6 @@ public class Stage implements Scene {
       text(monsterScore, position.x, position.y);
     } else {
       pacman.draw();
-    }
-
-    for (Monster monster : monsters) {
-      if (status != StageStatus.Eat || monster != eatenMonster)
-        monster.draw();
-    }
-
-    if (specialItemStatus == SpecialItemStatus.Appear) {
-      specialItem.draw();
-    } 
-    // スペシャルアイテムを食べたときの点数表示
-    else if (specialItemStatus == SpecialItemStatus.Eat) {
-      PVector position = specialItem.getPosition();
-      text(specialItemScore, position.x, position.y);
     }
   }
 }
