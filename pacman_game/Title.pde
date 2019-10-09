@@ -12,17 +12,13 @@ public class Title implements Scene {
   //protected boolean startAppear = true;
   //protected int startCount = 0;
 
-  protected FreeCharacter pacman =
-    new FreeCharacter(new PVector(210, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pacman");
-  protected FreeCharacter akabei =
-    new FreeCharacter(new PVector(150, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "akabei");
-  protected FreeCharacter aosuke =
-    new FreeCharacter(new PVector(100, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "aosuke");
-  protected FreeCharacter pinky =
-    new FreeCharacter(new PVector(50, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pinky");
-  protected FreeCharacter guzuta =
-    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "guzuta");
-
+  private final FreeCharacter[] freeCharacters = {
+    new FreeCharacter(new PVector(210, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pacman"), 
+    new FreeCharacter(new PVector(150, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "akabei"), 
+    new FreeCharacter(new PVector(100, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "aosuke"), 
+    new FreeCharacter(new PVector(50, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pinky"), 
+    new FreeCharacter(new PVector(0, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "guzuta")
+  };
 
   public void update() {
     if (Input.buttonAPress())
@@ -71,65 +67,19 @@ public class Title implements Scene {
     }
     image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 700);
 
-    pacman.move();
-    pacman.update();
-    pacman.draw();
-    if (pacman.getDirection() == 0 && pacman.position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-      pacman.setDirection(3);
-    } else if (pacman.getDirection() == 3 && pacman.position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-      pacman.setDirection(2);
-    } else if (pacman.getDirection() == 2 && pacman.position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-      pacman.setDirection(1);
-    } else if (pacman.getDirection() == 1 && pacman.position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-      pacman.setDirection(0);
-    }
-    akabei.move();
-    akabei.update();
-    akabei.draw();
-    if (akabei.getDirection() == 0 && akabei.position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-      akabei.setDirection(3);
-    } else if (akabei.getDirection() == 3 && akabei.position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-      akabei.setDirection(2);
-    } else if (akabei.getDirection() == 2 && akabei.position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-      akabei.setDirection(1);
-    } else if (akabei.getDirection() == 1 && akabei.position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-      akabei.setDirection(0);
-    }
-    aosuke.move();
-    aosuke.update();
-    aosuke.draw();
-    if (aosuke.getDirection() == 0 && aosuke.position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-      aosuke.setDirection(3);
-    } else if (aosuke.getDirection() == 3 && aosuke.position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-      aosuke.setDirection(2);
-    } else if (aosuke.getDirection() == 2 && aosuke.position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-      aosuke.setDirection(1);
-    } else if (aosuke.getDirection() == 1 && aosuke.position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-      aosuke.setDirection(0);
-    }
-    pinky.move();
-    pinky.update();
-    pinky.draw();
-    if (pinky.getDirection() == 0 && pinky.position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-      pinky.setDirection(3);
-    } else if (pinky.getDirection() == 3 && pinky.position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-      pinky.setDirection(2);
-    } else if (pinky.getDirection() == 2 && pinky.position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-      pinky.setDirection(1);
-    } else if (pinky.getDirection() == 1 && pinky.position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-      pinky.setDirection(0);
-    }
-    guzuta.move();
-    guzuta.update();
-    guzuta.draw();
-    if (guzuta.getDirection() == 0 && guzuta.position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
-      guzuta.setDirection(3);
-    } else if (guzuta.getDirection() == 3 && guzuta.position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
-      guzuta.setDirection(2);
-    } else if (guzuta.getDirection() == 2 && guzuta.position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
-      guzuta.setDirection(1);
-    } else if (guzuta.getDirection() == 1 && guzuta.position.y <= SCREEN_SIZE.y * 0.08 - 15) {
-      guzuta.setDirection(0);
+    for (int i = 0; i < 5; i++) {
+      freeCharacters[i].move();
+      freeCharacters[i].update();
+      freeCharacters[i].draw();
+      if (freeCharacters[i].getDirection() == 0 && freeCharacters[i].position.x >= SCREEN_SIZE.x / 2 + logoImage.width / 2 + 15) {
+        freeCharacters[i].setDirection(3);
+      } else if (freeCharacters[i].getDirection() == 3 && freeCharacters[i].position.y >= SCREEN_SIZE.y * 0.08 + logoImage.height + 15) {
+        freeCharacters[i].setDirection(2);
+      } else if (freeCharacters[i].getDirection() == 2 && freeCharacters[i].position.x <= SCREEN_SIZE.x / 2 - logoImage.width / 2 - 15) {
+        freeCharacters[i].setDirection(1);
+      } else if (freeCharacters[i].getDirection() == 1 && freeCharacters[i].position.y <= SCREEN_SIZE.y * 0.08 - 15) {
+        freeCharacters[i].setDirection(0);
+      }
     }
 
     /*
