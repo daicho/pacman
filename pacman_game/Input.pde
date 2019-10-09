@@ -18,7 +18,7 @@ public abstract class InputInterface {
   public abstract boolean buttonA(); // A
   public abstract boolean buttonB(); // B
   public abstract boolean buttonC(); // C
-
+  
   public boolean rightPress() {
     if (right()) {
       if (prevRight) {
@@ -115,7 +115,14 @@ public abstract class InputInterface {
       prevButtonC = false;
       return false;
     }
-  }  
+  }
+  
+  public boolean anyButtonPress() {
+    if (rightPress() || upPress() || leftPress() || downPress() || buttonAPress() || buttonBPress() || buttonCPress())
+      return true;
+    else
+      return false;
+  }
 
   public boolean rightRelease() {
     if (right()) {
@@ -382,6 +389,10 @@ public static class Input {
 
   public static boolean buttonCPress() {
     return inputInterface.buttonCPress();
+  }
+  
+  public static boolean anyButtonPress() {
+    return inputInterface.anyButtonPress();
   }
 
   public static boolean rightRelease() {

@@ -14,7 +14,7 @@ public class Rule implements Scene {
   protected Item bigPowerFood = new Item(new PVector(86, 547), "big_power_food");
 
   public void update() {
-    if (Input.buttonAPress())
+    if (Input.anyButtonPress())
       SceneManager.setScene(new Game(3));
   }
 
