@@ -388,11 +388,12 @@ public class Stage implements Scene {
 
   // 画面描画
   public void draw() {
-    background(0);
-    map.draw();
     textAlign(CENTER, CENTER);
     fill(0, 0, 159);
     textFont(font2, 16);
+
+    background(200, 240, 255);
+    map.draw();
 
     // アイテム
     for (Item food : foods)
