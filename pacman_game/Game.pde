@@ -24,6 +24,9 @@ public class Game implements Scene {
   }
 
   public void update() {
+    stage.update();
+    score = prevScore + stage.getScore();
+
     switch (stage.getStatus()) {
     case Finish:
       // 次のステージへ
@@ -47,9 +50,6 @@ public class Game implements Scene {
       break;
 
     default:
-      stage.update();
-      score = prevScore + stage.getScore();
-
       // 1UP
       if (score >= oneUpScore) {
         life++;

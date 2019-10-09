@@ -111,7 +111,7 @@ public class Character extends GameObject {
       MapObject mapObject;
 
       // 1マスずつ進みながらチェック
-      if (t + 1 <= int(speed))
+      if (t + 1 <= int(speed) || !turnFlag && (aimDirection + direction) % 2 == 1)
         moveDistance = 1;
       else
         moveDistance = speed - t;

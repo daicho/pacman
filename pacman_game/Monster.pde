@@ -1,4 +1,4 @@
-// 敵の状態 //<>// //<>// //<>//
+// 敵の状態 //<>//
 public enum MonsterStatus {
   Wait,    // 待機
   Release, // 出撃

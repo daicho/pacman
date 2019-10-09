@@ -192,34 +192,15 @@ public class Stage implements Scene {
           monster.setIjikeStatus(1);
       }
 
-      // 移動
-      pacman.move(map);
-      for (Monster monster : monsters) {
-        monster.decideDirection(this);
-        monster.move(map);
-      }
-
-      // 更新
-      pacman.update(map);
-
-      for (Monster monster : monsters)
-        monster.update(map);
-
-      for (Item food : foods)
-        food.update();
-
-      for (Item powerFood : powerFoods)
-        powerFood.update();
-
-      if (specialItemStatus == SpecialItemStatus.Appear)
-        specialItem.update();
-
       // 当たり判定
       // ノーマルエサ
+      boolean eat = false;
+      
       for (Iterator<Item> i = foods.iterator(); i.hasNext(); ) {
         Item food = i.next();
 
         if (pacman.isColliding(food)) {
+          eat = true;
           i.remove();
 
           // 音を鳴らす
@@ -233,12 +214,13 @@ public class Stage implements Scene {
           this.score += 10;
         }
       }
-
+      
       // パワーエサ
       for (Iterator<Item> i = powerFoods.iterator(); i.hasNext(); ) {
         Item powerFood = i.next();
 
         if (pacman.isColliding(powerFood)) {
+          eat = true;
           i.remove();
 
           // 音を鳴らす
@@ -261,6 +243,8 @@ public class Stage implements Scene {
       // スペシャルアイテム
       if (specialItemStatus == SpecialItemStatus.Appear) {
         if (pacman.isColliding(specialItem)) {
+          eat = true;
+
           // 音を鳴らす
           se.eatPowerFood();
 
@@ -277,6 +261,30 @@ public class Stage implements Scene {
         startbgm.rewind();
         status = StageStatus.Clear;
       }
+
+      // 移動
+      if (!eat)
+        pacman.move(map);
+
+      for (Monster monster : monsters) {
+        monster.decideDirection(this);
+        monster.move(map);
+      }
+
+      // 更新
+      pacman.update(map);
+
+      for (Monster monster : monsters)
+        monster.update(map);
+
+      for (Item food : foods)
+        food.update();
+
+      for (Item powerFood : powerFoods)
+        powerFood.update();
+
+      if (specialItemStatus == SpecialItemStatus.Appear)
+        specialItem.update();
 
       // 接敵
       for (Iterator<Monster> i = monsters.iterator(); i.hasNext(); ) {
