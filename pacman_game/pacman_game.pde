@@ -7,7 +7,6 @@ void setup() {
   // 画面設定
   //fullScreen(); // フルスクリーン
   size(480, 848); // ウィンドウ
-  
   frameRate(30); // フレームレート
 
   // 入力設定
@@ -24,7 +23,6 @@ void setup() {
   Record.loadRanking();
 
   SceneManager.setScene(new Title()); // タイトル画面をロード
-  //SceneManager.setScene(new Result(100000, 2, false));
 }
 
 void draw() {

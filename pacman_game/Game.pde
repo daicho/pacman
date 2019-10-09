@@ -5,7 +5,7 @@ public class Game implements Scene {
   protected int prevScore = 0;      // 前ステージまでのスコア
   protected int oneUpScore = 10000; // 1UPするスコア
 
-  protected String[] stageNames = {"3", "2", "3"}; // ステージ名
+  protected String[] stageNames = {"1", "2", "3"}; // ステージ名
   protected int stageNum = 0; // 現在のステージ番号
   protected Stage stage;      // 現在のステージ
 
