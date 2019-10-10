@@ -1,6 +1,5 @@
 pacman_direction,2
 pacman_speed,3
-monster_direction,1
 monster_wait_speed,2
 monster_release_speed,2
 monster_return_speed,8
