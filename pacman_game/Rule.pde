@@ -86,7 +86,9 @@ public class Load implements Scene {
   
   public void draw() {
     background(0);
-    fill(255);
-    text("Loading...", SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
+    PImage loadingImage = loadImage("images/Loading.png");
+    imageMode(CENTER);
+    image(loadingImage, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
+    imageMode(CORNER);
   }
 }
