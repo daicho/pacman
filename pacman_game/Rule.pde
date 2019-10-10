@@ -26,7 +26,7 @@ public class Rule implements Scene {
       fill(200, 240, 255);
       rect(FreePacman.getPosition().x - FreePacman.getSpeed() - 5, 247, 32, 35);
       if (FreePacman.getPosition().x >= SCREEN_SIZE.x + 16) {
-        SceneManager.setScene(new Game(3));
+        SceneManager.setScene(new Load());
       }
     }
   }
@@ -76,5 +76,17 @@ public class Rule implements Scene {
     rect(86, 547, 32, 32);
     // 文字を消す
     rect(SCREEN_SIZE.x / 2, 730, 245, 100);
+  }
+}
+
+public class Load implements Scene {
+  public void update() {
+    SceneManager.setScene(new Game(3));
+  }
+  
+  public void draw() {
+    background(0);
+    fill(255);
+    text("Loading...", SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
   }
 }
