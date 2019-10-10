@@ -390,12 +390,17 @@ public class Stage implements Scene {
       eatAnyItem = false;
 
       pacman.reset();
+
       for (Monster m : monsters)
         m.reset();
+      this.monsters.get(0).setStatus(MonsterStatus.Release);
+
       for (Item food : foods)
         food.reset();
+
       for (Item powerFood : powerFoods)
         powerFood.reset();
+
       specialItemStatus = SpecialItemStatus.Disappear;
       specialItem.reset();
 

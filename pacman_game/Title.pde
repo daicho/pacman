@@ -55,17 +55,17 @@ public class Title implements Scene {
 
     fill(0, 0, 159);
     textFont(font2, 22.5);
-    text("ランキング", SCREEN_SIZE.x * 0.35, 385);
-    text("スコア", SCREEN_SIZE.x * 0.65, 385);
+    text("ランキング", SCREEN_SIZE.x * 0.35, 395);
+    text("スコア", SCREEN_SIZE.x * 0.65, 395);
     fill(0);
-    rect(SCREEN_SIZE.x / 2, 407.5, SCREEN_SIZE.x * 0.7, 1);
+    rect(SCREEN_SIZE.x / 2, 417.5, SCREEN_SIZE.x * 0.7, 1);
     textFont(font2, 30);
     for (int i = 0; i < 10; i++) {
-      text(i + 1, SCREEN_SIZE.x * 0.35, 420 + i * 30);
-      text(Record.getRanking(i + 1), SCREEN_SIZE.x * 0.65, 420 + i * 30);
-      rect(SCREEN_SIZE.x / 2, 437.5 + i * 30, SCREEN_SIZE.x * 0.7, 1);
+      text(i + 1, SCREEN_SIZE.x * 0.35, 430 + i * 30);
+      text(Record.getRanking(i + 1), SCREEN_SIZE.x * 0.65, 430 + i * 30);
+      rect(SCREEN_SIZE.x / 2, 447.5 + i * 30, SCREEN_SIZE.x * 0.7, 1);
     }
-    image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 740);
+    image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 760);
 
     for (int i = 0; i < 5; i++) {
       if (startCount > i) {
