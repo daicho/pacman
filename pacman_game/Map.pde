@@ -2,6 +2,7 @@
 public enum MapObject {
   Wall,       // 壁
   Route,      // 通路
+  Tunnel,     // ワープトンネル
   MonsterDoor // 敵出入口
 }
 
@@ -38,6 +39,8 @@ public class Map {
           objects[x][y] = MapObject.Wall; // 壁
         else if (mapPixel == color(0, 255, 0))
           objects[x][y] = MapObject.MonsterDoor; // 敵出入口
+        else if (mapPixel == color(255, 127, 0))
+          objects[x][y] = MapObject.Tunnel; // ワープトンネル
         else
           objects[x][y] = MapObject.Route; // 通路
 

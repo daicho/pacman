@@ -1,4 +1,4 @@
-// 敵の状態 //<>//
+// 敵の状態 //<>// //<>//
 public enum MonsterStatus {
   Wait,    // 待機
   Release, // 出撃
@@ -172,19 +172,26 @@ public abstract class Monster extends Character {
 
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
+    float curSpeed;
     boolean turnFlag = false;
     PVector result = new PVector(0, 0);
 
-    for (float t = 0; t < speed; t++) {
+    // ワープトンネルで減速
+    if (map.getObject(position) == MapObject.Tunnel)
+      curSpeed = speed / 1.5;
+    else
+      curSpeed = speed;
+
+    for (float t = 0; t < curSpeed; t++) {
       float moveDistance;
       PVector moveVector;
       MapObject mapObject;
 
       // 1マスずつ進みながらチェック
-      if (t + 1 <= int(speed) || !turnFlag && (aimDirection + direction) % 2 == 1)
+      if (t + 1 <= int(curSpeed) || !turnFlag && (aimDirection + direction) % 2 == 1)
         moveDistance = 1;
       else
-        moveDistance = speed - t;
+        moveDistance = curSpeed - t;
 
       // 進みたい方向に進んでみる
       moveVector = getDirectionVector(aimDirection);

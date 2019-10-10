@@ -102,27 +102,20 @@ public class Character extends GameObject {
 
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
+    float curSpeed = speed;
     boolean turnFlag = false;
     PVector result = new PVector(0, 0);
 
-    for (float t = 0; t < speed; t++) {
+    for (float t = 0; t < curSpeed; t++) {
       float moveDistance;
       PVector moveVector;
       MapObject mapObject;
 
       // 1マスずつ進みながらチェック
-      if (t + 1 <= int(speed))
+      if (t + 1 <= int(curSpeed) || !turnFlag && (aimDirection + direction) % 2 == 1)
         moveDistance = 1;
       else
-        moveDistance = speed - t;
-
-      // 左右に曲がったとき
-      if ((aimDirection + direction) % 2 == 1) {
-        if (turnFlag)
-          moveDistance = speed;
-        else
-          moveDistance = 1;
-      }
+        moveDistance = curSpeed - t;
 
       // 進みたい方向に進んでみる
       moveVector = getDirectionVector(aimDirection);
@@ -132,6 +125,8 @@ public class Character extends GameObject {
       mapObject = map.getObject(PVector.add(position, result));
       if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
         turnFlag = true;
+        if (((aimDirection + direction) % 2 == 1))
+          curSpeed = speed * 2;
       } else {
         result.sub(moveVector);
 
