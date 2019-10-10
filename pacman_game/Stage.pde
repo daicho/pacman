@@ -2,20 +2,20 @@ import java.util.Iterator;
 
 // ステージの状態
 public enum StageStatus {
-  Start, // 開始
-    Play, // ゲーム
-    Eat, // 敵を食べたときの硬直
-    Clear, // クリア
-    Die, // 敵に食べられた
-    Finish, // 終了
-    Reset   // リセット
+  Start,  // 開始
+  Play,   // ゲーム
+  Eat,    // 敵を食べたときの硬直
+  Clear,  // クリア
+  Die,    // 敵に食べられた
+  Finish, // 終了
+  Reset   // リセット
 }
 
 //スペシャルアイテムの状態
 public enum SpecialItemStatus {
-  Appear, // 出現
-    Disappear, // 出現していない
-    Eat        // 食べられた
+  Appear,    // 出現
+  Disappear, // 出現していない
+  Eat        // 食べられた
 }
 
 // ステージ
@@ -190,7 +190,7 @@ public class Stage implements Scene {
 
       if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 60) {
         for (Monster monster : monsters)
-          monster.setIjikeStatus(1);
+          monster.setIjikeLimit(true);
       }
 
       // 移動

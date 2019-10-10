@@ -9,10 +9,10 @@ public class Result implements Scene {
 
   // キャラクター
   protected FreeCharacter[] characters = {
-    new FreeCharacter(new PVector(292, 765), 3, 0, "pacman"), 
-    new FreeCharacter(new PVector(328, 765), 3, 0, "akabei"), 
-    new FreeCharacter(new PVector(364, 765), 3, 0, "aosuke"), 
-    new FreeCharacter(new PVector(400, 765), 3, 0, "pinky"), 
+    new FreeCharacter(new PVector(292, 765), 3, 0, "player"),
+    new FreeCharacter(new PVector(328, 765), 3, 0, "fujix"),
+    new FreeCharacter(new PVector(364, 765), 3, 0, "ito"),
+    new FreeCharacter(new PVector(400, 765), 3, 0, "arai"),
     new FreeCharacter(new PVector(436, 765), 3, 0, "ohya")
   };
 

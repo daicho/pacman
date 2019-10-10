@@ -18,7 +18,7 @@ public enum MonsterSpeed {
   Wait,    // 待機
   Release, // 出撃
   Return,  // 帰還
-  Rest   , // 休憩モード
+  Rest,    // 休憩モード
   Chase,   // 追いかけモード
   Ijike    // イジケモード
 }
@@ -26,18 +26,18 @@ public enum MonsterSpeed {
 public abstract class Monster extends Character {
   protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected MonsterMode mode = MonsterMode.Rest;             // モード
-  protected int ijikeStatus = 0;                             // 0:通常 1:終わりそう
-  protected Animation[] ijikeAnimations = new Animation[2];  // イジケ時のアニメーション
+  protected boolean ijikeLimit = false;                      // イジケモードが終わりそうか
+  protected Animation[] ijikeAnimations = new Animation[4];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected HashMap<MonsterSpeed, Float> speeds;
 
-  protected Monster(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds, String characterName) {
+  public Monster(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds, String characterName) {
     super(position, direction, speeds.get(MonsterSpeed.Wait), characterName);
     this.speeds = speeds;
 
     // イジケ時のアニメーション
-    this.ijikeAnimations[0] = new Animation("ijike-0");
-    this.ijikeAnimations[1] = new Animation("ijike-1");
+    for (int i = 0; i < 4; i++)
+      this.ijikeAnimations[i] = new Animation(characterName + "-ijike-" + i);
 
     // 帰還時のアニメーション
     for (int i = 0; i < 4; i++)
@@ -93,18 +93,18 @@ public abstract class Monster extends Character {
     updateSpeed();
 
     if (mode == MonsterMode.Ijike) {
-      ijikeStatus = 0;
+      ijikeLimit = false;
       ijikeAnimations[0].reset();
       ijikeAnimations[1].reset();
     }
   }
 
-  public int getIjikeStatus() {
-    return this.ijikeStatus;
+  public boolean getIjikeLimit() {
+    return this.ijikeLimit;
   }
 
-  public void setIjikeStatus(int ijikeStatus) {
-    this.ijikeStatus = ijikeStatus;
+  public void setIjikeLimit(boolean ijikeLimit) {
+    this.ijikeLimit = ijikeLimit;
   }
 
   // 移動
@@ -285,15 +285,13 @@ public abstract class Monster extends Character {
     // 目標地点に到達したら状態遷移
     switch (status) {
     case Release:
-      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y)) {
+      if (round(position.x) == round(map.getReleasePoint().x) && round(position.y) == round(map.getReleasePoint().y))
         setStatus(MonsterStatus.Active);
-      }
       break;
 
     case Return:
-      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y)) {
+      if (round(position.x) == round(map.getReturnPoint().x) && round(position.y) == round(map.getReturnPoint().y))
         setStatus(MonsterStatus.Release);
-      }
       break;
 
     default:
@@ -306,11 +304,10 @@ public abstract class Monster extends Character {
       case Wait:
       case Release:
       case Active:
-        if (mode == MonsterMode.Ijike) {
-          ijikeAnimations[ijikeStatus].update();
-        } else {
+        if (mode == MonsterMode.Ijike)
+          ijikeAnimations[direction].update();
+        else
           animations[direction].update();
-        }
         break;
 
       case Return:
@@ -328,11 +325,10 @@ public abstract class Monster extends Character {
     case Wait:
     case Release:
     case Active:
-      if (mode == MonsterMode.Ijike) {
-        image(ijikeAnimations[ijikeStatus].getImage(), minPostision.x, minPostision.y);
-      } else {
+      if (mode == MonsterMode.Ijike)
+        image(ijikeAnimations[direction].getImage(), minPostision.x, minPostision.y);
+      else
         super.draw();
-      }
       break;
 
     case Return:

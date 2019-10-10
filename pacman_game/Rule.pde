@@ -1,10 +1,10 @@
 // ルール説明画面
 public class Rule implements Scene {
-  private final FreeCharacter FreePacman = new FreeCharacter(new PVector(214, 247), 0, 8, "pacman");
+  private final FreeCharacter FreePacman = new FreeCharacter(new PVector(214, 247), 0, 8, "player");
   private final FreeCharacter[] FreeMonsters = {
-    new FreeCharacter(new PVector(179, 370), 3, 1.6, "akabei"), 
-    new FreeCharacter(new PVector(220, 370), 3, 1.6, "aosuke"), 
-    new FreeCharacter(new PVector(260, 370), 3, 1.6, "pinky"), 
+    new FreeCharacter(new PVector(179, 370), 3, 1.6, "fujix"), 
+    new FreeCharacter(new PVector(220, 370), 3, 1.6, "ito"), 
+    new FreeCharacter(new PVector(260, 370), 3, 1.6, "arai"), 
     new FreeCharacter(new PVector(301, 370), 3, 1.6, "ohya")
   };
   boolean imageLoadFlag = false;  

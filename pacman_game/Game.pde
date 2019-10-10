@@ -10,12 +10,12 @@ public class Game implements Scene {
   protected Stage stage;      // 現在のステージ
   protected SoundEffect se = new SoundEffect(minim); 
 
-  protected PImage lifeImage = loadImage("images/pacman-3-0.png"); // 残基の画像
+  protected PImage lifeImage = loadImage("images/player-3-0.png"); // 残基の画像
 
   // ステージの画像
   protected PImage[] stageImages = {
-    loadImage("images/computer-0.png"), 
-    loadImage("images/kakomon-0.png"), 
+    loadImage("images/computer-0.png"),
+    loadImage("images/kakomon-0.png"),
     loadImage("images/monster-0.png")
   };
 

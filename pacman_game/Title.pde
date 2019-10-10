@@ -1,7 +1,7 @@
 // タイトル画面
 public class Title implements Scene {
   protected PImage logoImage = loadImage("images/logo.png");
-  protected PImage pressButonImage = loadImage("images/pressbutton.png");
+  protected PImage pressButonImage = loadImage("images/press_button.png");
   protected PImage copyrightImage = loadImage("images/copyright.png");
   protected Timer lightTimer1 = new Timer(30); // タイマー
   protected Timer lightTimer2 = new Timer(15); // タイマー
@@ -13,11 +13,11 @@ public class Title implements Scene {
   protected int startCount = 0;
 
   private final FreeCharacter[] freeCharacters = {
-    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pacman"), 
-    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "akabei"), 
-    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "aosuke"), 
-    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "pinky"), 
-    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "guzuta")
+    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "player"), 
+    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "fujix"), 
+    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "ito"), 
+    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "arai"), 
+    new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 15), 0, 2.3, "ohya")
   };
 
   public void update() {

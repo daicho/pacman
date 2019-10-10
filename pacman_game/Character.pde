@@ -7,7 +7,7 @@ public class Character extends GameObject {
   protected float speed;           // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
-  protected Character(PVector position, int direction, float speed, String characterName) {
+  public Character(PVector position, int direction, float speed, String characterName) {
     super(position);
 
     this.startPosition = position.copy();
@@ -178,7 +178,7 @@ public class FreeCharacter extends GameObject {
   protected float speed;   // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
-  protected FreeCharacter(PVector position, int direction, float speed, String characterName) {
+  public FreeCharacter(PVector position, int direction, float speed, String characterName) {
     super(position);
 
     this.direction = direction;

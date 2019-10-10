@@ -1,14 +1,14 @@
-// パックマン
+// プレイヤー (パックマン)
 public class Pacman extends Character {
   public Pacman(PVector position, int direction, float speed) {
-    super(position, direction, speed, "pacman");
+    super(position, direction, speed, "player");
   }
 }
 
-// アカベエ
+// 藤澤 (アカベエ)
 public class Akabei extends Monster {
   public Akabei(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
-    super(position, direction, speeds, "akabei");
+    super(position, direction, speeds, "fujix");
   }
 
   // 進む方向を決定する
@@ -36,10 +36,10 @@ public class Akabei extends Monster {
   }
 }
 
-// アオスケ
+// 伊藤 (アオスケ)
 public class Aosuke extends Monster {
   public Aosuke(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
-    super(position, direction, speeds, "aosuke");
+    super(position, direction, speeds, "ito");
   }
 
   // 進む方向を決定する
@@ -69,10 +69,10 @@ public class Aosuke extends Monster {
   }
 }
 
-// ピンキー
+// 荒井 (ピンキー)
 public class Pinky extends Monster {
   public Pinky(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
-    super(position, direction, speeds, "pinky");
+    super(position, direction, speeds, "arai");
   }
 
   // 進む方向を決定する
@@ -103,7 +103,7 @@ public class Pinky extends Monster {
   }
 }
 
-// グズタ
+// 大矢 (グズタ)
 public class Guzuta extends Monster {
   public Guzuta(PVector position, int direction, HashMap<MonsterSpeed, Float> speeds) {
     super(position, direction, speeds, "ohya");
