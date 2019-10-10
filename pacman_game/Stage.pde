@@ -2,20 +2,20 @@ import java.util.Iterator;
 
 // ステージの状態
 public enum StageStatus {
-  Start,  // 開始
-  Play,   // ゲーム
-  Eat,    // 敵を食べたときの硬直
-  Clear,  // クリア
-  Die,    // 敵に食べられた
-  Finish, // 終了
-  Reset   // リセット
+  Start, // 開始
+    Play, // ゲーム
+    Eat, // 敵を食べたときの硬直
+    Clear, // クリア
+    Die, // 敵に食べられた
+    Finish, // 終了
+    Reset   // リセット
 }
 
 //スペシャルアイテムの状態
 public enum SpecialItemStatus {
-  Appear,    // 出現
-  Disappear, // 出現していない
-  Eat        // 食べられた
+  Appear, // 出現
+    Disappear, // 出現していない
+    Eat        // 食べられた
 }
 
 // ステージ
@@ -239,7 +239,7 @@ public class Stage implements Scene {
           this.score += 10;
         }
       }
-      
+
       // パワーエサ
       for (Iterator<Item> i = powerFoods.iterator(); i.hasNext(); ) {
         Item powerFood = i.next();
@@ -326,7 +326,7 @@ public class Stage implements Scene {
         if (specialItemTimer.update())
           specialItemStatus = SpecialItemStatus.Disappear;
       }
-      
+
       // スペシャルアイテムを食べたときの点数表示タイマー
       if (specialItemStatus == SpecialItemStatus.Eat) {
         if (specialItemEatTimer.update())
@@ -389,6 +389,7 @@ public class Stage implements Scene {
         food.reset();
       for (Item powerFood : powerFoods)
         powerFood.reset();
+      specialItemStatus = SpecialItemStatus.Disappear;
       specialItem.reset();
 
       status = StageStatus.Start;
@@ -402,7 +403,7 @@ public class Stage implements Scene {
 
     background(200, 240, 255);
     map.draw();
-    
+
     fill(220, 0, 0);
     textFont(font, 24);
 
