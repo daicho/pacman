@@ -177,10 +177,13 @@ public class Stage implements Scene {
           modeTimer.setTime(modeTimes.get(MonsterMode.Chase));
           break;
 
-        case Chase:
         case Ijike:
+          pacman.setKakusei(false);
+
+        case Chase:
           monsterMode = MonsterMode.Rest;
           modeTimer.setTime(modeTimes.get(MonsterMode.Rest));
+
           break;
         }
 
@@ -189,6 +192,7 @@ public class Stage implements Scene {
       }
 
       if (monsterMode == MonsterMode.Ijike && modeTimer.getLeft() == 60) {
+        pacman.setKakuseiLimit(true);
         for (Monster monster : monsters)
           monster.setIjikeLimit(true);
       }
@@ -250,6 +254,9 @@ public class Stage implements Scene {
 
           // 音を鳴らす
           se.eatPowerFood();
+
+          // プレイヤー覚醒
+          pacman.setKakusei(true);
 
           // イジケモードに
           for (Monster monster : monsters) {

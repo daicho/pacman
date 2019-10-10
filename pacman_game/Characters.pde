@@ -1,7 +1,63 @@
 // プレイヤー (パックマン)
 public class Pacman extends Character {
+  protected boolean kakusei = false;      // 覚醒しているか
+  protected boolean kakuseiLimit = false; // 覚醒が終わりそうか
+  protected Animation[] kakuseiAnimations = new Animation[4]; // 覚醒時のアニメーション
+
   public Pacman(PVector position, int direction, float speed) {
     super(position, direction, speed, "player");
+
+    // 覚醒時のアニメーション
+    for (int i = 0; i < 4; i++)
+      this.kakuseiAnimations[i] = new Animation("player-kakusei-" + i);
+  }
+
+  public boolean getKakusei() {
+    return this.kakusei;
+  }
+
+  public void setKakusei(boolean kakusei) {
+    this.kakusei = kakusei;
+
+    if (kakusei) {
+      kakuseiLimit = false;
+      for (int i = 0; i < 4; i++)
+        kakuseiAnimations[i].reset();
+    }
+  }
+
+  public boolean getKakuseiLimit() {
+    return this.kakuseiLimit;
+  }
+
+  public void setKakuseiLimit(boolean kakuseiLimit) {
+    this.kakuseiLimit = kakuseiLimit;
+  }
+
+  // リセット
+  public void reset() {
+    super.reset();
+    kakusei = false;
+  }
+
+  // 更新
+  public void update(Map map) {
+    if (kakusei) {
+      if (kakuseiLimit)
+        kakuseiAnimations[direction].update();
+    } else {
+      animations[direction].update();
+    }
+  }
+
+  // 画面描画
+  public void draw() {
+    PVector minPostision = getMinPosition();
+
+    if (kakusei)
+      image(kakuseiAnimations[direction].getImage(), minPostision.x, minPostision.y);
+    else
+      image(animations[direction].getImage(), minPostision.x, minPostision.y);
   }
 }
 

@@ -94,8 +94,8 @@ public abstract class Monster extends Character {
 
     if (mode == MonsterMode.Ijike) {
       ijikeLimit = false;
-      ijikeAnimations[0].reset();
-      ijikeAnimations[1].reset();
+      for (int i = 0; i < 4; i++)
+        ijikeAnimations[i].reset();
     }
   }
 
@@ -304,10 +304,12 @@ public abstract class Monster extends Character {
       case Wait:
       case Release:
       case Active:
-        if (mode == MonsterMode.Ijike)
-          ijikeAnimations[direction].update();
-        else
+        if (mode == MonsterMode.Ijike) {
+          if (ijikeLimit)
+            ijikeAnimations[direction].update();
+        } else {
           animations[direction].update();
+        }
         break;
 
       case Return:
