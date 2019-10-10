@@ -10,8 +10,8 @@ void setup() {
   frameRate(30); // フレームレート
 
   // 入力設定
-  Input.setInputInterface(new KeyboardInput()); // キーボード
   //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
+  Input.setInputInterface(new KeyboardInput()); // キーボード
 
   font = createFont("fonts/NuAnkoMochi-Reg.otf", 10);
   font2 = createFont("fonts/NuKinakoMochi-Reg.otf", 10);
