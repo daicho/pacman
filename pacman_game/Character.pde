@@ -111,10 +111,18 @@ public class Character extends GameObject {
       MapObject mapObject;
 
       // 1マスずつ進みながらチェック
-      if (t + 1 <= int(speed) || !turnFlag && (aimDirection + direction) % 2 == 1)
+      if (t + 1 <= int(speed))
         moveDistance = 1;
       else
         moveDistance = speed - t;
+
+      // 左右に曲がったとき
+      if ((aimDirection + direction) % 2 == 1) {
+        if (turnFlag)
+          moveDistance = speed;
+        else
+          moveDistance = 1;
+      }
 
       // 進みたい方向に進んでみる
       moveVector = getDirectionVector(aimDirection);
