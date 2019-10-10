@@ -187,6 +187,17 @@ public class SoundEffect {
     out.playNote(soundWidth * 7.5, soundWidth, new SquareInstrument(739.989, VOLUME, out));
     out.playNote(soundWidth * 9, soundWidth, new SquareInstrument(739.989, VOLUME, out));
   }
+
+  // 1up
+  public void oneUp() {
+    float soundWidth = 0.13;
+    out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(391.995, VOLUME * 2, out));
+    out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(523.251, VOLUME * 2, out));
+    out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(659.255, VOLUME * 2, out));
+    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(440, VOLUME * 2, out));
+    out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(587.330, VOLUME * 2, out));
+    out.playNote(soundWidth * 5, soundWidth, new SquareInstrument(783.991, VOLUME * 2, out));
+  }
 }
 
 // 矩形波を生成

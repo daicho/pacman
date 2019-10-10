@@ -8,6 +8,7 @@ public class Game implements Scene {
   protected String[] stageNames = {"1", "2", "3"}; // ステージ名
   protected int stageNum = 0; // 現在のステージ番号
   protected Stage stage;      // 現在のステージ
+  protected SoundEffect se = new SoundEffect(minim); 
 
   protected PImage lifeImage = loadImage("images/pacman-3-0.png"); // 残基の画像
 
@@ -54,6 +55,7 @@ public class Game implements Scene {
       if (score >= oneUpScore) {
         life++;
         oneUpScore += 10000;
+        se.oneUp();
       }
 
       break;
