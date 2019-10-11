@@ -159,10 +159,15 @@ public class Character extends GameObject {
       animetion.reset();
   }
 
+  // アニメーションの更新
+  protected void animationUpdate(Animation animation, Map map) {
+    if (canMove(map, direction).mag() != 0)
+      animation.update();
+  }
+
   // 更新
   public void update(Map map) {
-    if (canMove(map, direction).mag() != 0)
-      animations[direction].update();
+    animationUpdate(animations[direction], map);
   }
 
   // 画面描画

@@ -44,9 +44,9 @@ public class Pacman extends Character {
   public void update(Map map) {
     if (kakusei) {
       if (kakuseiLimit)
-        kakuseiAnimations[direction].update();
+        animationUpdate(kakuseiAnimations[direction], map);
     } else {
-      animations[direction].update();
+      animationUpdate(animations[direction], map);
     }
   }
 

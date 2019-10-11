@@ -299,23 +299,21 @@ public abstract class Monster extends Character {
     }
 
     // アニメーションを更新
-    if (canMove(map, direction).mag() != 0) {
-      switch (status) {
-      case Wait:
-      case Release:
-      case Active:
-        if (mode == MonsterMode.Ijike) {
-          if (ijikeLimit)
-            ijikeAnimations[direction].update();
-        } else {
-          animations[direction].update();
-        }
-        break;
-
-      case Return:
-        returnAnimations[direction].update();
-        break;
+    switch (status) {
+    case Wait:
+    case Release:
+    case Active:
+      if (mode == MonsterMode.Ijike) {
+        if (ijikeLimit)
+          animationUpdate(ijikeAnimations[direction], map);
+      } else {
+        animationUpdate(animations[direction], map);
       }
+      break;
+
+    case Return:
+      animationUpdate(returnAnimations[direction], map);
+      break;
     }
   }
 
