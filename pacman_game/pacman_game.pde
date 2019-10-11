@@ -18,11 +18,10 @@ void setup() {
   minim = new Minim(this);
 
   // ハイスコアをロード
-  String dataName = "ranking.txt";
-  Record.setFilePath(dataPath(dataName));
-  Record.loadRanking();
+  Record.setFilePath(dataPath("ranking.txt"));
 
-  SceneManager.setScene(new Title()); // タイトル画面をロード
+  // タイトル画面をロード
+  SceneManager.setScene(new Title());
 }
 
 void draw() {

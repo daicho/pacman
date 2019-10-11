@@ -102,28 +102,30 @@ public class Timer {
 public static class Record {
   protected static final int RANK_NUM = 10; // ランキングの数
 
-  protected static int[] ranking;   // ランキング
+  protected static int[] ranking = new int[RANK_NUM]; // ランキング
   protected static String filePath; // ランキングファイルパス
 
   // 指定されたランクのスコアを返す (+なら上から、-なら下からの順位を参照)
   public static int getRanking(int rank) {
-    if (0 < rank && rank <= Record.RANK_NUM) {
-      return Record.ranking[rank - 1];
-    } else if (-Record.RANK_NUM <= rank && rank < 0) {
-      return Record.ranking[Record.RANK_NUM + rank];
-    } else {
+    if (0 < rank && rank <= RANK_NUM)
+      return ranking[rank - 1];
+    else if (-RANK_NUM <= rank && rank < 0)
+      return ranking[RANK_NUM + rank];
+    else
       return 0;
-    }
   }
 
   // ランキングに設定する
   public static int setRanking(int score) {
-    for (int i = 0; i < Record.RANK_NUM; i++) {
-      if (Record.ranking[i] <= score) {
-        for (int j = Record.RANK_NUM - 1; j < i; j--) {
+    for (int i = 0; i < RANK_NUM; i++) {
+      if (score >= Record.ranking[i]) {
+        // ランキングをずらす
+        for (int j = RANK_NUM - 1; j > i; j--)
           Record.ranking[j] = Record.ranking[j - 1];
-        }
+
         ranking[i] = score;
+        saveRanking();
+
         return i + 1;
       }
     }
@@ -134,14 +136,14 @@ public static class Record {
   // ファイルパス読み込み
   public static void setFilePath(String filePath) {
     Record.filePath = filePath;
+    loadRanking();
   }
 
   // ハイスコアの読み込み
   public static void loadRanking() {
-    Record.ranking = new int[10];
-    File dataFile = new File(Record.filePath);
+    File dataFile = new File(filePath);
     String[] scoreData = loadStrings(dataFile); // ハイスコアをロード
-    for (int i = 0; i < Record.RANK_NUM; i++) {
+    for (int i = 0; i < RANK_NUM; i++) {
       int score = int(scoreData[i]);
       Record.ranking[i] = score;
     }
@@ -149,10 +151,10 @@ public static class Record {
 
   // ハイスコアの保存
   public static void saveRanking() {
-    File dataFile = new File(Record.filePath);
-    String[] scoreData = new String[Record.RANK_NUM];
-    for (int i = 0; i < Record.RANK_NUM; i++) {
-      scoreData[i] = str(Record.ranking[i]);
+    File dataFile = new File(filePath);
+    String[] scoreData = new String[RANK_NUM];
+    for (int i = 0; i < RANK_NUM; i++) {
+      scoreData[i] = str(ranking[i]);
     }
     saveStrings(dataFile, scoreData);
   }

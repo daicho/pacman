@@ -21,11 +21,8 @@ public class Result implements Scene {
     this.stage = stage;
     this.clear = clear;
 
-    // ハイスコア更新処理
-    if (Record.getRanking(-1) < this.score) {
-      ranking = Record.setRanking(this.score);
-      Record.saveRanking();
-    }
+    // ハイスコア更新
+    this.ranking = Record.setRanking(this.score);
   }
 
   public void update() {
