@@ -133,8 +133,8 @@ public class SoundEffect {
   // パワーエサを食べたとき
   public void eatPowerFood() {  
     float soundWidth = 0.02, cycle = 0.16; 
-    int i;
-    for (i = 0; i < 4; i++) {
+
+    for (int i = 0; i < 4; i++) {
       out.playNote(soundWidth * 0 + cycle * i, soundWidth, new SquareInstrument(P1, VOLUME, out));
       out.playNote(soundWidth * 1 + cycle * i, soundWidth, new SquareInstrument(P2, VOLUME, out));
       out.playNote(soundWidth * 2 + cycle * i, soundWidth, new SquareInstrument(P3, VOLUME, out));

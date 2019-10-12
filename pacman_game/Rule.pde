@@ -81,7 +81,7 @@ public class Rule implements Scene {
 
 public class Load implements Scene {
   public void update() {
-    SceneManager.setScene(new Game(3));
+    SceneManager.setScene(new Game());
   }
   
   public void draw() {

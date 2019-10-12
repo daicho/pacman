@@ -125,7 +125,7 @@ public class Character extends GameObject {
       mapObject = map.getObject(PVector.add(position, result));
       if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
         turnFlag = true;
-        if (((aimDirection + direction) % 2 == 1))
+        if ((aimDirection + direction) % 2 == 1)
           curSpeed = speed * 2;
       } else {
         result.sub(moveVector);

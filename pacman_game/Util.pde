@@ -8,23 +8,20 @@ public class Animation {
 
   public Animation(String imageName) {
     // 画像ファイルの存在確認
-    this.number = 0;
-    while (true) {
+    for (this.number = 0; ; this.number++) {
       File imageFile = new File(dataPath("images/" + imageName + "-" + number + ".png"));
       if (!imageFile.exists())
         break;
-
-      this.number++;
     }
 
     // 画像ファイル読み込み
     this.images = new PImage[number];
     for (int i = 0; i < number; i++)
-      this.images[i] = loadImage(dataPath("images/" + imageName + "-" + i + ".png"));
+      this.images[i] = loadImage("images/" + imageName + "-" + i + ".png");
     size = new PVector(images[0].width, images[0].height);
 
     // インターバル読み込み
-    String[] intervalText = loadStrings(dataPath("images/" + imageName + "-interval.txt"));
+    String[] intervalText = loadStrings("images/" + imageName + "-interval.txt");
     this.intervalTimer = new Timer(int(intervalText[0]));
   }
 
@@ -100,10 +97,10 @@ public class Timer {
 
 // スコアの記録
 public static class Record {
-  protected static final int RANK_NUM = 10; // ランキングの数
+  public static final int RANK_NUM = 10; // ランキングの数
 
   protected static int[] ranking = new int[RANK_NUM]; // ランキング
-  protected static String filePath; // ランキングファイルパス
+  public static String filePath; // ランキングファイルパス
 
   // 指定されたランクのスコアを返す (+なら上から、-なら下からの順位を参照)
   public static int getRanking(int rank) {
@@ -133,7 +130,7 @@ public static class Record {
     return 0;
   }
 
-  // ファイルパス読み込み
+  // ファイルパス設定
   public static void setFilePath(String filePath) {
     Record.filePath = filePath;
     loadRanking();
@@ -141,8 +138,8 @@ public static class Record {
 
   // ハイスコアの読み込み
   public static void loadRanking() {
-    File dataFile = new File(filePath);
-    String[] scoreData = loadStrings(dataFile); // ハイスコアをロード
+    String[] scoreData = loadStrings(new File(filePath)); // ハイスコアをロード
+
     for (int i = 0; i < RANK_NUM; i++) {
       int score = int(scoreData[i]);
       Record.ranking[i] = score;
@@ -151,11 +148,94 @@ public static class Record {
 
   // ハイスコアの保存
   public static void saveRanking() {
-    File dataFile = new File(filePath);
     String[] scoreData = new String[RANK_NUM];
     for (int i = 0; i < RANK_NUM; i++) {
       scoreData[i] = str(ranking[i]);
     }
-    saveStrings(dataFile, scoreData);
+
+    saveStrings(new File(filePath), scoreData);
+  }
+}
+
+// 設定
+public class Setting {
+  protected String filePath;
+  protected HashMap<String, String> settings = new HashMap<String, String>();
+
+  public Setting(String filePath) {
+    this.filePath = filePath;
+
+    String[] lines = loadStrings(filePath);
+    for (String line : lines) {
+      String[] item = split(line, ',');
+      settings.put(item[0], item[1]);
+    }
+  }
+
+  // 値の取得
+  public String getString(String key) {
+    if (settings.containsKey(key))
+      return settings.get(key);
+    else
+      return "";
+  }
+
+  public String getString(String key, String defaultValue) {
+    if (settings.containsKey(key))
+      return settings.get(key);
+    else
+      return defaultValue;
+  }
+
+  public int getInt(String key) {
+    if (settings.containsKey(key))
+      return int(settings.get(key));
+    else
+      return 0;
+  }
+
+  public int getInt(String key, int defaultValue) {
+    if (settings.containsKey(key))
+      return int(settings.get(key));
+    else
+      return defaultValue;
+  }
+
+  public float getFloat(String key) {
+    if (settings.containsKey(key))
+      return float(settings.get(key));
+    else
+      return 0;
+  }
+
+  public float getFloat(String key, float defaultValue) {
+    if (settings.containsKey(key))
+      return float(settings.get(key));
+    else
+      return defaultValue;
+  }
+
+  // 値の設定
+  public void setString(String key, String value) {
+    settings.put(key, value);
+  }
+
+  public void setInt(String key, int value) {
+    settings.put(key, str(value));
+  }
+
+  public void setFloat(String key, float value) {
+    settings.put(key, str(value));
+  }
+
+  // 保存
+  public void save() {
+    int i = 0;
+    String[] strings = new String[settings.size()];
+
+    for (String key : settings.keySet())
+      strings[i++] += key + "," + settings.get(key) + "\n";
+
+    saveStrings(filePath, strings);
   }
 }

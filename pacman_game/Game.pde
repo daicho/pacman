@@ -1,9 +1,12 @@
 // ゲーム画面
 public class Game implements Scene {
-  protected int life;               // 残機の数
-  protected int score = 0;          // 現在のスコア
-  protected int prevScore = 0;      // 前ステージまでのスコア
-  protected int oneUpScore = 10000; // 1UPするスコア
+  public static final int LIFE_NUM = 3;
+  public static final int ONEUP_SCORE = 10000;
+  
+  protected int life = LIFE_NUM - 1; // 残機の数
+  protected int score = 0;           // 現在のスコア
+  protected int prevScore = 0;       // 前ステージまでのスコア
+  protected int nextOneUpScore = ONEUP_SCORE; // 1UPするスコア
 
   protected String[] stageNames = {"1", "2", "3"}; // ステージ名
   protected int stageNum = 0; // 現在のステージ番号
@@ -19,8 +22,7 @@ public class Game implements Scene {
     loadImage("images/monster-0.png")
   };
 
-  public Game(int life) {
-    this.life = life - 1;
+  public Game() {
     this.stage = new Stage(stageNames[stageNum]);
   }
 
@@ -52,9 +54,9 @@ public class Game implements Scene {
 
     default:
       // 1UP
-      if (score >= oneUpScore) {
+      if (score >= nextOneUpScore) {
         life++;
-        oneUpScore += 10000;
+        nextOneUpScore += ONEUP_SCORE;
         se.oneUp();
       }
 
