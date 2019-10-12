@@ -344,6 +344,8 @@ public class Stage implements Scene {
       // スペシャルアイテム発生
       if ((foodCount == 70 || foodCount == 170) && specialItemFlag == false) {
         specialItemStatus = SpecialItemStatus.Appear;
+        specialItemTimer.reset();
+        specialItemScoreTimer.reset();
         specialItemFlag = true;
       }
 
@@ -387,7 +389,7 @@ public class Stage implements Scene {
       // リセット
       frame = 0;
       monsterMode = MonsterMode.Rest;
-      modeTimer = new Timer(modeTimes.get(monsterMode));
+      modeTimer.setTime(modeTimes.get(monsterMode));
       eatAnyItem = false;
 
       pacman.reset();
