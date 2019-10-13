@@ -128,8 +128,6 @@ public class Stage implements Scene {
     this.monsters.add(new Aosuke(monsterPositions.get(1), 1, monsterSpeeds));
     this.monsters.add(new Guzuta(monsterPositions.get(3), 1, monsterSpeeds));
     this.monsters.get(0).setStatus(MonsterStatus.Release);
-
-    this.draw();
   }
 
   public int getFrame() {
@@ -394,8 +392,8 @@ public class Stage implements Scene {
 
       pacman.reset();
 
-      for (Monster m : monsters)
-        m.reset();
+      for (Monster monster : monsters)
+        monster.reset();
       this.monsters.get(0).setStatus(MonsterStatus.Release);
 
       for (Item food : foods)

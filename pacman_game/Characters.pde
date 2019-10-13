@@ -180,10 +180,12 @@ public class Guzuta extends Monster {
 
       case Chase:
         // パックマンから半径260px外ではアカベイと同じ追跡方法、半径260px内ではランダムに動く
-        if (position.dist(stage.pacman.position) > 260)
+        if (position.dist(stage.pacman.position) > 260) {
           nextDirection = getAimDirection(stage.map, stage.pacman.getPosition());
-        else
-          nextDirection = int(random(4));
+        } else {
+          aimPoint = new PVector(random(0, stage.map.size.x), random(0, stage.map.size.y));
+          nextDirection = getAimDirection(stage.map, aimPoint);
+        }
         break;
 
       default:

@@ -33,11 +33,10 @@ public class Game implements Scene {
     switch (stage.getStatus()) {
     case Finish:
       // 次のステージへ
-      stageNum++;
-
-      if (stageNum >= stageNames.length) {
+      if (stageNum >= stageNames.length - 1) {
         SceneManager.setScene(new Result(score, stageNum + 1, true));
       } else {
+        stageNum++;
         this.prevScore = this.score;
         this.stage = new Stage(stageNames[stageNum]);
       }
