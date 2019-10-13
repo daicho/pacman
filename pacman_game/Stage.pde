@@ -55,10 +55,6 @@ public class Stage implements Scene {
   protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
-<<<<<<< HEAD
-=======
-  protected boolean eatSEFlag = true;                // エサを食べたときの効果音切り替えフラグ
->>>>>>> f3acf081820d726ee2dd04d63121575f705c711c
   protected StartBGM startbgm = new StartBGM(minim); // スタート時のBGM
   protected NomalBGM nomalbgm = new NomalBGM(minim); // 通常時のBGM
 
