@@ -108,21 +108,8 @@ public class NomalBGM extends BGM {
 
 // 効果音
 public class SoundEffect {
-  protected final float VOLUME = 0.1; // 音量
-
-  // 音程
-  protected final float P1 = 787.330;
-  protected final float P2 = 864.255;
-  protected final float P3 = 908.456;
-  protected final float P4 = 998.991;
-  protected final float P5 = 1100.000;
-  protected final float P6 = 1212.767;
-  protected final float P7 = 1276.562;
-  protected final float P8 = 1409.659;
-
-  protected final float P9 = 174.614;
-  protected final float P10 = 195.998;
-  protected final float P11 = 220;
+  protected final float VOLUME = 0.1;  // 音量
+  private boolean eatSEFlag = true;    // 普通のエサを食べたときの効果音切り替えフラグ
 
   protected AudioOutput out;
 
@@ -135,29 +122,30 @@ public class SoundEffect {
     float soundWidth = 0.02, cycle = 0.16; 
     int i;
     for (i = 0; i < 4; i++) {
-      out.playNote(soundWidth * 0 + cycle * i, soundWidth, new SquareInstrument(P1, VOLUME, out));
-      out.playNote(soundWidth * 1 + cycle * i, soundWidth, new SquareInstrument(P2, VOLUME, out));
-      out.playNote(soundWidth * 2 + cycle * i, soundWidth, new SquareInstrument(P3, VOLUME, out));
-      out.playNote(soundWidth * 3 + cycle * i, soundWidth, new SquareInstrument(P4, VOLUME, out));
-      out.playNote(soundWidth * 4 + cycle * i, soundWidth, new SquareInstrument(P5, VOLUME, out));
-      out.playNote(soundWidth * 5 + cycle * i, soundWidth, new SquareInstrument(P6, VOLUME, out));
-      out.playNote(soundWidth * 6 + cycle * i, soundWidth, new SquareInstrument(P7, VOLUME, out));
-      out.playNote(soundWidth * 7 + cycle * i, soundWidth, new SquareInstrument(P8, VOLUME, out));
+      out.playNote(soundWidth * 0 + cycle * i, soundWidth, new SquareInstrument(787.330, VOLUME, out));
+      out.playNote(soundWidth * 1 + cycle * i, soundWidth, new SquareInstrument(864.255, VOLUME, out));
+      out.playNote(soundWidth * 2 + cycle * i, soundWidth, new SquareInstrument(908.456, VOLUME, out));
+      out.playNote(soundWidth * 3 + cycle * i, soundWidth, new SquareInstrument(998.991, VOLUME, out));
+      out.playNote(soundWidth * 4 + cycle * i, soundWidth, new SquareInstrument(1100.000, VOLUME, out));
+      out.playNote(soundWidth * 5 + cycle * i, soundWidth, new SquareInstrument(1212.767, VOLUME, out));
+      out.playNote(soundWidth * 6 + cycle * i, soundWidth, new SquareInstrument(1276.562, VOLUME, out));
+      out.playNote(soundWidth * 7 + cycle * i, soundWidth, new SquareInstrument(1409.659, VOLUME, out));
     }
   }
 
   // 普通のエサを食べたとき
-  public void eatFood(boolean flag) {
+  public void eatFood() {
     float soundWidth = 0.015;
-    if (flag) {
-      out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(P9, VOLUME, out));
-      out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(P10, VOLUME, out));
-      out.playNote(soundWidth * 2, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
+    if (eatSEFlag) {
+      out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(174.614, VOLUME, out));
+      out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(195.998, VOLUME, out));
+      out.playNote(soundWidth * 2, soundWidth * 2, new SquareInstrument(220, VOLUME, out));
     } else {
-      out.playNote(soundWidth * 0, soundWidth * 2, new SquareInstrument(P11, VOLUME, out));
-      out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(P10, VOLUME, out));
-      out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(P9, VOLUME, out));
+      out.playNote(soundWidth * 0, soundWidth * 2, new SquareInstrument(220, VOLUME, out));
+      out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(195.998, VOLUME, out));
+      out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(174.614, VOLUME, out));
     }
+    eatSEFlag = !eatSEFlag;
   }
 
   // モンスターを食べたとき

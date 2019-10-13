@@ -50,7 +50,6 @@ public class Stage implements Scene {
   protected int monsterEatCount = 0; // イジケ時に敵を食べた個数
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
-  protected boolean eatSEFlag = true;                // 普通のエサを食べたときの効果音切り替えフラグ
   protected StartBGM startbgm = new StartBGM(minim); // スタート時のBGM
   protected NomalBGM nomalbgm = new NomalBGM(minim); // 通常時のBGM
 
@@ -229,8 +228,7 @@ public class Stage implements Scene {
           i.remove();
 
           // 音を鳴らす
-          se.eatFood(eatSEFlag);
-          eatSEFlag = !eatSEFlag;
+          se.eatFood();
 
           // 食べたエサの数をカウント
           foodCount++;
