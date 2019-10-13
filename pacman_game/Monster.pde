@@ -27,6 +27,8 @@ public abstract class Monster extends Character {
   protected MonsterStatus status = MonsterStatus.Wait;       // 状態
   protected MonsterMode mode = MonsterMode.Rest;             // モード
   protected boolean ijikeLimit = false;                      // イジケモードが終わりそうか
+  protected boolean curImage = false;                        // 表示画像 (false:通常 true:イジケ)
+  protected Timer switchTimer = new Timer(5);                // 画像切り替え用タイマー
   protected Animation[] ijikeAnimations = new Animation[4];  // イジケ時のアニメーション
   protected Animation[] returnAnimations = new Animation[4]; // 帰還時のアニメーション
   protected HashMap<MonsterSpeed, Float> speeds;
@@ -94,8 +96,13 @@ public abstract class Monster extends Character {
 
     if (mode == MonsterMode.Ijike) {
       ijikeLimit = false;
-      for (int i = 0; i < 4; i++)
+      curImage = false;
+      switchTimer.reset();
+
+      for (int i = 0; i < 4; i++) {
+        animations[i].reset();
         ijikeAnimations[i].reset();
+      }
     }
   }
 
@@ -304,10 +311,9 @@ public abstract class Monster extends Character {
     case Release:
     case Active:
       if (mode == MonsterMode.Ijike) {
-        if (ijikeLimit)
-          animationUpdate(ijikeAnimations[direction], map);
-      } else {
-        animationUpdate(animations[direction], map);
+        if (ijikeLimit && switchTimer.update())
+          curImage = !curImage;
+        animationUpdate(ijikeAnimations[direction], map);
       }
       break;
 
@@ -325,10 +331,10 @@ public abstract class Monster extends Character {
     case Wait:
     case Release:
     case Active:
-      if (mode == MonsterMode.Ijike)
+      if (mode == MonsterMode.Ijike && (!ijikeLimit || curImage))
         image(ijikeAnimations[direction].getImage(), minPostision.x, minPostision.y);
       else
-        super.draw();
+        image(animations[direction].getImage(), minPostision.x, minPostision.y);
       break;
 
     case Return:

@@ -1,7 +1,9 @@
 // プレイヤー (パックマン)
 public class Pacman extends Character {
-  protected boolean kakusei = false;      // 覚醒しているか
-  protected boolean kakuseiLimit = false; // 覚醒が終わりそうか
+  protected boolean kakusei = false;          // 覚醒しているか
+  protected boolean kakuseiLimit = false;     // 覚醒が終わりそうか
+  protected boolean curImage = false;         // 表示画像 (false:通常 true:覚醒)
+  protected Timer switchTimer = new Timer(5); // 画像切り替え用タイマー
   protected Animation[] kakuseiAnimations = new Animation[4]; // 覚醒時のアニメーション
 
   public Pacman(PVector position, int direction, float speed) {
@@ -21,8 +23,13 @@ public class Pacman extends Character {
 
     if (kakusei) {
       kakuseiLimit = false;
-      for (int i = 0; i < 4; i++)
+      curImage = false;
+      switchTimer.reset();
+
+      for (int i = 0; i < 4; i++) {
+        animations[i].reset();
         kakuseiAnimations[i].reset();
+      }
     }
   }
 
@@ -42,19 +49,20 @@ public class Pacman extends Character {
 
   // 更新
   public void update(Map map) {
+    animationUpdate(animations[direction], map);
+
     if (kakusei) {
-      if (kakuseiLimit)
-        animationUpdate(kakuseiAnimations[direction], map);
-    } else {
-      animationUpdate(animations[direction], map);
+      if (kakuseiLimit && switchTimer.update())
+        curImage = !curImage; //<>//
+      animationUpdate(kakuseiAnimations[direction], map);
     }
   }
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
+    PVector minPostision = getMinPosition(); //<>//
 
-    if (kakusei)
+    if (kakusei && (!kakuseiLimit || curImage))
       image(kakuseiAnimations[direction].getImage(), minPostision.x, minPostision.y);
     else
       image(animations[direction].getImage(), minPostision.x, minPostision.y);

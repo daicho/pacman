@@ -126,7 +126,7 @@ public class Stage implements Scene {
     this.monsters.add(new Pinky(monsterPositions.get(2), 3, monsterSpeeds));
     this.monsters.add(new Aosuke(monsterPositions.get(1), 1, monsterSpeeds));
     this.monsters.add(new Guzuta(monsterPositions.get(3), 1, monsterSpeeds));
-    this.monsters.get(0).setStatus(MonsterStatus.Release);
+    this.monsters.get(0).setStatus(MonsterStatus.Active);
   }
 
   public int getFrame() {

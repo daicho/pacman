@@ -11,9 +11,9 @@ public class Game implements Scene {
   protected String[] stageNames = {"1", "2", "3"}; // ステージ名
   protected int stageNum = 0; // 現在のステージ番号
   protected Stage stage;      // 現在のステージ
-  protected SoundEffect se = new SoundEffect(minim); 
 
   protected PImage lifeImage = loadImage("images/player-3-0.png"); // 残基の画像
+  protected SoundEffect se = new SoundEffect(minim); // SE
 
   // ステージの画像
   protected PImage[] stageImages = {
