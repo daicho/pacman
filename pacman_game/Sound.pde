@@ -120,6 +120,7 @@ public class SoundEffect {
   // パワーエサを食べたとき
   public void eatPowerFood() {  
     float soundWidth = 0.02, cycle = 0.16; 
+<<<<<<< HEAD
     int i;
     for (i = 0; i < 4; i++) {
       out.playNote(soundWidth * 0 + cycle * i, soundWidth, new SquareInstrument(787.330, VOLUME, out));
@@ -130,6 +131,18 @@ public class SoundEffect {
       out.playNote(soundWidth * 5 + cycle * i, soundWidth, new SquareInstrument(1212.767, VOLUME, out));
       out.playNote(soundWidth * 6 + cycle * i, soundWidth, new SquareInstrument(1276.562, VOLUME, out));
       out.playNote(soundWidth * 7 + cycle * i, soundWidth, new SquareInstrument(1409.659, VOLUME, out));
+=======
+
+    for (int i = 0; i < 4; i++) {
+      out.playNote(soundWidth * 0 + cycle * i, soundWidth, new SquareInstrument(P1, VOLUME, out));
+      out.playNote(soundWidth * 1 + cycle * i, soundWidth, new SquareInstrument(P2, VOLUME, out));
+      out.playNote(soundWidth * 2 + cycle * i, soundWidth, new SquareInstrument(P3, VOLUME, out));
+      out.playNote(soundWidth * 3 + cycle * i, soundWidth, new SquareInstrument(P4, VOLUME, out));
+      out.playNote(soundWidth * 4 + cycle * i, soundWidth, new SquareInstrument(P5, VOLUME, out));
+      out.playNote(soundWidth * 5 + cycle * i, soundWidth, new SquareInstrument(P6, VOLUME, out));
+      out.playNote(soundWidth * 6 + cycle * i, soundWidth, new SquareInstrument(P7, VOLUME, out));
+      out.playNote(soundWidth * 7 + cycle * i, soundWidth, new SquareInstrument(P8, VOLUME, out));
+>>>>>>> f3acf081820d726ee2dd04d63121575f705c711c
     }
   }
 

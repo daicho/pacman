@@ -52,32 +52,42 @@ public class ArcadeInput implements InputInterface {
   public static final int ROUND_LEFT = 24;
   public static final int ROUND_RIGHT = 23;
 
+  public ArcadeInput() {
+    GPIO.pinMode(RIGHT, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(UP, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(LEFT, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(DOWN, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(ROUND_UP, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(ROUND_LEFT, GPIO.INPUT_PULLUP);
+    GPIO.pinMode(ROUND_RIGHT, GPIO.INPUT_PULLUP);
+  }
+
   public boolean right() {
-    return GPIO.digitalRead(ArcadeInput.RIGHT) == GPIO.LOW;
+    return GPIO.digitalRead(RIGHT) == GPIO.LOW;
   }
 
   public boolean up() {
-    return GPIO.digitalRead(ArcadeInput.UP) == GPIO.LOW;
+    return GPIO.digitalRead(UP) == GPIO.LOW;
   }
 
   public boolean left() {
-    return GPIO.digitalRead(ArcadeInput.LEFT) == GPIO.LOW;
+    return GPIO.digitalRead(LEFT) == GPIO.LOW;
   }
 
   public boolean down() {
-    return GPIO.digitalRead(ArcadeInput.DOWN) == GPIO.LOW;
+    return GPIO.digitalRead(DOWN) == GPIO.LOW;
   }
 
   public boolean buttonA() {
-    return GPIO.digitalRead(ArcadeInput.ROUND_UP) == GPIO.LOW;
+    return GPIO.digitalRead(ROUND_UP) == GPIO.LOW;
   }
 
   public boolean buttonB() {
-    return GPIO.digitalRead(ArcadeInput.ROUND_LEFT) == GPIO.LOW;
+    return GPIO.digitalRead(ROUND_LEFT) == GPIO.LOW;
   }
 
   public boolean buttonC() {
-    return GPIO.digitalRead(ArcadeInput.ROUND_RIGHT) == GPIO.LOW;
+    return GPIO.digitalRead(ROUND_RIGHT) == GPIO.LOW;
   }
 }
 

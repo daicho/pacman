@@ -1,10 +1,10 @@
 // ルール説明画面
 public class Rule implements Scene {
-  private final FreeCharacter FreePacman = new FreeCharacter(new PVector(214, 247), 0, 8, "pacman");
+  private final FreeCharacter FreePacman = new FreeCharacter(new PVector(214, 247), 0, 8, "player");
   private final FreeCharacter[] FreeMonsters = {
-    new FreeCharacter(new PVector(179, 370), 3, 1.6, "akabei"), 
-    new FreeCharacter(new PVector(220, 370), 3, 1.6, "aosuke"), 
-    new FreeCharacter(new PVector(260, 370), 3, 1.6, "pinky"), 
+    new FreeCharacter(new PVector(179, 370), 3, 1.6, "fujix"), 
+    new FreeCharacter(new PVector(220, 370), 3, 1.6, "ito"), 
+    new FreeCharacter(new PVector(260, 370), 3, 1.6, "arai"), 
     new FreeCharacter(new PVector(301, 370), 3, 1.6, "ohya")
   };
   boolean imageLoadFlag = false;  
@@ -26,7 +26,7 @@ public class Rule implements Scene {
       fill(200, 240, 255);
       rect(FreePacman.getPosition().x - FreePacman.getSpeed() - 5, 247, 32, 35);
       if (FreePacman.getPosition().x >= SCREEN_SIZE.x + 16) {
-        SceneManager.setScene(new Game(3));
+        SceneManager.setScene(new Load());
       }
     }
   }
@@ -76,5 +76,19 @@ public class Rule implements Scene {
     rect(86, 547, 32, 32);
     // 文字を消す
     rect(SCREEN_SIZE.x / 2, 730, 245, 100);
+  }
+}
+
+public class Load implements Scene {
+  public void update() {
+    SceneManager.setScene(new Game());
+  }
+  
+  public void draw() {
+    background(0);
+    PImage loadingImage = loadImage("images/Loading.png");
+    imageMode(CENTER);
+    image(loadingImage, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
+    imageMode(CORNER);
   }
 }

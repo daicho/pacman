@@ -1,3 +1,7 @@
+food_score,10
+power_food_score,50
+special_item_score,100
+special_item_name,cherry
 pacman_direction,2
 pacman_speed,3
 monster_wait_speed,2
@@ -10,5 +14,3 @@ rest_time,300
 chase_time,600
 ijike_time,480
 release_interval,300
-special_item_name,cherry
-special_item_score,100

@@ -1,5 +1,5 @@
 // キャラクターの基底クラス
-public class Character extends GameObject {
+public abstract class Character extends GameObject {
   protected PVector startPosition; // 初期地点
   protected int direction;         // 向き (0:右 1:上 2:左 3:下)
   protected int nextDirection;     // 次に進む方向
@@ -7,7 +7,7 @@ public class Character extends GameObject {
   protected float speed;           // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
-  protected Character(PVector position, int direction, float speed, String characterName) {
+  public Character(PVector position, int direction, float speed, String characterName) {
     super(position);
 
     this.startPosition = position.copy();
@@ -102,27 +102,20 @@ public class Character extends GameObject {
 
   // 特定の方向へ移動できるか
   public PVector canMove(Map map, int aimDirection) {
+    float curSpeed = speed;
     boolean turnFlag = false;
     PVector result = new PVector(0, 0);
 
-    for (float t = 0; t < speed; t++) {
+    for (float t = 0; t < curSpeed; t++) {
       float moveDistance;
       PVector moveVector;
       MapObject mapObject;
 
       // 1マスずつ進みながらチェック
-      if (t + 1 <= int(speed))
+      if (t + 1 <= int(curSpeed) || !turnFlag && (aimDirection + direction) % 2 == 1)
         moveDistance = 1;
       else
-        moveDistance = speed - t;
-
-      // 左右に曲がったとき
-      if ((aimDirection + direction) % 2 == 1) {
-        if (turnFlag)
-          moveDistance = speed;
-        else
-          moveDistance = 1;
-      }
+        moveDistance = curSpeed - t;
 
       // 進みたい方向に進んでみる
       moveVector = getDirectionVector(aimDirection);
@@ -132,6 +125,8 @@ public class Character extends GameObject {
       mapObject = map.getObject(PVector.add(position, result));
       if (mapObject != MapObject.Wall && mapObject != MapObject.MonsterDoor) {
         turnFlag = true;
+        if ((aimDirection + direction) % 2 == 1)
+          curSpeed = speed * 2;
       } else {
         result.sub(moveVector);
 
@@ -164,10 +159,15 @@ public class Character extends GameObject {
       animetion.reset();
   }
 
+  // アニメーションの更新
+  protected void animationUpdate(Animation animation, Map map) {
+    if (canMove(map, direction).mag() != 0)
+      animation.update();
+  }
+
   // 更新
   public void update(Map map) {
-    if (canMove(map, direction).mag() != 0)
-      animations[direction].update();
+    animationUpdate(animations[direction], map);
   }
 
   // 画面描画
@@ -183,7 +183,7 @@ public class FreeCharacter extends GameObject {
   protected float speed;   // 速さ [px/f]
   protected Animation[] animations = new Animation[4]; // アニメーション
 
-  protected FreeCharacter(PVector position, int direction, float speed, String characterName) {
+  public FreeCharacter(PVector position, int direction, float speed, String characterName) {
     super(position);
 
     this.direction = direction;
