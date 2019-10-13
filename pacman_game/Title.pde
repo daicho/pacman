@@ -67,7 +67,7 @@ public class Title implements Scene {
     }
     image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 760);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < freeCharacters.length; i++) {
       if (startCount > i) {
         freeCharacters[i].move();
         freeCharacters[i].update();

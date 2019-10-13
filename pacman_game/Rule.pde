@@ -39,14 +39,14 @@ public class Rule implements Scene {
     }
     clearAfterimage();
     FreePacman.draw();
-    for (int i = 0; i < 4; i++) {
-      FreeMonsters[i].draw();
-      FreeMonsters[i].update();
-      FreeMonsters[i].move();
-      if (FreeMonsters[i].getDirection() == 3 && FreeMonsters[i].position.y >= 400)
-        FreeMonsters[i].setDirection(1);
-      else if (FreeMonsters[i].getDirection() == 1 && FreeMonsters[i].position.y <= 345)
-        FreeMonsters[i].setDirection(3);
+    for (FreeCharacter monster : FreeMonsters) {
+      monster.draw();
+      monster.update();
+      monster.move();
+      if (monster.getDirection() == 3 && monster.position.y >= 400)
+        monster.setDirection(1);
+      else if (monster.getDirection() == 1 && monster.position.y <= 345)
+        monster.setDirection(3);
     }
     bigPowerFood.draw();
     bigPowerFood.update();
