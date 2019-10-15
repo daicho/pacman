@@ -55,7 +55,7 @@ public class Stage implements Scene {
   protected HashMap<MonsterMode, Integer> modeTimes =  new HashMap<MonsterMode, Integer>(); // 各モードの時間 [f]
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
-  protected StartBGM startbgm = new StartBGM(minim); // スタート時のBGM
+  protected StartBGM startbgm; // スタート時のBGM
   protected NomalBGM nomalbgm = new NomalBGM(minim); // 通常時のBGM
 
   public Stage(String mapName) {
@@ -127,6 +127,8 @@ public class Stage implements Scene {
     this.monsters.add(new Aosuke(monsterPositions.get(1), 1, monsterSpeeds));
     this.monsters.add(new Guzuta(monsterPositions.get(3), 1, monsterSpeeds));
     this.monsters.get(0).setStatus(MonsterStatus.Active);
+    
+    this.startbgm = new StartBGM(minim, mapName); 
   }
 
   public int getFrame() {
@@ -287,7 +289,7 @@ public class Stage implements Scene {
 
       // エサがなくなったらゲームクリア
       if (foods.isEmpty() && powerFoods.isEmpty()) {
-        startbgm.rewind();
+        //startbgm.rewind();
         status = StageStatus.Clear;
       }
 
@@ -367,7 +369,8 @@ public class Stage implements Scene {
       break;
 
     case Clear:
-      nomalbgm.pause();
+      nomalbgm.stop();
+      startbgm.stop();
       if (clearTimer.update())
         status = StageStatus.Finish;
       break;

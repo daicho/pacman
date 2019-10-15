@@ -39,6 +39,7 @@ public class Game implements Scene {
         stageNum++;
         this.prevScore = this.score;
         this.stage = new Stage(stageNames[stageNum]);
+        this.se = new SoundEffect(minim);
       }
 
       break;

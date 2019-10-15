@@ -37,7 +37,9 @@ abstract public class BGM {
 
 // スタート時のBGM
 public class StartBGM extends BGM {
-  public StartBGM(Minim minim) {
+  protected boolean startFlag;  // ゲーム開始時のみBGMを鳴らすフラグ
+  
+  public StartBGM(Minim minim, String mapName) {
     super(minim);
     player = this.minim.loadFile("sounds/start.mp3");
     if (player == null) {
@@ -47,23 +49,33 @@ public class StartBGM extends BGM {
       //player.printControls(); // 音量調節可能な範囲を表示
       player.setGain(-10); // 音量調節
     }
+    if (mapName.equals("1")) {  // ゲーム開始時かをチェック
+      startFlag = true;
+    } else {
+      startFlag = false;
+      player.cue(5000);
+    }
   }
 
-  // 再生開始する位置を初期位置にセット
+  // 再生開始する位置を空のbgmの位置にセット
   public void rewind() {
     if (breakFlag == false) {
-      player.rewind();
+      player.cue(5000);
     }
   }
 
   // 再生
-  public boolean play() {
+  public boolean play() {// 初回のみスタートbgmを流し、それ以外は空のbgmを2秒流す
     if (breakFlag == false) {
       player.play();
-      if (player.position() >= 4700) {
+      if (player.position() >= 4700 && this.startFlag == true) {
         player.pause();
+        this.startFlag = false;
         return true;
-      } else {
+      } else if (player.position() >= 7000) {
+        player.cue(5000);
+        return true;
+      }else{
         return false;
       }
     } else {
@@ -182,7 +194,7 @@ public class SoundEffect {
     out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(391.995, VOLUME * 2, out));
     out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(523.251, VOLUME * 2, out));
     out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(659.255, VOLUME * 2, out));
-    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(440, VOLUME * 2, out));
+    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(440.000, VOLUME * 2, out));
     out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(587.330, VOLUME * 2, out));
     out.playNote(soundWidth * 5, soundWidth, new SquareInstrument(783.991, VOLUME * 2, out));
   }
