@@ -38,7 +38,7 @@ abstract public class BGM {
 // スタート時のBGM
 public class StartBGM extends BGM {
   protected boolean startFlag;  // ゲーム開始時のみBGMを鳴らすフラグ
-  
+
   public StartBGM(Minim minim, String mapName) {
     super(minim);
     player = this.minim.loadFile("sounds/start.mp3");
@@ -65,7 +65,7 @@ public class StartBGM extends BGM {
   }
 
   // 再生
-  public boolean play() {// 初回のみスタートbgmを流し、それ以外は空のbgmを2秒流す
+  public boolean play() { // 初回のみスタートbgmを流し、それ以外は空のbgmを2秒流す
     if (breakFlag == false) {
       player.play();
       if (player.position() >= 4700 && this.startFlag == true) {
@@ -75,7 +75,7 @@ public class StartBGM extends BGM {
       } else if (player.position() >= 7000) {
         player.cue(5000);
         return true;
-      }else{
+      } else {
         return false;
       }
     } else {

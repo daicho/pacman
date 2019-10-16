@@ -42,6 +42,7 @@ public class Stage implements Scene {
 
   protected Timer specialItemTimer = new Timer(300);     // スペシャルアイテム出現タイマー
   protected Timer specialItemScoreTimer = new Timer(30); // スペシャルスコア表示タイマー
+  protected Timer startTimer = new Timer(60, false);     // スタート時のタイマー
   protected Timer dieTimer = new Timer(100);             // 死亡時のタイマー
   protected Timer clearTimer = new Timer(100);           // クリア時のタイマー
   protected Timer eatTimer = new Timer(30);              // 敵を食べたときの硬直タイマー
@@ -158,8 +159,9 @@ public class Stage implements Scene {
     switch (status) {
     case Start:
       // スタートBGM再生
-      if (startbgm.play()) {
-        nomalbgm.rewind();  
+      if (startbgm.play() & startTimer.update()) {
+        startTimer.reset();
+        nomalbgm.rewind();
         status = StageStatus.Play;
       }
       break;
@@ -395,7 +397,7 @@ public class Stage implements Scene {
 
       for (Monster monster : monsters)
         monster.reset();
-      this.monsters.get(0).setStatus(MonsterStatus.Release);
+      this.monsters.get(0).setStatus(MonsterStatus.Active);
 
       for (Item food : foods)
         food.reset();
