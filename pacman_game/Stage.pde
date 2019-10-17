@@ -324,6 +324,7 @@ public class Stage implements Scene {
             startbgm.rewind();
             se.eaten();
             status = StageStatus.Die;
+            pacman.setDie(true);
             return;
           }
         }
