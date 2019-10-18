@@ -57,7 +57,7 @@ public class Stage implements Scene {
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
   protected StartBGM startbgm; // スタート時のBGM
-  protected StageBGM stagebgm = new StageBGM(minim); // ゲーム中のBGM
+  protected NomalBGM nomalbgm = new NomalBGM(minim); // ゲーム中のBGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -160,8 +160,8 @@ public class Stage implements Scene {
     case Start:
       // スタートBGM再生
       if (startbgm.play() & startTimer.update()) {
-        stagebgm.rewind();
-        stagebgm.play();
+        nomalbgm.rewind();
+        nomalbgm.play();
         status = StageStatus.Play;
       }
       break;
@@ -181,7 +181,6 @@ public class Stage implements Scene {
 
         case Ijike:
           pacman.setKakusei(false);
-          stagebgm.play();
 
         case Chase:
           monsterMode = MonsterMode.Rest;
@@ -255,7 +254,7 @@ public class Stage implements Scene {
           i.remove();
 
           // 音を鳴らす
-          stagebgm.ijike();
+          se.eatPowerFood();
 
           // プレイヤー覚醒
           pacman.setKakusei(true);
@@ -371,14 +370,14 @@ public class Stage implements Scene {
       break;
 
     case Clear:
-      stagebgm.stop();
+      nomalbgm.stop();
       startbgm.stop();
       if (clearTimer.update())
         status = StageStatus.Finish;
       break;
 
     case Die:
-      stagebgm.pause();
+      nomalbgm.pause();
       if (dieTimer.update())
         status = StageStatus.Reset;
       break;

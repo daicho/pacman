@@ -1,13 +1,6 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
 
-// ステージで流れるBGM用のインターフェース
-public interface BGMMethod {
-  public void rewind();  // 再生開始位置をリセット
-  public void play();    // 再生
-  public void pause();   // 停止
-}
-
 // BGMの基底クラス
 abstract public class BGM {
   protected Minim minim;
@@ -38,6 +31,7 @@ public class StartBGM extends BGM {
       breakFlag = true;
     } else {
       breakFlag = false;
+      player.setGain(-10);
       player.rewind();
     }
     if (mapName.equals("1")) {  // ゲーム開始時かをチェック
@@ -72,7 +66,7 @@ public class StartBGM extends BGM {
 }
 
 // 通常時のBGM
-public class NomalBGM extends BGM implements BGMMethod {
+public class NomalBGM extends BGM {
 
   public NomalBGM(Minim minim) {
     super(minim);
@@ -107,101 +101,6 @@ public class NomalBGM extends BGM implements BGMMethod {
   public void pause() {
     if (!breakFlag) {
       player.pause();
-    }
-  }
-}
-
-public class IjikeBGM extends BGM implements BGMMethod {
-
-  public IjikeBGM(Minim minim) {
-    super(minim);
-    player = this.minim.loadFile("sounds/ijike.mp3");
-    if (player == null) {
-      breakFlag = true;
-    } else {
-      breakFlag = false;
-      player.rewind();
-      player.setGain(-10);      // 音量調節
-    }
-  }
-
-  // 再生開始位置をリセット
-  public void rewind() {
-    if (!breakFlag) {
-      player.rewind();
-    }
-  }
-
-  // 再生
-  public void play() {
-    if (!breakFlag) {
-      if (player.position() >= 7000) {
-        player.rewind();
-      }
-      player.play();
-    }
-  }
-
-  // 一時停止
-  public void pause() {
-    if (!breakFlag) {
-      player.pause();
-    }
-  }
-}
-
-public class StageBGM {
-  protected NomalBGM nomal;
-  protected IjikeBGM ijike;
-  protected boolean breakFlag = false; // ファイル読み込みエラー用のフラグ
-
-  public StageBGM(Minim minim) {
-    this.nomal = new NomalBGM(minim);
-    this.ijike = new IjikeBGM(minim);
-    if (!nomal.breakFlag && !ijike.breakFlag ) {
-      this.breakFlag = false;
-    } else {
-      this.breakFlag = true;
-    }
-  }
-
-  // 再生開始位置をリセット
-  public void rewind() {
-    if (!breakFlag) {
-      nomal.rewind();
-      ijike.rewind();
-    }
-  }
-
-  // 通常BGMを再生
-  public void play() {
-    if (!breakFlag) {
-      ijike.pause();
-      nomal.play();
-    }
-  }
-
-  // いじけBGMを再生
-  public void ijike() {
-    if (!breakFlag) {
-      nomal.pause();
-      ijike.play();
-    }
-  }
-
-  // 一時停止
-  public void pause() {
-    if (!breakFlag) {
-      nomal.pause();
-      ijike.pause();
-    }
-  }
-
-  // 停止
-  public void stop() {
-    if (!breakFlag) {
-      nomal.stop();
-      ijike.stop();
     }
   }
 }
