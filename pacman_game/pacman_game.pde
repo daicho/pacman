@@ -9,6 +9,7 @@ void setup() {
   //fullScreen(); // フルスクリーン
   size(480, 848); // ウィンドウ
   frameRate(30);  // フレームレート
+  noCursor();     // マウスカーソル非表示
 
   // 入力設定
   //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応

@@ -83,7 +83,7 @@ public class Load implements Scene {
   public void update() {
     SceneManager.setScene(new Game());
   }
-  
+
   public void draw() {
     background(0);
     PImage loadingImage = loadImage("images/Loading.png");

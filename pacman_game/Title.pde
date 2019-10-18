@@ -21,7 +21,7 @@ public class Title implements Scene {
   };
 
   public void update() {
-    if (Input.buttonAPress())
+    if (Input.anyButtonPress())
       SceneManager.setScene(new Rule());
   }
 
