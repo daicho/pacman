@@ -1,10 +1,12 @@
-// プレイヤー (パックマン)
+// プレイヤー (パックマン) //<>// //<>//
 public class Pacman extends Character {
   protected boolean kakusei = false;          // 覚醒しているか
   protected boolean kakuseiLimit = false;     // 覚醒が終わりそうか
+  protected boolean die = false;              // やられたか
   protected boolean curImage = false;         // 表示画像 (false:通常 true:覚醒)
   protected Timer switchTimer = new Timer(5); // 画像切り替え用タイマー
   protected Animation[] kakuseiAnimations = new Animation[4]; // 覚醒時のアニメーション
+  protected Animation dieAnimation; // 死亡時時のアニメーション
 
   public Pacman(PVector position, int direction, float speed) {
     super(position, direction, speed, "player");
@@ -12,6 +14,9 @@ public class Pacman extends Character {
     // 覚醒時のアニメーション
     for (int i = 0; i < 4; i++)
       this.kakuseiAnimations[i] = new Animation("player-kakusei-" + i);
+
+    // 死亡時のアニメーション
+    this.dieAnimation = new Animation("player-die");
   }
 
   public boolean getKakusei() {
@@ -41,10 +46,21 @@ public class Pacman extends Character {
     this.kakuseiLimit = kakuseiLimit;
   }
 
+  public boolean getDie() {
+    return this.die;
+  }
+
+  public void setDie(boolean die) {
+    this.die = die;
+    if (die)
+      dieAnimation.reset();
+  }
+
   // リセット
   public void reset() {
     super.reset();
     kakusei = false;
+    die = false;
   }
 
   // 更新
@@ -53,16 +69,21 @@ public class Pacman extends Character {
 
     if (kakusei) {
       if (kakuseiLimit && switchTimer.update())
-        curImage = !curImage; //<>//
+        curImage = !curImage;
       animationUpdate(kakuseiAnimations[direction], map);
     }
+
+    if (die)
+      dieAnimation.update();
   }
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition(); //<>//
+    PVector minPostision = getMinPosition();
 
-    if (kakusei && (!kakuseiLimit || curImage))
+    if (die)
+      image(dieAnimation.getImage(), minPostision.x, minPostision.y);
+    else if (kakusei && (!kakuseiLimit || curImage))
       image(kakuseiAnimations[direction].getImage(), minPostision.x, minPostision.y);
     else
       image(animations[direction].getImage(), minPostision.x, minPostision.y);
