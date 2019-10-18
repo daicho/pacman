@@ -57,7 +57,7 @@ public class Stage implements Scene {
 
   protected SoundEffect se = new SoundEffect(minim); // 効果音
   protected StartBGM startbgm; // スタート時のBGM
-  protected NomalBGM nomalbgm = new NomalBGM(minim); // 通常時のBGM
+  protected StageBGM stagebgm = new StageBGM(minim); // ゲーム中のBGM
 
   public Stage(String mapName) {
     this.map = new Map(mapName);
@@ -160,8 +160,8 @@ public class Stage implements Scene {
     case Start:
       // スタートBGM再生
       if (startbgm.play() & startTimer.update()) {
-        startTimer.reset();
-        nomalbgm.rewind();
+        stagebgm.rewind();
+        stagebgm.play();
         status = StageStatus.Play;
       }
       break;
@@ -181,6 +181,7 @@ public class Stage implements Scene {
 
         case Ijike:
           pacman.setKakusei(false);
+          stagebgm.play();
 
         case Chase:
           monsterMode = MonsterMode.Rest;
@@ -254,7 +255,7 @@ public class Stage implements Scene {
           i.remove();
 
           // 音を鳴らす
-          se.eatPowerFood();
+          stagebgm.ijike();
 
           // プレイヤー覚醒
           pacman.setKakusei(true);
@@ -291,7 +292,6 @@ public class Stage implements Scene {
 
       // エサがなくなったらゲームクリア
       if (foods.isEmpty() && powerFoods.isEmpty()) {
-        //startbgm.rewind();
         status = StageStatus.Clear;
       }
 
@@ -321,7 +321,7 @@ public class Stage implements Scene {
 
           default:
             // 食べられた
-            startbgm.rewind();
+            startbgm.mute();
             se.eaten();
             status = StageStatus.Die;
             return;
@@ -353,7 +353,6 @@ public class Stage implements Scene {
         specialItemFlag = false;
       }
 
-      nomalbgm.play(); // BGMを再生
       frame++;
       break;
 
@@ -371,14 +370,14 @@ public class Stage implements Scene {
       break;
 
     case Clear:
-      nomalbgm.stop();
+      stagebgm.stop();
       startbgm.stop();
       if (clearTimer.update())
         status = StageStatus.Finish;
       break;
 
     case Die:
-      nomalbgm.pause();
+      stagebgm.pause();
       if (dieTimer.update())
         status = StageStatus.Reset;
       break;

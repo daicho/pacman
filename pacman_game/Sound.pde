@@ -1,34 +1,27 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
 
+// ステージで流れるBGM用のインターフェース
+public interface BGMMethod {
+  public void rewind();  // 再生開始位置をリセット
+  public void play();    // 再生
+  public void pause();   // 停止
+}
+
 // BGMの基底クラス
 abstract public class BGM {
   protected Minim minim;
   protected AudioPlayer player;
-  //protected int length; 
-  protected boolean breakFlag = false; // ファイル読み込みエラー用のフラグ
+  protected boolean breakFlag; // ファイル読み込みエラー用のフラグ
 
   public BGM(Minim minim) {
     // 音楽ファイル読み込み
     this.minim = minim;
   }
 
-  // 再生開始する位置を初期位置にセット
-  abstract public void rewind();
-
-  // 再生
-  abstract public boolean play();
-
-  // 一時停止
-  public void pause() {
-    if (breakFlag == false) {
-      player.pause();
-    }
-  }
-
   // 停止
   public void stop() {
-    if (breakFlag == false) {
+    if (!breakFlag) {
       player.close();
       minim.stop();
     }
@@ -37,7 +30,6 @@ abstract public class BGM {
 
 // スタート時のBGM
 public class StartBGM extends BGM {
-  protected boolean startFlag;  // ゲーム開始時のみBGMを鳴らすフラグ
 
   public StartBGM(Minim minim, String mapName) {
     super(minim);
@@ -45,47 +37,42 @@ public class StartBGM extends BGM {
     if (player == null) {
       breakFlag = true;
     } else {
+      breakFlag = false;
       player.rewind();
-      //player.printControls(); // 音量調節可能な範囲を表示
-      player.setGain(-10); // 音量調節
     }
     if (mapName.equals("1")) {  // ゲーム開始時かをチェック
-      startFlag = true;
     } else {
-      startFlag = false;
-      player.cue(5000);
+      player.setGain(-100);     // ゲーム開始時以外なら消音にする
+      player.cue(2700);
     }
   }
 
-  // 再生開始する位置を空のbgmの位置にセット
-  public void rewind() {
-    if (breakFlag == false) {
-      player.cue(5000);
+  // 消音にし、再生開始位置をリセット
+  public void mute() {
+    if (!breakFlag) {
+      player.setGain(-100);
+      player.cue(2700);
     }
   }
 
   // 再生
-  public boolean play() { // 初回のみスタートbgmを流し、それ以外は空のbgmを2秒流す
-    if (breakFlag == false) {
+  public boolean play() {
+    if (!breakFlag) {
       player.play();
-      if (player.position() >= 4700 && this.startFlag == true) {
+      if (player.position() >= 4700) {
         player.pause();
-        this.startFlag = false;
-        return true;
-      } else if (player.position() >= 7000) {
-        player.cue(5000);
         return true;
       } else {
         return false;
       }
     } else {
-      return false;
+      return true;
     }
   }
 }
 
 // 通常時のBGM
-public class NomalBGM extends BGM {
+public class NomalBGM extends BGM implements BGMMethod {
 
   public NomalBGM(Minim minim) {
     super(minim);
@@ -93,28 +80,129 @@ public class NomalBGM extends BGM {
     if (player == null) {
       breakFlag = true;
     } else {
+      breakFlag = false;
       player.cue(3500);
-      //player.printControls(); // 音量調節可能な範囲を表示
-      player.setGain(-10); // 音量調節
+      player.setGain(-10);      // 音量調節
     }
   }
 
-  // 再生開始する位置を初期位置にセット
+  // 再生開始位置をリセット
   public void rewind() {
-    if (breakFlag == false) {
+    if (!breakFlag) {
       player.cue(3500);
     }
   }
 
   // 再生
-  public boolean play() {
-    if (breakFlag == false) {
+  public void play() {
+    if (!breakFlag) {
       if (player.position() >= 52000) {
         player.cue(4100);
       }
       player.play();
     }
-    return true;
+  }
+  
+  // 一時停止
+  public void pause() {
+    if (!breakFlag) {
+      player.pause();
+    }
+  }
+}
+
+public class IjikeBGM extends BGM implements BGMMethod {
+
+  public IjikeBGM(Minim minim) {
+    super(minim);
+    player = this.minim.loadFile("sounds/ijike.mp3");
+    if (player == null) {
+      breakFlag = true;
+    } else {
+      breakFlag = false;
+      player.rewind();
+      player.setGain(-10);      // 音量調節
+    }
+  }
+
+  // 再生開始位置をリセット
+  public void rewind() {
+    if (!breakFlag) {
+      player.rewind();
+    }
+  }
+
+  // 再生
+  public void play() {
+    if (!breakFlag) {
+      if (player.position() >= 7000) {
+        player.rewind();
+      }
+      player.play();
+    }
+  }
+
+  // 一時停止
+  public void pause() {
+    if (!breakFlag) {
+      player.pause();
+    }
+  }
+}
+
+public class StageBGM {
+  protected NomalBGM nomal;
+  protected IjikeBGM ijike;
+  protected boolean breakFlag = false; // ファイル読み込みエラー用のフラグ
+
+  public StageBGM(Minim minim) {
+    this.nomal = new NomalBGM(minim);
+    this.ijike = new IjikeBGM(minim);
+    if (!nomal.breakFlag && !ijike.breakFlag ) {
+      this.breakFlag = false;
+    } else {
+      this.breakFlag = true;
+    }
+  }
+
+  // 再生開始位置をリセット
+  public void rewind() {
+    if (!breakFlag) {
+      nomal.rewind();
+      ijike.rewind();
+    }
+  }
+
+  // 通常BGMを再生
+  public void play() {
+    if (!breakFlag) {
+      ijike.pause();
+      nomal.play();
+    }
+  }
+
+  // いじけBGMを再生
+  public void ijike() {
+    if (!breakFlag) {
+      nomal.pause();
+      ijike.play();
+    }
+  }
+
+  // 一時停止
+  public void pause() {
+    if (!breakFlag) {
+      nomal.pause();
+      ijike.pause();
+    }
+  }
+
+  // 停止
+  public void stop() {
+    if (!breakFlag) {
+      nomal.stop();
+      ijike.stop();
+    }
   }
 }
 
