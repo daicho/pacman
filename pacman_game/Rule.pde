@@ -32,9 +32,11 @@ public class Rule implements Scene {
   }
 
   public void draw() {
+    imageMode(CENTER);
+    
     if (imageLoadFlag == false) {
       PImage ruleImage = loadImage("images/rule.png");
-      image(ruleImage, 0, 0);
+      image(ruleImage, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
       imageLoadFlag = true;
     }
     clearAfterimage();

@@ -83,12 +83,14 @@ public class Game implements Scene {
     else
       text(score, 465, 160);
 
+    imageMode(CENTER);
+
     // 残基表示
     for (int i = 0; i < life; i++)
-      image(lifeImage, i * 32 + 15, 685);
+      image(lifeImage, i * 32 + 31, 701);
 
     // ステージ表示
     for (int i = 0; i <= stageNum; i++)
-      image(stageImages[i], i * -32 + 433, 685);
+      image(stageImages[i], i * -32 + 449, 701);
   }
 }

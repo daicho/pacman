@@ -68,7 +68,7 @@ public class Item extends GameObject {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
-    image(animation.getImage(), minPostision.x, minPostision.y);
+    imageMode(CENTER);
+    image(animation.getImage(), position.x, position.y);
   }
 }

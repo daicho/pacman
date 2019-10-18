@@ -91,6 +91,7 @@ public class Map {
 
   // 画面描画
   public void draw() {
-    image(image, 0, 0);
+    imageMode(CENTER);
+    image(image, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
   }
 }

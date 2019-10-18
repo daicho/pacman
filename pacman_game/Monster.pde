@@ -325,20 +325,20 @@ public abstract class Monster extends Character {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
+    imageMode(CENTER);
 
     switch (status) {
     case Wait:
     case Release:
     case Active:
       if (mode == MonsterMode.Ijike && (!ijikeLimit || curImage))
-        image(ijikeAnimations[direction].getImage(), minPostision.x, minPostision.y);
+        image(ijikeAnimations[direction].getImage(), position.x, position.y);
       else
-        image(animations[direction].getImage(), minPostision.x, minPostision.y);
+        image(animations[direction].getImage(), position.x, position.y);
       break;
 
     case Return:
-      image(returnAnimations[direction].getImage(), minPostision.x, minPostision.y);
+      image(returnAnimations[direction].getImage(), position.x, position.y);
       break;
     }
   }

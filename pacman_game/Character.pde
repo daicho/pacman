@@ -172,8 +172,8 @@ public abstract class Character extends GameObject {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
-    image(animations[direction].getImage(), minPostision.x, minPostision.y);
+    imageMode(CENTER);
+    image(animations[direction].getImage(), position.x, position.y);
   }
 }
 
@@ -245,7 +245,7 @@ public class FreeCharacter extends GameObject {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
-    image(animations[direction].getImage(), minPostision.x, minPostision.y);
+    imageMode(CENTER);
+    image(animations[direction].getImage(), position.x, position.y);
   }
 }

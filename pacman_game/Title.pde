@@ -29,9 +29,10 @@ public class Title implements Scene {
     background(200, 240, 255);
     noStroke();
     rectMode(CENTER);
+    imageMode(CENTER);
     textAlign(CENTER, CENTER);
 
-    image(logoImage, SCREEN_SIZE.x / 2 - logoImage.width / 2, SCREEN_SIZE.y * 0.08);
+    image(logoImage, SCREEN_SIZE.x / 2, 167);
 
     // タイマー
     if (lightAppear == true) {
@@ -40,7 +41,7 @@ public class Title implements Scene {
       if (jpEn == false) {
         text("ボタンをおしてね!", SCREEN_SIZE.x / 2, 330);
       } else {
-        image(pressButonImage, SCREEN_SIZE.x / 2 - pressButonImage.width / 2, 320);
+        image(pressButonImage, SCREEN_SIZE.x / 2, 335);
       }
       if (lightTimer1.update()) {
         lightAppear = false;
@@ -65,7 +66,7 @@ public class Title implements Scene {
       text(Record.getRanking(i + 1), SCREEN_SIZE.x * 0.65, 430 + i * 30);
       rect(SCREEN_SIZE.x / 2, 447.5 + i * 30, SCREEN_SIZE.x * 0.7, 1);
     }
-    image(copyrightImage, SCREEN_SIZE.x / 2 - copyrightImage.width / 2, 760);
+    image(copyrightImage, SCREEN_SIZE.x / 2, 790);
 
     for (int i = 0; i < freeCharacters.length; i++) {
       if (startCount > i) {

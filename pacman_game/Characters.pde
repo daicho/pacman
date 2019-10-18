@@ -79,14 +79,14 @@ public class Pacman extends Character {
 
   // 画面描画
   public void draw() {
-    PVector minPostision = getMinPosition();
+    imageMode(CENTER);
 
     if (die)
-      image(dieAnimation.getImage(), minPostision.x, minPostision.y);
+      image(dieAnimation.getImage(), position.x, position.y);
     else if (kakusei && (!kakuseiLimit || curImage))
-      image(kakuseiAnimations[direction].getImage(), minPostision.x, minPostision.y);
+      image(kakuseiAnimations[direction].getImage(), position.x, position.y);
     else
-      image(animations[direction].getImage(), minPostision.x, minPostision.y);
+      image(animations[direction].getImage(), position.x, position.y);
   }
 }
 
