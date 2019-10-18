@@ -96,7 +96,7 @@ public class NomalBGM extends BGM {
       player.play();
     }
   }
-  
+
   // 一時停止
   public void pause() {
     if (!breakFlag) {
@@ -104,6 +104,54 @@ public class NomalBGM extends BGM {
     }
   }
 }
+
+// タイトル時のBGM
+public class TitleBGM extends BGM {
+
+  public TitleBGM(Minim minim) {
+    super(minim);
+    player = this.minim.loadFile("sounds/title_free.mp3");
+    if (player == null) {
+      breakFlag = true;
+    } else {
+      breakFlag = false;
+      player.cue(300);
+      player.setGain(-5);      // 音量調節
+    }
+  }
+
+  public TitleBGM(Minim minim, int position) {
+    super(minim);
+    player = this.minim.loadFile("sounds/title_free.mp3");
+    if (player == null) {
+      breakFlag = true;
+    } else {
+      breakFlag = false;
+      player.cue(position);
+      player.setGain(-5);      // 音量調節
+    }
+  }
+
+  // 再生
+  public void play() {
+    if (!breakFlag) {
+      if (player.position() >= 30150) {
+        player.cue(300);
+      }
+      player.play();
+    }
+  }
+
+  // 再生位置の取得
+  public int getPos() {
+    if (!breakFlag) {
+      return(player.position());
+    } else {
+      return(0);
+    }
+  }
+}
+
 
 // 効果音
 public class SoundEffect {

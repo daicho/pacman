@@ -13,6 +13,12 @@ public class Rule implements Scene {
   protected boolean lightAppear = true;
   protected Item bigPowerFood = new Item(new PVector(86, 547), "big_power_food");
   private boolean pressed;
+  protected TitleBGM titlebgm; // BGM
+
+  public Rule(int position) {
+    this.titlebgm = new TitleBGM(minim, position);
+    titlebgm.play();
+  }
 
   public void update() {
     if (Input.anyButtonPress()) {
@@ -27,13 +33,14 @@ public class Rule implements Scene {
       rect(FreePacman.getPosition().x - FreePacman.getSpeed() - 5, 247, 32, 35);
       if (FreePacman.getPosition().x >= SCREEN_SIZE.x + 16) {
         SceneManager.setScene(new Load());
+        titlebgm.stop();
       }
     }
   }
 
   public void draw() {
     imageMode(CENTER);
-    
+
     if (imageLoadFlag == false) {
       PImage ruleImage = loadImage("images/rule.png");
       image(ruleImage, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);

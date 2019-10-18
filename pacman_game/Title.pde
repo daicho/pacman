@@ -11,6 +11,8 @@ public class Title implements Scene {
   protected Timer startTimer = new Timer(10); // タイマー
   protected boolean startAppear = true;
   protected int startCount = 0;
+  protected TitleBGM titlebgm = new TitleBGM(minim); // BGM
+  protected int position; // BGMの再生位置
 
   private final FreeCharacter[] freeCharacters = {
     new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 17), 0, 2.3, "player"), 
@@ -21,8 +23,11 @@ public class Title implements Scene {
   };
 
   public void update() {
-    if (Input.anyButtonPress())
-      SceneManager.setScene(new Rule());
+    if (Input.anyButtonPress()) {
+      position = titlebgm.getPos();
+      titlebgm.stop();
+      SceneManager.setScene(new Rule(position));
+    }
   }
 
   public void draw() {
@@ -98,5 +103,7 @@ public class Title implements Scene {
       if (startTimer.update())
         startAppear = true;
     }
+    
+    titlebgm.play();
   }
 }
