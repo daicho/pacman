@@ -44,7 +44,8 @@ public class Stage implements Scene {
   protected Timer specialItemScoreTimer = new Timer(30); // スペシャルスコア表示タイマー
   protected Timer startTimer = new Timer(60, false);     // スタート時のタイマー
   protected Timer dieTimer = new Timer(100);             // 死亡時のタイマー
-  protected Timer clearTimer = new Timer(100);           // クリア時のタイマー
+  protected Timer clearTimer1 = new Timer(30, false);    // クリア時のタイマー1
+  protected Timer clearTimer2 = new Timer(90);           // クリア時のタイマー2
   protected Timer eatTimer = new Timer(30);              // 敵を食べたときの硬直タイマー
   protected Timer modeTimer;                             // モード切り替え用タイマー
 
@@ -292,6 +293,7 @@ public class Stage implements Scene {
       // エサがなくなったらゲームクリア
       if (foods.isEmpty() && powerFoods.isEmpty()) {
         status = StageStatus.Clear;
+        pacman.setClear(true);
       }
 
       // 接敵
@@ -372,8 +374,13 @@ public class Stage implements Scene {
     case Clear:
       nomalbgm.stop();
       startbgm.stop();
-      if (clearTimer.update())
+
+      if (clearTimer1.update())
+        map.update();
+
+      if (clearTimer2.update())
         status = StageStatus.Finish;
+
       break;
 
     case Die:
@@ -444,9 +451,11 @@ public class Stage implements Scene {
     }
 
     // 敵
-    for (Monster monster : monsters) {
-      if (status != StageStatus.Eat || monster != eatenMonster)
-        monster.draw();
+    if (status != StageStatus.Clear || clearTimer1.getLeft() != 0) {
+      for (Monster monster : monsters) {
+        if (status != StageStatus.Eat || monster != eatenMonster)
+          monster.draw();
+      }
     }
 
     // 敵を食べたときの点数表示

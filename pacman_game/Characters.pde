@@ -1,8 +1,9 @@
-// プレイヤー (パックマン) //<>// //<>//
+// プレイヤー (パックマン) //<>//
 public class Pacman extends Character {
   protected boolean kakusei = false;          // 覚醒しているか
   protected boolean kakuseiLimit = false;     // 覚醒が終わりそうか
   protected boolean die = false;              // やられたか
+  protected boolean clear = false;            // クリアしたか
   protected boolean curImage = false;         // 表示画像 (false:通常 true:覚醒)
   protected Timer switchTimer = new Timer(5); // 画像切り替え用タイマー
   protected Animation[] kakuseiAnimations = new Animation[4]; // 覚醒時のアニメーション
@@ -13,10 +14,10 @@ public class Pacman extends Character {
 
     // 覚醒時のアニメーション
     for (int i = 0; i < 4; i++)
-      this.kakuseiAnimations[i] = new Animation("player-kakusei-" + i);
+      this.kakuseiAnimations[i] = new Animation("images/player-kakusei-" + i);
 
     // 死亡時のアニメーション
-    this.dieAnimation = new Animation("player-die");
+    this.dieAnimation = new Animation("images/player-die");
   }
 
   public boolean getKakusei() {
@@ -56,11 +57,22 @@ public class Pacman extends Character {
       dieAnimation.reset();
   }
 
+  public boolean getClear() {
+    return this.clear;
+  }
+
+  public void setClear(boolean clear) {
+    this.clear = clear;
+    if (clear)
+      animations[3].reset();
+  }
+
   // リセット
   public void reset() {
     super.reset();
     kakusei = false;
     die = false;
+    clear = false;
   }
 
   // 更新
@@ -83,6 +95,8 @@ public class Pacman extends Character {
 
     if (die)
       image(dieAnimation.getImage(), position.x, position.y);
+    else if (clear)
+      image(animations[3].getImage(), position.x, position.y);
     else if (kakusei && (!kakuseiLimit || curImage))
       image(kakuseiAnimations[direction].getImage(), position.x, position.y);
     else

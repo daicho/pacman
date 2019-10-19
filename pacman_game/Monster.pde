@@ -39,11 +39,11 @@ public abstract class Monster extends Character {
 
     // イジケ時のアニメーション
     for (int i = 0; i < 4; i++)
-      this.ijikeAnimations[i] = new Animation(characterName + "-ijike-" + i);
+      this.ijikeAnimations[i] = new Animation("images/" + characterName + "-ijike-" + i);
 
     // 帰還時のアニメーション
     for (int i = 0; i < 4; i++)
-      this.returnAnimations[i] = new Animation("return-" + i);
+      this.returnAnimations[i] = new Animation("images/" + "return-" + i);
   }
 
   protected void updateSpeed() {

@@ -18,7 +18,7 @@ public abstract class Character extends GameObject {
 
     // アニメーション
     for (int i = 0; i < 4; i++)
-      animations[i] = new Animation(characterName + "-" + i);
+      animations[i] = new Animation("images/" + characterName + "-" + i);
     this.size = animations[0].getSize();
   }
 
@@ -191,7 +191,7 @@ public class FreeCharacter extends GameObject {
 
     // アニメーション
     for (int i = 0; i < 4; i++)
-      animations[i] = new Animation(characterName + "-" + i);
+      animations[i] = new Animation("images/" + characterName + "-" + i);
     this.size = animations[0].getSize();
   }
 

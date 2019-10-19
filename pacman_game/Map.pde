@@ -12,15 +12,15 @@ public class Map {
   protected int[][] returnRoute;   // 敵の帰路
   protected PVector releasePoint;  // 出撃地点
   protected PVector returnPoint;   // 帰還地点
-  protected PImage image;          // 画像ファイル
+  protected Animation image;       // マップの画像
   protected PVector size;          // 画像サイズ
 
   public Map(String mapName) {
     // 画像ファイル読み込み
-    this.image = loadImage("stages/" + mapName + "-image.png");
-    this.size = new PVector(image.width, image.height);
-    this.objects = new MapObject[image.width][image.height];
-    this.returnRoute = new int[image.width][image.height];
+    this.image = new Animation("stages/" + mapName + "-image");
+    this.size = image.getSize();
+    this.objects = new MapObject[round(size.x)][round(size.y)];
+    this.returnRoute = new int[round(size.x)][round(size.y)];
 
     // マップファイル読み込み
     PImage mapImage = loadImage("stages/" + mapName + "-map.png");
@@ -89,9 +89,14 @@ public class Map {
     return this.returnRoute[round(v.x + size.x) % int(size.x)][round(v.y + size.y) % int(size.y)];
   }
 
+  // 更新
+  public void update() {
+    image.update();
+  }
+
   // 画面描画
   public void draw() {
     imageMode(CENTER);
-    image(image, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
+    image(image.getImage(), SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
   }
 }

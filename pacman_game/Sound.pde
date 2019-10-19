@@ -135,8 +135,8 @@ public class TitleBGM extends BGM {
   // 再生
   public void play() {
     if (!breakFlag) {
-      if (player.position() >= 30150) {
-        player.cue(300);
+      if (player.position() >= 29974) {
+        player.cue(0);
       }
       player.play();
     }

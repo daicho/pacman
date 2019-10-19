@@ -9,7 +9,7 @@ public class Animation {
   public Animation(String imageName) {
     // 画像ファイルの存在確認
     for (this.number = 0; ; this.number++) {
-      File imageFile = new File(dataPath("images/" + imageName + "-" + number + ".png"));
+      File imageFile = new File(dataPath(imageName + "-" + number + ".png"));
       if (!imageFile.exists())
         break;
     }
@@ -17,11 +17,11 @@ public class Animation {
     // 画像ファイル読み込み
     this.images = new PImage[number];
     for (int i = 0; i < number; i++)
-      this.images[i] = loadImage("images/" + imageName + "-" + i + ".png");
+      this.images[i] = loadImage(imageName + "-" + i + ".png");
     size = new PVector(images[0].width, images[0].height);
 
     // インターバル読み込み
-    String[] intervalText = loadStrings("images/" + imageName + "-interval.txt");
+    String[] intervalText = loadStrings(imageName + "-interval.txt");
     this.intervalTimer = new Timer(int(intervalText[0]));
   }
 

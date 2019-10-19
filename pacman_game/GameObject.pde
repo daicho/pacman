@@ -52,7 +52,7 @@ public class Item extends GameObject {
   public Item(PVector position, String itemName) {
     super(position);
 
-    this.animation = new Animation(itemName);
+    this.animation = new Animation("images/" + itemName);
     this.size = animation.getSize();
   }
 
