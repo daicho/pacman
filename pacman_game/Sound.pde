@@ -233,6 +233,14 @@ public class SoundEffect {
     out.playNote(soundWidth * 4, soundWidth, new SquareInstrument(587.330, VOLUME * 2, out));
     out.playNote(soundWidth * 5, soundWidth, new SquareInstrument(783.991, VOLUME * 2, out));
   }
+
+  public void eatSPItem() {
+    float soundWidth = 0.12;
+    out.playNote(soundWidth * 0, soundWidth, new SquareInstrument(246.942, VOLUME, out));
+    out.playNote(soundWidth * 1, soundWidth, new SquareInstrument(195.998, VOLUME, out));
+    out.playNote(soundWidth * 2, soundWidth, new SquareInstrument(164.814, VOLUME, out));
+    out.playNote(soundWidth * 3, soundWidth, new SquareInstrument(261.626, VOLUME, out));
+  }
 }
 
 // 矩形波を生成

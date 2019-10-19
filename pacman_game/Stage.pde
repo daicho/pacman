@@ -280,7 +280,7 @@ public class Stage implements Scene {
           eatAnyItem = true;
 
           // 音を鳴らす
-          se.eatPowerFood();
+          se.eatSPItem();
 
           // スコア加算
           this.score += specialItemScore;
