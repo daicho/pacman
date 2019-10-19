@@ -6,6 +6,7 @@ public class Result implements Scene {
   protected int ranking;   // ランキング
   protected boolean light = true; // 点灯中か
   protected Timer lightTimer = new Timer(30); // タイマー
+  protected Timer exitTimer = new Timer(300); // 終了タイマー
 
   // キャラクター
   protected FreeCharacter[] characters = {
@@ -34,8 +35,8 @@ public class Result implements Scene {
     for (FreeCharacter character : characters)
       character.update();
 
-    if (Input.buttonAPress())
-      SceneManager.setScene(new Title());
+    if (exitTimer.update())
+      exit();
   }
 
   public void draw() {
