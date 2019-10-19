@@ -22,11 +22,9 @@ public class Title implements Scene {
     new FreeCharacter(new PVector(-20, SCREEN_SIZE.y * 0.08 - 17), 0, 2.3, "ohya")
   };
 
-  public Title () {
-    titlebgm.play();
-  }
-  
   public void update() {
+    titlebgm.play();
+
     if (Input.anyButtonPress()) {
       position = titlebgm.getPos();
       titlebgm.stop();

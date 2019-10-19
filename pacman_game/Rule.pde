@@ -17,14 +17,15 @@ public class Rule implements Scene {
 
   public Rule(int position) {
     this.titlebgm = new TitleBGM(minim, position);
-    titlebgm.play();
   }
 
   public void update() {
-    if (Input.anyButtonPress()) {
-      pressed = true;
-    }
     FreePacman.update();
+    titlebgm.play();
+
+    if (Input.anyButtonPress())
+      pressed = true;
+
     if (pressed) {
       FreePacman.move();
       rectMode(CENTER);

@@ -70,7 +70,7 @@ public class NomalBGM extends BGM {
 
   public NomalBGM(Minim minim) {
     super(minim);
-    player = this.minim.loadFile("sounds/schoolSong.mp3");
+    player = this.minim.loadFile("sounds/school_song.mp3");
     if (player == null) {
       breakFlag = true;
     } else {
