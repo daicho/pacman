@@ -2,7 +2,7 @@
 public class Game implements Scene {
   public static final int LIFE_NUM = 3;
   public static final int ONEUP_SCORE = 10000;
-  
+
   protected int life = LIFE_NUM - 1; // 残機の数
   protected int score = 0;           // 現在のスコア
   protected int prevScore = 0;       // 前ステージまでのスコア
@@ -17,8 +17,8 @@ public class Game implements Scene {
 
   // ステージの画像
   protected PImage[] stageImages = {
-    loadImage("images/computer-0.png"),
-    loadImage("images/kakomon-0.png"),
+    loadImage("images/computer-0.png"), 
+    loadImage("images/kakomon-0.png"), 
     loadImage("images/monster-0.png")
   };
 
@@ -72,25 +72,32 @@ public class Game implements Scene {
 
     textFont(font2, 24);
     fill(0, 0, 159);
-    text("SCORE", 100, 138);
-    text("HIGH SCORE", 465, 138);
+    text("SCORE", 100, 175);
+    text("HIGH SCORE", 465, 175);
 
     textFont(font2, 24);
     fill(0, 0, 0);
-    text(score, 100, 160);
+    text(score, 100, 197);
     if (Record.getRanking(1) > score)
-      text(Record.getRanking(1), 465, 160);
+      text(Record.getRanking(1), 465, 197);
     else
-      text(score, 465, 160);
+      text(score, 465, 197);
 
     imageMode(CENTER);
 
     // 残基表示
     for (int i = 0; i < life; i++)
-      image(lifeImage, i * 32 + 31, 701);
+      image(lifeImage, i * 32 + 31, 738);
 
     // ステージ表示
     for (int i = 0; i <= stageNum; i++)
-      image(stageImages[i], i * -32 + 449, 701);
+      image(stageImages[i], i * -32 + 449, 738);
+
+    // 枠表示
+    rectMode(CENTER);
+    stroke(27, 20, 100);
+    strokeWeight(4);
+    noFill();
+    rect(SCREEN_SIZE.x / 2, 455, 478, 630, 10);
   }
 }

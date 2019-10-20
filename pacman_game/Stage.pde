@@ -430,7 +430,7 @@ public class Stage implements Scene {
     textFont(font, 24);
 
     if (status == StageStatus.Start)
-      text("READY!", SCREEN_SIZE.x / 2, 454);
+      text("READY!", SCREEN_SIZE.x / 2, 491);
 
     // アイテム
     for (Item food : foods)
