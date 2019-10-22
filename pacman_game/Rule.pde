@@ -41,6 +41,7 @@ public class Rule implements Scene {
 
   public void draw() {
     imageMode(CENTER);
+    textAlign(CENTER, CENTER);
 
     if (imageLoadFlag == false) {
       PImage ruleImage = loadImage("images/rule.png");
@@ -63,8 +64,8 @@ public class Rule implements Scene {
     if (lightAppear == true) {
       fill(0, 0, 159);
       textFont(font2, 40);
-      text("ボタンをおして", SCREEN_SIZE.x / 2 + 6, 706);
-      text("ゲームスタート！", SCREEN_SIZE.x / 2 + 6, 754);
+      text("ボタンをおして", SCREEN_SIZE.x / 2, 706);
+      text("ゲームスタート！", SCREEN_SIZE.x / 2, 754);
     }
     if (lightTimer1.update())
       lightAppear = false;
@@ -85,7 +86,7 @@ public class Rule implements Scene {
     // powerFoodを消す
     rect(86, 547, 32, 32);
     // 文字を消す
-    rect(SCREEN_SIZE.x / 2, 730, 245, 100);
+    rect(SCREEN_SIZE.x / 2, 730, 300, 100);
   }
 }
 
