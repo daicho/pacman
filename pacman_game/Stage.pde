@@ -124,11 +124,10 @@ public class Stage implements Scene {
       }
     }
 
-    this.monsters.add(new Akabei(monsterPositions.get(0), 2, monsterSpeeds));
-    this.monsters.add(new Pinky(monsterPositions.get(2), 3, monsterSpeeds));
-    this.monsters.add(new Aosuke(monsterPositions.get(1), 1, monsterSpeeds));
     this.monsters.add(new Guzuta(monsterPositions.get(3), 1, monsterSpeeds));
-    this.monsters.get(0).setStatus(MonsterStatus.Active);
+    this.monsters.add(new Aosuke(monsterPositions.get(1), 1, monsterSpeeds));
+    this.monsters.add(new Pinky(monsterPositions.get(0), 3, monsterSpeeds));
+    this.monsters.add(new Akabei(monsterPositions.get(2), 1, monsterSpeeds));
     
     this.startbgm = new StartBGM(minim, mapName); 
   }
@@ -169,8 +168,10 @@ public class Stage implements Scene {
 
     case Play:
       // モンスター放出
-      if (frame < releaseInterval * (monsters.size() - 1) && frame % releaseInterval == 0)
-        this.monsters.get(frame / releaseInterval + 1).setStatus(MonsterStatus.Release);
+      if (releaseInterval <= frame && frame < releaseInterval * (monsters.size() + 1)) {
+        if (frame % releaseInterval == 0)
+          this.monsters.get(4 - frame / releaseInterval).setStatus(MonsterStatus.Release);
+      }
 
       // モード切り替え
       if (modeTimer.update()) {
@@ -403,7 +404,6 @@ public class Stage implements Scene {
 
       for (Monster monster : monsters)
         monster.reset();
-      this.monsters.get(0).setStatus(MonsterStatus.Active);
 
       for (Item food : foods)
         food.reset();

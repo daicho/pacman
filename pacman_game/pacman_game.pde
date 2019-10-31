@@ -12,8 +12,8 @@ void setup() {
   noCursor();     // マウスカーソル非表示
 
   // 入力設定
-  Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
-  //Input.setInputInterface(new KeyboardInput()); // キーボード
+  //Input.setInputInterface(new MixInput());    // キーボード・アーケード同時対応
+  Input.setInputInterface(new KeyboardInput()); // キーボード
 
   // 読み込み
   font = createFont("fonts/NuAnkoMochi-Reg.otf", 10);
