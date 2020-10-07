@@ -1,3 +1,5 @@
+import http.requests.*;
+
 // アニメーション
 public class Animation {
   protected PImage[] images;     // アニメーション画像
