@@ -44,7 +44,7 @@ public class Rule implements Scene {
     textAlign(CENTER, CENTER);
 
     if (imageLoadFlag == false) {
-      PImage ruleImage = loadImage("images/rule.png");
+      PImage ruleImage = loadImage("images/rule-pc.png");
       image(ruleImage, SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2);
       imageLoadFlag = true;
     }

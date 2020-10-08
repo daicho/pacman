@@ -6,8 +6,8 @@ public Minim minim; // サウンド
 
 void setup() {
   // 画面設定
-  fullScreen();   // フルスクリーン
-  //size(480, 848); // ウィンドウ
+  //fullScreen();   // フルスクリーン
+  size(480, 848); // ウィンドウ
   frameRate(30);  // フレームレート
   noCursor();     // マウスカーソル非表示
 
