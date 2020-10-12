@@ -3,6 +3,7 @@ public final PVector SCREEN_SIZE = new PVector(480, 848); // ゲーム画面サ�
 public PFont font;  // フォント
 public PFont font2; // フォント
 public Minim minim; // サウンド
+public DataBase db; // データベース
 
 void setup() {
   // 画面設定
@@ -20,8 +21,8 @@ void setup() {
   font2 = createFont("fonts/NuKinakoMochi-Reg.otf", 10);
   minim = new Minim(this);
 
-  // ランキング読み込み
-  Record.setFilePath(dataPath("ranking.txt"));
+  // データベース読み込み
+  db = new DataBase("pacman");
 
   // タイトル画面をロード
   SceneManager.setScene(new Title());

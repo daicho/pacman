@@ -38,7 +38,7 @@ public class KeyboardInput implements InputInterface {
   }
 
   public boolean buttonC() {
-    return keyPressed && key == 'c';
+    return keyPressed;
   }
 }
 
