@@ -80,8 +80,8 @@ public class Game implements Scene {
     textFont(font2, 24);
     fill(0, 0, 0);
     text(score, 100, 197);
-    if (Record.getRanking(1) > score)
-      text(Record.getRanking(1), 465, 197);
+    if (highScore > score)
+      text(highScore, 465, 197);
     else
       text(score, 465, 197);
 

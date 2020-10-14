@@ -24,7 +24,7 @@ public class Result implements Scene {
     this.clear = clear;
 
     // ハイスコア更新
-    this.ranking = Record.setRanking(this.score);
+    //this.ranking = Record.setRanking(this.score); // **********************
   }
 
   public void update() {
@@ -73,7 +73,7 @@ public class Result implements Scene {
       rect(SCREEN_SIZE.x / 2, 580, 320, 60);
 
       fill(255, 255, 0);
-      text("ランキングNo. " + ranking, SCREEN_SIZE.x / 2, 580);
+      text("ランキングNo. " + ranking, SCREEN_SIZE.x / 2, 580); // **********************
     }
 
     fill(0, 0, 0);

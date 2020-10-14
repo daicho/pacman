@@ -25,6 +25,7 @@ public class Title implements Scene {
   
   public Title() {
     ranking = db.query("SELECT * FROM ranking ORDER BY score DESC");
+    highScore = int(ranking[0][1]);
   }
 
   public void update() {
@@ -68,15 +69,15 @@ public class Title implements Scene {
 
     fill(0, 0, 159);
     textFont(font2, 22.5);
-    text("なまえ", SCREEN_SIZE.x * 0.45, 395);
-    text("スコア", SCREEN_SIZE.x * 0.825, 395);
+    text("なまえ", SCREEN_SIZE.x * 0.45, 403);
+    text("スコア", SCREEN_SIZE.x * 0.8, 403);
     fill(0);
     rect(SCREEN_SIZE.x / 2, 417.5, SCREEN_SIZE.x * 0.85, 1);
     textFont(font2, 26);
     for (int i = 0; i < 10; i++) {
-      text(i + 1, SCREEN_SIZE.x * 0.125, 433 + i * 30);
+      text(i + 1, SCREEN_SIZE.x * 0.15, 433 + i * 30);
       text(ranking[i][0], SCREEN_SIZE.x * 0.45, 433 + i * 30);
-      text(ranking[i][1], SCREEN_SIZE.x * 0.825, 433 + i * 30);
+      text(ranking[i][1], SCREEN_SIZE.x * 0.8, 433 + i * 30);
       rect(SCREEN_SIZE.x / 2, 447.5 + i * 30, SCREEN_SIZE.x * 0.85, 1);
     }
     image(copyrightImage, SCREEN_SIZE.x / 2, 790);
