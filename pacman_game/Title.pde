@@ -25,6 +25,17 @@ public class Title implements Scene {
   
   public Title() {
     ranking = db.query("SELECT * FROM ranking ORDER BY score DESC");
+    
+    if (ranking == null) {
+      ranking = new String[10][3];
+      
+      for (int i = 0; i < 10; i++) {
+        ranking[i][0] = "";
+        ranking[i][1] = "0";
+        ranking[i][2] = "";
+      }
+    }
+    
     highScore = int(ranking[0][1]);
   }
 

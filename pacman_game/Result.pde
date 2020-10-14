@@ -1,13 +1,19 @@
+import java.time.*;
+import java.time.format.*;
+import javax.swing.*;
+
 // リザルト画面
 public class Result implements Scene {
-  protected int score;     // スコア
-  protected int stage;     // ステージ
-  protected boolean clear; // クリアしたか
-  protected int ranking;   // ランキング
-  protected boolean light = true; // 点灯中か
-  protected Timer lightTimer = new Timer(30);   // タイマー
+  protected int score;       // スコア
+  protected int stage;       // ステージ
+  protected boolean clear;   // クリアしたか
+  protected int ranking = 0; // ランキング
+  protected boolean light = true;   // 点灯中か
+  protected boolean first = true;   // 初回のループか
+  protected boolean regist = false; // ランキング登録するか
+  protected boolean button = false; // 操作受付するか
+  protected Timer lightTimer = new Timer(30);         // タイマー
   protected Timer buttonTimer = new Timer(90, false); // 操作受付タイマー
-  protected Timer exitTimer = new Timer(300);   // 終了タイマー
 
   // キャラクター
   protected FreeCharacter[] characters = {
@@ -22,12 +28,60 @@ public class Result implements Scene {
     this.score = score;
     this.stage = stage;
     this.clear = clear;
-
-    // ハイスコア更新
-    //this.ranking = Record.setRanking(this.score); // **********************
   }
 
   public void update() {
+    // ランキング登録
+    if (first) {
+      first = false;
+      
+      if (db.canConnect()) {
+        // Yes/Noダイアログを表示
+        regist = JOptionPane.showConfirmDialog(null, "ランキングにとうろくしますか？", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION;
+        
+        // Yesが選択されたら
+        if (regist) {
+          String name;
+          
+          while (true) {
+            // 入力ダイアログを表示
+            name = JOptionPane.showInputDialog(null, "なまえをにゅうりょくしてください\n(かんじいがい・10もじいない)");
+            
+            // 取り消しが押されたら
+            if (name == null) {
+              regist = false;
+              break;
+            } else if (name.length() == 0) {
+              name = "ななしマン";
+              break;
+            } else if (name.length() <= 10 && name.matches("^[0-9a-zA-Z\\p{InHiragana}\\p{InKatakana}]*$")) {
+              break;
+            }
+          }
+          
+          if (regist) {
+            // 日時を取得
+            LocalDateTime ldt = LocalDateTime.now();
+            String datetime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(ldt);
+            
+            // 登録
+            String[][] res;
+            res = db.query("INSERT INTO ranking VALUES ('" + name + "', " + score + ", '" + datetime + "')");
+            
+            if (res == null) {
+              JOptionPane.showConfirmDialog(null, "とうろくできませんでした", "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+            } else {
+              res = db.query("SELECT COUNT(*) + 1 FROM ranking WHERE score > " + score);
+              
+              if (res != null)
+                ranking = int(res[0][0]);
+            }
+            
+          }
+        }
+      }
+    }
+    
     if (lightTimer.update()) {
       lightTimer.setTime(light ? 15 : 30);
       light = !light;
@@ -36,11 +90,11 @@ public class Result implements Scene {
     for (FreeCharacter character : characters)
       character.update();
 
-    if (buttonTimer.update() && Input.anyButtonPress())
-      exit();
-
-    if (exitTimer.update())
-      exit();
+    if (!button && buttonTimer.update())
+      button = true;
+    
+    if (button && Input.anyButtonPress())
+      SceneManager.setScene(new Title());
   }
 
   public void draw() {
@@ -68,7 +122,7 @@ public class Result implements Scene {
     text("ステージ", SCREEN_SIZE.x / 2, 283);
     text("スコア", SCREEN_SIZE.x / 2, 418);
 
-    if (light && ranking != 0) {
+    if (light && regist && ranking != 0) {
       fill(127, 127, 127);
       rect(SCREEN_SIZE.x / 2, 580, 320, 60);
 
@@ -76,8 +130,10 @@ public class Result implements Scene {
       text("ランキングNo. " + ranking, SCREEN_SIZE.x / 2, 580); // **********************
     }
 
-    fill(0, 0, 0);
-    text("またあそんでね！", 340, 710);
+    if (button) {
+      fill(0, 0, 0);
+      text("ボタンをおしてタイトルへ", SCREEN_SIZE.x / 2, 710);
+    }
 
     for (FreeCharacter character : characters)
       character.draw();
