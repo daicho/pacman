@@ -98,12 +98,16 @@ public class DataBase {
     }
     
     post.send();
+    String res = post.getContent();
     
-    String[] res = split(post.getContent(), '\n');
-    String[][] ret = new String[res.length][];
+    if (res.isEmpty())
+      return new String[0][];
     
-    for (int i = 0; i < res.length; i++)
-      ret[i] = split(res[i], ',');
+    String[] lines = split(res, '\n');
+    String[][] ret = new String[lines.length][];
+    
+    for (int i = 0; i < lines.length; i++)
+      ret[i] = split(lines[i], ',');
     
     return ret;
   }
