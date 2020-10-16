@@ -133,7 +133,6 @@ public class Stage implements Scene {
       // スタートBGM再生
       if (startbgm.play() & startTimer.update()) {
         nomalbgm.rewind();
-        nomalbgm.play();
         status = StageStatus.Play;
       }
       break;
@@ -327,6 +326,9 @@ public class Stage implements Scene {
       if (foodCount != 70 && foodCount != 170) {
         specialItemFlag = false;
       }
+      
+      // BGMを再生
+      nomalbgm.play();
 
       frame++;
       break;
